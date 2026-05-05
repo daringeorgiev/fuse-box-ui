@@ -1,14 +1,20 @@
+export type AmpValue = number | 'GFCI'
+
 export interface Fuse {
   id: string
+  pos: number
   label: string
-  amperage: number
-  status: 'ok' | 'blown' | 'unknown'
-  panelId: string
+  amp: AmpValue
+  tripped?: boolean
 }
 
 export interface Panel {
   id: string
   name: string
   location: string
-  fuses: Fuse[]
+}
+
+export interface DragState {
+  draggingId: string | null
+  overPos: number | null
 }

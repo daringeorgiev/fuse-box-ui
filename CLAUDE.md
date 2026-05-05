@@ -28,5 +28,26 @@ This is a React 19 + TypeScript SPA built with Vite. The stack:
 
 Defined in `src/types/index.ts`:
 
-- **`Panel`** — a physical fuse panel with a name and location, contains an array of `Fuse`
-- **`Fuse`** — belongs to a panel (`panelId`), has an amperage rating and a `status` of `'ok' | 'blown' | 'unknown'`
+- **`Fuse`** — a breaker slot: `id`, `pos` (slot number), `label`, `amp` (`number | 'GFCI'`), `tripped?`
+- **`Panel`** — a physical fuse panel with a name and location (reserved for multi-panel support)
+- **`DragState`** — `{ draggingId, overPos }` passed down to `Slot` and `FuseCard`
+- **`AmpValue`** — `number | 'GFCI'`; amp metadata and helpers live in `src/constants/amps.ts`
+
+## Component tree
+
+```
+App                        ← all panel state lives here (no Zustand yet)
+  Topbar (inline JSX)
+  Configbar
+    Stepper                ← ±1 stepper control
+  MainBreaker              ← toggle switch + rating display
+  Slot[]                   ← one per panel position
+    FuseCard               ← filled slot; draggable
+      AmpBadge             ← color-coded amp label
+    (empty slot button)
+  FuseForm                 ← add / edit sidebar card
+  StatsCard                ← installed / tripped / load / utilization
+  Legend                   ← amp color key
+```
+
+Shared SVG icons are named exports from `src/components/Icons.tsx`. Drag-and-drop uses the native HTML5 API (not dnd-kit).
