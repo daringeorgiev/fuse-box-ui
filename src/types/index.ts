@@ -12,6 +12,8 @@ export interface Panel {
   id: string
   name: string
   location: string
+  numRows: number
+  fusesPerRow: number
 }
 
 export interface DragState {

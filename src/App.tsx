@@ -1,7 +1,6 @@
-import { useState, useMemo, useCallback, useRef } from 'react'
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import type { Fuse, DragState } from './types'
 import type { AmpValue } from './types'
-import { SEED_FUSES, nextId } from './constants/amps'
 import MainBreaker from './components/MainBreaker'
 import Stepper from './components/Stepper'
 import Slot from './components/Slot'
@@ -9,21 +8,68 @@ import FuseForm from './components/FuseForm'
 import StatsCard from './components/StatsCard'
 import Legend from './components/Legend'
 import { Reset } from './components/Icons'
+import { useFuseBoxStore } from './store/fusebox.store'
+import { usePanels, useCreatePanel, useUpdatePanel } from './hooks/usePanels'
+import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse, useReorderFuses } from './hooks/useFuses'
 
 function App() {
-  const [rows, setRows] = useState(2)
-  const [perRow, setPerRow] = useState(12)
+  const { selectedPanelId, selectPanel } = useFuseBoxStore()
+
+  const { data: panels = [], isLoading: panelsLoading } = usePanels()
+  const createPanelMutation = useCreatePanel()
+  const updatePanelMutation = useUpdatePanel()
+
+  // Auto-select first panel; create a default one if none exist after load
+  useEffect(() => {
+    if (panelsLoading) return
+    if (panels.length === 0) {
+      createPanelMutation.mutate(
+        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12 },
+        { onSuccess: (p) => selectPanel(p.id) }
+      )
+    } else if (!selectedPanelId || !panels.find(p => p.id === selectedPanelId)) {
+      selectPanel(panels[0].id)
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [panelsLoading, panels.length])
+
+  const selectedPanel = panels.find(p => p.id === selectedPanelId)
+
+  // rows / perRow: local state for instant stepper feedback, synced from panel on selection change
+  const [rows, setRows] = useState(selectedPanel?.numRows ?? 2)
+  const [perRow, setPerRow] = useState(selectedPanel?.fusesPerRow ?? 12)
+
+  useEffect(() => {
+    if (selectedPanel) {
+      setRows(selectedPanel.numRows)
+      setPerRow(selectedPanel.fusesPerRow)
+    }
+  }, [selectedPanel?.id])
+
+  const capacity = rows * perRow
+
+  const { data: fusesData = [], isLoading: fusesLoading } = useFuses(selectedPanelId)
+  const createFuseMutation = useCreateFuse(selectedPanelId ?? '')
+  const updateFuseMutation = useUpdateFuse(selectedPanelId ?? '')
+  const deleteFuseMutation = useDeleteFuse(selectedPanelId ?? '')
+  const reorderMutation = useReorderFuses(selectedPanelId ?? '')
+
+  // tripped is local-only (BE has no tripped field)
+  const [trippedIds, setTrippedIds] = useState<Set<string>>(new Set())
+
+  const fuses: Fuse[] = useMemo(
+    () => fusesData.map(f => ({ ...f, tripped: trippedIds.has(f.id) })),
+    [fusesData, trippedIds]
+  )
+
   const [mainOn, setMainOn] = useState(true)
   const mainAmp = 200
 
-  const [fuses, setFuses] = useState<Fuse[]>(SEED_FUSES)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
   const [dragState, setDragState] = useState<DragState>({ draggingId: null, overPos: null })
   const [toast, setToast] = useState<string | null>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-
-  const capacity = rows * perRow
 
   const fuseByPos = useMemo(() => {
     const m: Record<number, Fuse> = {}
@@ -47,25 +93,33 @@ function App() {
   const handleRowsChange = (n: number) => {
     const displaced = fuses.filter(f => f.pos > n * perRow).length
     setRows(n)
+    if (selectedPanel) {
+      updatePanelMutation.mutate({ ...selectedPanel, numRows: n })
+    }
     if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
   }
 
   const handlePerRowChange = (n: number) => {
     const displaced = fuses.filter(f => f.pos > rows * n).length
     setPerRow(n)
+    if (selectedPanel) {
+      updatePanelMutation.mutate({ ...selectedPanel, fusesPerRow: n })
+    }
     if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
   }
 
   const addFuse = ({ label, amp, pos: requestedPos }: { label: string; amp: AmpValue; pos: number | null }) => {
-    if (slotsAvailable === 0) return
-    let pos: number = requestedPos ?? 0
+    if (!selectedPanelId || slotsAvailable === 0) return
+    let pos = requestedPos ?? 0
     if (!pos || fuseByPos[pos] || pos > capacity) {
       pos = 1
       while (fuseByPos[pos]) pos++
     }
     if (pos > capacity) return
-    setFuses(prev => [...prev, { id: nextId(), pos, label, amp }])
-    showToast(`Installed "${label}" in slot ${String(pos).padStart(2, '0')}`)
+    createFuseMutation.mutate(
+      { pos, label, amp },
+      { onSuccess: () => showToast(`Installed "${label}" in slot ${String(pos).padStart(2, '0')}`) }
+    )
     setFocusPos(null)
   }
 
@@ -80,22 +134,27 @@ function App() {
   }
 
   const updateFuse = (id: string, patch: { label: string; amp: AmpValue }) => {
-    setFuses(prev => prev.map(f => f.id === id ? { ...f, ...patch } : f))
-    showToast(`Updated "${patch.label}"`)
-    setSelectedId(null)
+    const fuse = fuses.find(f => f.id === id)
+    if (!fuse) return
+    updateFuseMutation.mutate(
+      { id, pos: fuse.pos, ...patch },
+      { onSuccess: () => { showToast(`Updated "${patch.label}"`); setSelectedId(null) } }
+    )
   }
 
   const removeFuse = (id: string) => {
     const f = fuses.find(x => x.id === id)
-    setFuses(prev => prev.filter(x => x.id !== id))
     if (selectedId === id) setSelectedId(null)
-    if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`)
+    deleteFuseMutation.mutate(
+      id,
+      { onSuccess: () => { if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`) } }
+    )
   }
 
   const resetTripped = () => {
-    const trippedCount = fuses.filter(f => f.tripped).length
+    const trippedCount = trippedIds.size
     if (trippedCount === 0) { showToast('No tripped breakers'); return }
-    setFuses(prev => prev.map(f => ({ ...f, tripped: false })))
+    setTrippedIds(new Set())
     showToast(`Reset ${trippedCount} tripped breaker${trippedCount === 1 ? '' : 's'}`)
   }
 
@@ -122,16 +181,20 @@ function App() {
     e.preventDefault()
     const id = e.dataTransfer.getData('text/plain')
     if (!id) return
-    setFuses(prev => {
-      const src = prev.find(f => f.id === id)
-      if (!src || src.pos === pos) return prev
-      const target = prev.find(f => f.pos === pos)
-      return prev.map(f => {
-        if (f.id === src.id) return { ...f, pos }
-        if (target && f.id === target.id) return { ...f, pos: src.pos }
-        return f
-      })
+    const src = fuses.find(f => f.id === id)
+    if (!src || src.pos === pos) { setDragState({ draggingId: null, overPos: null }); return }
+
+    // Build the new position map after the swap
+    const swapped = fuses.map(f => {
+      const target = fuses.find(x => x.pos === pos)
+      if (f.id === src.id) return { ...f, pos }
+      if (target && f.id === target.id) return { ...f, pos: src.pos }
+      return f
     })
+
+    // Send ordered IDs sorted by new positions
+    const orderedIds = [...swapped].sort((a, b) => a.pos - b.pos).map(f => f.id)
+    reorderMutation.mutate(orderedIds)
     setDragState({ draggingId: null, overPos: null })
   }
 
@@ -178,6 +241,23 @@ function App() {
     )
   }
 
+  if (panelsLoading || fusesLoading) {
+    return (
+      <div className="app">
+        <header className="topbar">
+          <div className="brand">
+            <div className="brand-mark">F</div>
+            <span className="brand-name">Fuse Box</span>
+            <span className="brand-sub">Panel Configurator</span>
+          </div>
+        </header>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--text-muted)' }}>
+          Loading…
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="app">
       <header className="topbar">
@@ -189,7 +269,7 @@ function App() {
         <div className="topbar-right">
           <span><span className="status-dot" />System Online</span>
           <span>240V · 60Hz</span>
-          <span>Panel #A‑12</span>
+          <span>{selectedPanel?.name ?? 'No Panel'}</span>
         </div>
       </header>
 
@@ -220,7 +300,7 @@ function App() {
       <main className="main">
         <section className="panel">
           <div className="panel-header">
-            <span className="panel-title">Distribution Panel</span>
+            <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
             <div className="panel-meta">
               <span>{rows}P · {perRow === 2 ? 'SPLIT-BUS' : `${perRow}-WIDE`}</span>
               <span>·</span>
