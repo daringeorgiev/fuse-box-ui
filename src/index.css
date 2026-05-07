@@ -263,6 +263,13 @@ html, body {
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 }
+.panel-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
 .panel-title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
@@ -385,7 +392,7 @@ html, body {
 
 /* ============ FUSE GRID ============ */
 .fuse-rows {
-  padding: 0 18px 18px;
+  padding: 18px 18px 18px;
   display: flex;
   flex-direction: column;
   gap: 10px;

@@ -2,7 +2,6 @@ import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { IFuse } from '../interfaces'
 import type { AmpValue } from '../interfaces'
-import MainBreaker from '../components/MainBreaker'
 import Stepper from '../components/Stepper'
 import PanelGrid from '../components/PanelGrid'
 import FuseForm from '../components/FuseForm'
@@ -60,7 +59,6 @@ export default function PanelPage() {
 
   const fuses: IFuse[] = fusesData
 
-  const [mainOn, setMainOn] = useState(true)
   const mainAmp = selectedPanel?.mainAmp ?? 200
   const voltage = selectedPanel?.voltage ?? 240
   const frequency = selectedPanel?.frequency ?? 60
@@ -179,8 +177,6 @@ export default function PanelPage() {
           <span className="brand-sub">Panel Configurator</span>
         </div>
         <div className="topbar-right">
-          <span><span className="status-dot" />System Online</span>
-          <span>{voltage}V · {frequency}Hz</span>
           <PanelDropdown
               panels={panels}
               selectedPanelId={selectedPanelId}
@@ -206,12 +202,16 @@ export default function PanelPage() {
         </div>
         <div className="config-divider" />
         <div className="config-stat">
-          <span className="config-stat-label">Capacity</span>
-          <span className="config-stat-value">{capacity} slots</span>
+          <span className="config-stat-label">Voltage</span>
+          <span className="config-stat-value">{voltage}V</span>
         </div>
         <div className="config-stat">
-          <span className="config-stat-label">Occupied</span>
-          <span className="config-stat-value">{visibleFuses.length} / {capacity}</span>
+          <span className="config-stat-label">Frequency</span>
+          <span className="config-stat-value">{frequency}Hz</span>
+        </div>
+        <div className="config-stat">
+          <span className="config-stat-label">Main Breaker</span>
+          <span className="config-stat-value">{mainAmp}A</span>
         </div>
         <div className="config-spacer" />
       </div>
@@ -220,6 +220,7 @@ export default function PanelPage() {
         <section className="panel">
           <div className="panel-header">
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="panel-label">Panel</span>
               <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
               <button
                 className="btn btn-ghost btn-icon panel-edit-btn"
@@ -230,14 +231,8 @@ export default function PanelPage() {
                 <Pencil />
               </button>
             </div>
-            <div className="panel-meta">
-              <span>{rows}P · {perRow === 2 ? 'SPLIT-BUS' : `${perRow}-WIDE`}</span>
-              <span>·</span>
-              <span>{visibleFuses.length} ACTIVE</span>
-            </div>
           </div>
 
-          <MainBreaker on={mainOn} onToggle={() => setMainOn(o => !o)} ampRating={mainAmp} voltage={voltage} />
           <PanelGrid
             rows={rows}
             perRow={perRow}
