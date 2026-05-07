@@ -8,6 +8,7 @@ import FuseForm from './components/FuseForm'
 import StatsCard from './components/StatsCard'
 import Legend from './components/Legend'
 import { Reset } from './components/Icons'
+import PanelDropdown from './components/PanelDropdown'
 import { useFuseBoxStore } from './store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from './hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse, useReorderFuses } from './hooks/useFuses'
@@ -269,7 +270,17 @@ function App() {
         <div className="topbar-right">
           <span><span className="status-dot" />System Online</span>
           <span>240V · 60Hz</span>
-          <span>{selectedPanel?.name ?? 'No Panel'}</span>
+          <PanelDropdown
+              panels={panels}
+              selectedPanelId={selectedPanelId}
+              onSelect={selectPanel}
+              onCreate={(name, location) =>
+                createPanelMutation.mutate(
+                  { name, location, numRows: 2, fusesPerRow: 12 },
+                  { onSuccess: (p) => selectPanel(p.id) }
+                )
+              }
+            />
         </div>
       </header>
 
