@@ -120,6 +120,7 @@ body {
   align-items: center;
   gap: 1.75rem;
   padding: 0.875rem 1.5rem;
+  min-height: 4.125rem;
   background: var(--panel);
   border-bottom: 1px solid var(--line);
   flex-wrap: wrap;

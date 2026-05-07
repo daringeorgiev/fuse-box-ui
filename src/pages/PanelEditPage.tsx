@@ -55,12 +55,27 @@ export default function PanelEditPage() {
         <span className="brand-name">Fuse Box</span>
         <span className="brand-sub">Panel Configurator</span>
       </div>
-      <div className="topbar-right">
-        <button className="btn" style={{ borderColor: 'rgba(245,242,236,0.2)', background: 'transparent', color: 'rgba(245,242,236,0.7)' }} onClick={() => navigate('/')}>
-          ← Back
-        </button>
-      </div>
     </header>
+  )
+
+  const configbar = (
+    <div className="configbar">
+      <div className="config-panel-identity">
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span className="panel-title">{name || panel?.name || 'Distribution Panel'}</span>
+          {(location || panel?.location) && (
+            <span className="panel-location">{location || panel?.location}</span>
+          )}
+        </div>
+      </div>
+      <div className="config-spacer" />
+      <button
+        className="btn btn-ghost panel-edit-btn"
+        onClick={() => navigate('/')}
+      >
+        ← Back
+      </button>
+    </div>
   )
 
   if (isLoading) {
@@ -89,6 +104,7 @@ export default function PanelEditPage() {
   return (
     <div className="app">
       {topbar}
+      {configbar}
       <main className="main" style={{ maxWidth: 520 }}>
         <div className="card">
           <div className="card-header">
