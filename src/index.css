@@ -675,6 +675,20 @@ html, body {
 
 .slot.empty.drop-target { background: var(--accent-soft); }
 .slot.empty.drop-target .slot-pos { color: var(--accent); font-weight: 700; }
+.slot.slot-focused {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--accent-soft);
+  box-shadow: 0 0 0 2px color-mix(in oklch, var(--accent) 25%, transparent);
+}
+.slot.slot-focused .slot-pos { color: var(--accent); font-weight: 700; }
+.slot.slot-focused .slot-add-icon {
+  border-color: var(--accent);
+  border-style: solid;
+  background: var(--accent);
+  color: var(--ink);
+}
+.slot.slot-focused .slot-add-label { opacity: 1; color: var(--accent); }
 
 .card {
   background: var(--panel);

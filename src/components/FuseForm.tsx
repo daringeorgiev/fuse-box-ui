@@ -26,6 +26,9 @@ export default function FuseForm({ editingFuse, focusPos, slotsAvailable, onAdd,
       setAmp(editingFuse.amp)
       inputRef.current?.focus()
       inputRef.current?.select()
+    } else {
+      setLabel('')
+      setAmp(20)
     }
   }, [editingFuse?.id])
 

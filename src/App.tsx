@@ -214,6 +214,7 @@ function App() {
           pos={pos}
           fuse={fuseByPos[pos]}
           selectedId={selectedId}
+          focusPos={focusPos}
           dragState={dragState}
           onSelect={selectFuse}
           onAddHere={requestAddAt}

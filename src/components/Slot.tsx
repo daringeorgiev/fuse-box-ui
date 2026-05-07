@@ -6,6 +6,7 @@ interface SlotProps {
   pos: number
   fuse: Fuse | undefined
   selectedId: string | null
+  focusPos: number | null
   dragState: DragState
   onSelect: (id: string) => void
   onAddHere: (pos: number) => void
@@ -17,15 +18,17 @@ interface SlotProps {
   onDragEnd: () => void
 }
 
-export default function Slot({ pos, fuse, selectedId, dragState, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
+export default function Slot({ pos, fuse, selectedId, focusPos, dragState, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
   const isTarget = dragState.overPos === pos && dragState.draggingId !== fuse?.id
   const isSwap = isTarget && !!fuse
+  const isFocused = !fuse && focusPos === pos
 
   const classes = [
     'slot',
     !fuse && 'empty',
     isTarget && 'drop-target',
     isSwap && 'swap-target',
+    isFocused && 'slot-focused',
   ].filter(Boolean).join(' ')
 
   return (
