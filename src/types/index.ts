@@ -5,7 +5,6 @@ export interface Fuse {
   pos: number
   label: string
   amp: AmpValue
-  tripped?: boolean
 }
 
 export interface Panel {

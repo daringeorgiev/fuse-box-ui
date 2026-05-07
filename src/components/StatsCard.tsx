@@ -10,7 +10,7 @@ interface StatsCardProps {
 export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) {
   const installed = fuses.length
   const load = totalLoad(fuses)
-  const tripped = fuses.filter(f => f.tripped).length
+  const spare = mainAmp - load
   const utilization = Math.round((load / mainAmp) * 100)
   const utilClass = utilization > 90 ? 'warn' : utilization > 60 ? '' : 'ok'
 
@@ -29,14 +29,16 @@ export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) 
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">Tripped</span>
-            <span className={`stat-value ${tripped ? 'warn' : 'ok'}`}>{tripped}</span>
-          </div>
-          <div className="stat">
             <span className="stat-label">Total Load</span>
             <span className="stat-value">
               {load}
               <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
+            </span>
+          </div>
+          <div className="stat">
+            <span className="stat-label">Spare Capacity</span>
+            <span className={`stat-value ${spare < 20 ? 'warn' : 'ok'}`}>
+              {spare}<span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
             </span>
           </div>
           <div className="stat">

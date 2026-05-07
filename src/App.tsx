@@ -7,7 +7,7 @@ import Slot from './components/Slot'
 import FuseForm from './components/FuseForm'
 import StatsCard from './components/StatsCard'
 import Legend from './components/Legend'
-import { Reset, Pencil } from './components/Icons'
+import { Pencil } from './components/Icons'
 import PanelDropdown from './components/PanelDropdown'
 import PanelEditModal from './components/PanelEditModal'
 import { useFuseBoxStore } from './store/fusebox.store'
@@ -56,13 +56,7 @@ function App() {
   const deleteFuseMutation = useDeleteFuse(selectedPanelId ?? '')
   const reorderMutation = useReorderFuses(selectedPanelId ?? '')
 
-  // tripped is local-only (BE has no tripped field)
-  const [trippedIds, setTrippedIds] = useState<Set<string>>(new Set())
-
-  const fuses: Fuse[] = useMemo(
-    () => fusesData.map(f => ({ ...f, tripped: trippedIds.has(f.id) })),
-    [fusesData, trippedIds]
-  )
+  const fuses: Fuse[] = fusesData
 
   const [mainOn, setMainOn] = useState(true)
   const mainAmp = 200
@@ -152,13 +146,6 @@ function App() {
       id,
       { onSuccess: () => { if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`) } }
     )
-  }
-
-  const resetTripped = () => {
-    const trippedCount = trippedIds.size
-    if (trippedCount === 0) { showToast('No tripped breakers'); return }
-    setTrippedIds(new Set())
-    showToast(`Reset ${trippedCount} tripped breaker${trippedCount === 1 ? '' : 's'}`)
   }
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, fuse: Fuse) => {
@@ -306,9 +293,6 @@ function App() {
           <span className="config-stat-value">{visibleFuses.length} / {capacity}</span>
         </div>
         <div className="config-spacer" />
-        <button className="btn" onClick={resetTripped} title="Reset all tripped breakers">
-          <Reset /> Reset Tripped
-        </button>
       </div>
 
       <main className="main">

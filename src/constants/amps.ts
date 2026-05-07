@@ -54,7 +54,7 @@ export const SEED_FUSES: Fuse[] = [
   { id: 'f18', pos: 18, label: 'Water Heater',        amp: 30 },
   { id: 'f19', pos: 19, label: 'Garage Outlets',      amp: 'GFCI' },
   { id: 'f20', pos: 20, label: 'Garage Door Opener',  amp: 15 },
-  { id: 'f21', pos: 21, label: 'EV Charger',          amp: 60, tripped: true },
+  { id: 'f21', pos: 21, label: 'EV Charger',          amp: 60 },
   { id: 'f22', pos: 22, label: 'Pool Pump',           amp: 20 },
   { id: 'f23', pos: 23, label: 'Exterior Lights',     amp: 15 },
 ]

@@ -585,17 +585,6 @@ html, body {
   opacity: 0.4;
   cursor: grabbing;
 }
-.fuse.tripped {
-  background: repeating-linear-gradient(
-    45deg,
-    var(--panel) 0px,
-    var(--panel) 6px,
-    var(--bg-2) 6px,
-    var(--bg-2) 7px
-  );
-  border-color: var(--amp-60);
-}
-.fuse.tripped::before { background: var(--amp-60); }
 
 .fuse-head {
   display: flex;
@@ -671,7 +660,6 @@ html, body {
   color: var(--ink-3);
   text-transform: uppercase;
 }
-.fuse-state.tripped { color: var(--amp-60); font-weight: 700; }
 
 .slot.empty.drop-target { background: var(--accent-soft); }
 .slot.empty.drop-target .slot-pos { color: var(--accent); font-weight: 700; }
