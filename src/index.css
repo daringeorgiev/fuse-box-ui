@@ -12,12 +12,13 @@
   --accent: oklch(0.62 0.18 45);
   --accent-soft: oklch(0.94 0.04 45);
 
-  --amp-15: oklch(0.72 0.14 145);
+  --amp-10: oklch(0.72 0.14 145);
+  --amp-16: oklch(0.76 0.14 120);
   --amp-20: oklch(0.78 0.14 95);
-  --amp-30: oklch(0.74 0.14 65);
+  --amp-25: oklch(0.76 0.14 80);
+  --amp-32: oklch(0.74 0.14 65);
   --amp-40: oklch(0.66 0.16 35);
-  --amp-50: oklch(0.60 0.18 25);
-  --amp-60: oklch(0.55 0.18 15);
+  --amp-63: oklch(0.55 0.18 15);
   --amp-gfci: oklch(0.68 0.14 240);
 
   --shadow-sm: 0 1px 0 rgba(26,25,22,0.04), 0 1px 2px rgba(26,25,22,0.06);
@@ -633,7 +634,7 @@ body {
   transition: all 0.12s;
 }
 .fuse:hover .fuse-remove { opacity: 1; }
-.fuse-remove:hover { background: var(--bg-2); color: var(--amp-60); }
+.fuse-remove:hover { background: var(--bg-2); color: var(--amp-63); }
 
 .fuse-label {
   font-size: 0.75rem;
@@ -880,7 +881,7 @@ body {
   letter-spacing: -0.01em;
 }
 .stat-value.warn { color: var(--amp-40); }
-.stat-value.ok { color: var(--amp-15); }
+.stat-value.ok { color: var(--amp-10); }
 
 .toast {
   position: fixed;

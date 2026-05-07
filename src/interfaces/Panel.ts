@@ -7,4 +7,5 @@ export interface IPanel {
   mainAmp: number
   voltage: number
   frequency: number
+  isDefault: boolean
 }
