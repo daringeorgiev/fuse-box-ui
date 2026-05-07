@@ -2,9 +2,10 @@ interface MainBreakerProps {
   on: boolean
   onToggle: () => void
   ampRating: number
+  voltage: number
 }
 
-export default function MainBreaker({ on, onToggle, ampRating }: MainBreakerProps) {
+export default function MainBreaker({ on, onToggle, ampRating, voltage }: MainBreakerProps) {
   return (
     <div className="breaker">
       <div
@@ -24,7 +25,7 @@ export default function MainBreaker({ on, onToggle, ampRating }: MainBreakerProp
       </div>
       <div className="breaker-amp">
         <span className="breaker-amp-value">{ampRating}</span>
-        <span className="breaker-amp-unit">AMPS · 240V</span>
+        <span className="breaker-amp-unit">AMPS · {voltage}V</span>
       </div>
     </div>
   )

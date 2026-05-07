@@ -11,7 +11,7 @@ export function usePanels() {
 export function useCreatePanel() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (body: { name: string; location?: string; numRows: number; fusesPerRow: number }) =>
+    mutationFn: (body: { name: string; location?: string; numRows: number; fusesPerRow: number; mainAmp: number; voltage: number; frequency: number }) =>
       createPanel(body),
     onSuccess: () => qc.invalidateQueries({ queryKey: PANELS_KEY }),
   })
@@ -21,7 +21,7 @@ export function useUpdatePanel() {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: ({ id, ...body }: Panel) =>
-      updatePanel(id, { name: body.name, location: body.location, numRows: body.numRows, fusesPerRow: body.fusesPerRow }),
+      updatePanel(id, { name: body.name, location: body.location, numRows: body.numRows, fusesPerRow: body.fusesPerRow, mainAmp: body.mainAmp, voltage: body.voltage, frequency: body.frequency }),
     onSuccess: () => qc.invalidateQueries({ queryKey: PANELS_KEY }),
   })
 }

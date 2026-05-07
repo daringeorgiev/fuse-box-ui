@@ -7,6 +7,9 @@ interface PanelBody {
   description?: string
   numRows: number
   fusesPerRow: number
+  mainAmp: number
+  voltage: number
+  frequency: number
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,6 +20,9 @@ function toPanel(r: any): Panel {
     location: r.location ?? '',
     numRows: r.numRows,
     fusesPerRow: r.fusesPerRow,
+    mainAmp: r.mainAmp ?? 200,
+    voltage: r.voltage ?? 240,
+    frequency: r.frequency ?? 60,
   }
 }
 

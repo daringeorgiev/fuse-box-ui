@@ -13,6 +13,9 @@ export interface Panel {
   location: string
   numRows: number
   fusesPerRow: number
+  mainAmp: number
+  voltage: number
+  frequency: number
 }
 
 export interface DragState {

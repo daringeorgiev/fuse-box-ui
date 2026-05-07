@@ -26,7 +26,7 @@ function App() {
     if (panelsLoading) return
     if (panels.length === 0) {
       createPanelMutation.mutate(
-        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12 },
+        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 200, voltage: 240, frequency: 60 },
         { onSuccess: (p) => selectPanel(p.id) }
       )
     } else if (!selectedPanelId || !panels.find(p => p.id === selectedPanelId)) {
@@ -59,7 +59,9 @@ function App() {
   const fuses: Fuse[] = fusesData
 
   const [mainOn, setMainOn] = useState(true)
-  const mainAmp = 200
+  const mainAmp = selectedPanel?.mainAmp ?? 200
+  const voltage = selectedPanel?.voltage ?? 240
+  const frequency = selectedPanel?.frequency ?? 60
 
   const [editingPanel, setEditingPanel] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -259,14 +261,14 @@ function App() {
         </div>
         <div className="topbar-right">
           <span><span className="status-dot" />System Online</span>
-          <span>240V · 60Hz</span>
+          <span>{voltage}V · {frequency}Hz</span>
           <PanelDropdown
               panels={panels}
               selectedPanelId={selectedPanelId}
               onSelect={selectPanel}
               onCreate={(name, location) =>
                 createPanelMutation.mutate(
-                  { name, location, numRows: 2, fusesPerRow: 12 },
+                  { name, location, numRows: 2, fusesPerRow: 12, mainAmp: 200, voltage: 240, frequency: 60 },
                   { onSuccess: (p) => selectPanel(p.id) }
                 )
               }
@@ -311,7 +313,7 @@ function App() {
             </div>
           </div>
 
-          <MainBreaker on={mainOn} onToggle={() => setMainOn(o => !o)} ampRating={mainAmp} />
+          <MainBreaker on={mainOn} onToggle={() => setMainOn(o => !o)} ampRating={mainAmp} voltage={voltage} />
           <div className="fuse-rows">{rowList}</div>
         </section>
 
@@ -332,7 +334,7 @@ function App() {
       {editingPanel && selectedPanel && (
         <PanelEditModal
           panel={selectedPanel}
-          onSave={(patch) => updatePanelMutation.mutate({ ...selectedPanel, ...patch })}
+          onSave={(patch) => updatePanelMutation.mutate({ ...selectedPanel!, ...patch })}
           onClose={() => setEditingPanel(false)}
         />
       )}
