@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { usePanels, useUpdatePanel } from '../hooks/usePanels'
 import Stepper from '../components/Stepper'
 
-const MAIN_AMP_OPTIONS = [100, 150, 200, 400]
+const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
 const VOLTAGE_OPTIONS = [120, 230, 240]
 const FREQUENCY_OPTIONS = [50, 60]
 

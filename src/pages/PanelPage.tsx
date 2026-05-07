@@ -26,7 +26,7 @@ export default function PanelPage() {
     if (panelsLoading) return
     if (panels.length === 0) {
       createPanelMutation.mutate(
-        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 200, voltage: 240, frequency: 60 },
+        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 63, voltage: 230, frequency: 50 },
         { onSuccess: (p) => selectPanel(p.id) }
       )
     } else if (!selectedPanelId || !panels.find(p => p.id === selectedPanelId)) {
@@ -58,9 +58,9 @@ export default function PanelPage() {
 
   const fuses: IFuse[] = fusesData
 
-  const mainAmp = selectedPanel?.mainAmp ?? 200
-  const voltage = selectedPanel?.voltage ?? 240
-  const frequency = selectedPanel?.frequency ?? 60
+  const mainAmp = selectedPanel?.mainAmp ?? 63
+  const voltage = selectedPanel?.voltage ?? 230
+  const frequency = selectedPanel?.frequency ?? 50
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
