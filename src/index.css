@@ -24,19 +24,19 @@
   --shadow-md: 0 2px 4px rgba(26,25,22,0.06), 0 4px 12px rgba(26,25,22,0.08);
   --shadow-lg: 0 8px 24px rgba(26,25,22,0.12), 0 2px 6px rgba(26,25,22,0.08);
 
-  --radius: 6px;
-  --radius-lg: 10px;
+  --radius: 0.375rem;
+  --radius-lg: 0.625rem;
 }
 
 * { box-sizing: border-box; }
 
-html, body {
+body {
   margin: 0;
   padding: 0;
   background: var(--bg);
   color: var(--ink);
   font-family: 'Inter', system-ui, sans-serif;
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
 }
@@ -54,7 +54,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 24px;
+  padding: 0.875rem 1.5rem;
   background: var(--ink);
   color: var(--bg);
   border-bottom: 1px solid #000;
@@ -62,53 +62,53 @@ html, body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
 }
 .brand-mark {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   border: 2px solid var(--bg);
   display: grid;
   place-items: center;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 0.875rem;
   background: var(--accent);
   color: var(--ink);
 }
 .brand-name {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 .brand-sub {
   font-family: 'JetBrains Mono', monospace;
   color: rgba(245,242,236,0.5);
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding-left: 12px;
+  padding-left: 0.75rem;
   border-left: 1px solid rgba(245,242,236,0.2);
 }
 .topbar-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 1rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: rgba(245,242,236,0.7);
 }
 .status-dot {
   display: inline-block;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: oklch(0.72 0.14 145);
-  margin-right: 6px;
+  margin-right: 0.375rem;
   box-shadow: 0 0 0 3px rgba(120,200,140,0.15);
   animation: pulse 2s ease-in-out infinite;
 }
@@ -118,8 +118,8 @@ html, body {
 .configbar {
   display: flex;
   align-items: center;
-  gap: 28px;
-  padding: 14px 24px;
+  gap: 1.75rem;
+  padding: 0.875rem 1.5rem;
   background: var(--panel);
   border-bottom: 1px solid var(--line);
   flex-wrap: wrap;
@@ -127,11 +127,11 @@ html, body {
 .config-group {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 0.625rem;
 }
 .config-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -143,27 +143,27 @@ html, body {
   border-radius: var(--radius);
   background: var(--bg);
   overflow: hidden;
-  height: 32px;
+  height: 2rem;
 }
 .stepper button {
-  width: 28px;
+  width: 1.75rem;
   border: 0;
   background: transparent;
   cursor: pointer;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--ink-2);
   transition: background 0.12s;
 }
 .stepper button:hover:not(:disabled) { background: var(--bg-2); color: var(--ink); }
 .stepper button:disabled { color: var(--line-2); cursor: not-allowed; }
 .stepper-value {
-  min-width: 36px;
+  min-width: 2.25rem;
   display: grid;
   place-items: center;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.8125rem;
   border-left: 1px solid var(--line);
   border-right: 1px solid var(--line);
   background: var(--panel);
@@ -178,11 +178,11 @@ html, body {
 .config-stat {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.125rem;
 }
 .config-stat-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -190,7 +190,7 @@ html, body {
 .config-stat-value {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: var(--ink);
 }
 
@@ -199,9 +199,9 @@ html, body {
 .btn {
   font-family: 'Inter', sans-serif;
   font-weight: 500;
-  font-size: 13px;
-  height: 32px;
-  padding: 0 14px;
+  font-size: 0.8125rem;
+  height: 2rem;
+  padding: 0 0.875rem;
   border-radius: var(--radius);
   border: 1px solid var(--line-2);
   background: var(--bg);
@@ -209,7 +209,7 @@ html, body {
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   transition: all 0.12s;
 }
 .btn:hover { background: var(--bg-2); border-color: var(--ink-3); }
@@ -221,16 +221,16 @@ html, body {
 .btn-primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
 .btn-ghost { background: transparent; border-color: transparent; }
 .btn-ghost:hover { background: var(--bg-2); }
-.btn-icon { width: 32px; padding: 0; justify-content: center; }
+.btn-icon { width: 2rem; padding: 0; justify-content: center; }
 
 /* ============ MAIN ============ */
 .main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 24px;
-  max-width: 1480px;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  max-width: 92.5rem;
   width: 100%;
   margin: 0 auto;
 }
@@ -238,7 +238,7 @@ html, body {
 .sidebar {
   display: grid;
   grid-template-columns: 1.2fr 1fr 1fr;
-  gap: 16px;
+  gap: 1rem;
   align-items: start;
 }
 
@@ -259,13 +259,13 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 18px;
+  padding: 0.875rem 1.125rem;
   border-bottom: 1px solid var(--line);
   background: var(--bg);
 }
 .panel-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -273,15 +273,15 @@ html, body {
 .panel-title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .panel-meta {
   display: flex;
-  gap: 14px;
+  gap: 0.875rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--ink-3);
   letter-spacing: 0.04em;
 }
@@ -291,9 +291,9 @@ html, body {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 20px;
-  padding: 18px 22px;
-  margin: 18px;
+  gap: 1.25rem;
+  padding: 1.125rem 1.375rem;
+  margin: 1.125rem;
   background: var(--ink);
   color: var(--bg);
   border-radius: var(--radius);
@@ -314,11 +314,11 @@ html, body {
   pointer-events: none;
 }
 .breaker-switch {
-  width: 44px;
-  height: 64px;
+  width: 2.75rem;
+  height: 4rem;
   background: #2a2723;
   border: 1px solid #000;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
@@ -327,45 +327,45 @@ html, body {
 .breaker-switch::before {
   content: '';
   position: absolute;
-  left: 4px; right: 4px;
-  height: 26px;
+  left: 0.25rem; right: 0.25rem;
+  height: 1.625rem;
   background: linear-gradient(180deg, #c9c2b1 0%, #a8a08c 100%);
   border: 1px solid rgba(0,0,0,0.4);
-  border-radius: 2px;
+  border-radius: 0.125rem;
   transition: top 0.25s cubic-bezier(.6,1.5,.4,1);
 }
-.breaker-switch.on::before { top: 4px; }
-.breaker-switch.off::before { top: 34px; }
+.breaker-switch.on::before { top: 0.25rem; }
+.breaker-switch.off::before { top: 2.125rem; }
 .breaker-switch::after {
   content: 'ON';
   position: absolute;
-  top: 6px; left: 0; right: 0;
+  top: 0.375rem; left: 0; right: 0;
   text-align: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.12em;
   color: rgba(255,255,255,0.4);
 }
-.breaker-switch.on::after { content: 'OFF'; top: auto; bottom: 6px; }
+.breaker-switch.on::after { content: 'OFF'; top: auto; bottom: 0.375rem; }
 .breaker-info { z-index: 1; }
 .breaker-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(245,242,236,0.55);
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
 }
 .breaker-name {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 18px;
+  font-size: 1.125rem;
   letter-spacing: 0.02em;
 }
 .breaker-sub {
-  font-size: 12px;
+  font-size: 0.75rem;
   color: rgba(245,242,236,0.7);
-  margin-top: 2px;
+  margin-top: 0.125rem;
 }
 .breaker-amp {
   z-index: 1;
@@ -373,44 +373,44 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 4px;
+  gap: 0.25rem;
 }
 .breaker-amp-value {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 32px;
+  font-size: 2rem;
   line-height: 1;
   color: var(--accent);
   letter-spacing: -0.02em;
 }
 .breaker-amp-unit {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   color: rgba(245,242,236,0.5);
 }
 
 /* ============ FUSE GRID ============ */
 .fuse-rows {
-  padding: 18px 18px 18px;
+  padding: 1.125rem;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
 }
 .fuse-row {
   display: grid;
-  grid-template-columns: 32px 1fr;
-  gap: 10px;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.625rem;
   align-items: stretch;
 }
 .fuse-row.standard {
-  grid-template-columns: 32px 1fr 36px 1fr;
+  grid-template-columns: 2rem 1fr 2.25rem 1fr;
 }
 .row-label {
   display: grid;
   place-items: center;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   font-weight: 600;
   color: var(--ink-3);
   background: var(--bg-2);
@@ -424,10 +424,10 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 0.375rem;
   background: linear-gradient(180deg, #2a2723 0%, #1a1916 50%, #2a2723 100%);
   border: 1px solid #000;
-  border-radius: 3px;
+  border-radius: 0.1875rem;
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 -1px 0 rgba(0,0,0,0.4);
   position: relative;
 }
@@ -435,8 +435,8 @@ html, body {
   content: '';
   position: absolute;
   left: 50%;
-  top: 4px;
-  bottom: 4px;
+  top: 0.25rem;
+  bottom: 0.25rem;
   width: 2px;
   margin-left: -1px;
   background: linear-gradient(180deg, #6b6558 0%, #3a3631 100%);
@@ -444,8 +444,8 @@ html, body {
   box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
 }
 .bus-bar span {
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: radial-gradient(circle at 30% 30%, #d9d3c5, #6b6558 70%, #2a2723);
   box-shadow: 0 0 0 1px rgba(0,0,0,0.5), inset 0 0 1px rgba(255,255,255,0.3);
@@ -454,7 +454,7 @@ html, body {
 }
 .row-slots {
   display: grid;
-  gap: 8px;
+  gap: 0.5rem;
   grid-auto-flow: column;
   grid-auto-columns: 1fr;
 }
@@ -462,7 +462,7 @@ html, body {
 /* ============ FUSE CARD ============ */
 .slot {
   position: relative;
-  min-height: 96px;
+  min-height: 6rem;
   border: 1px dashed var(--line-2);
   border-radius: var(--radius);
   background: var(--bg);
@@ -473,7 +473,7 @@ html, body {
 }
 .slot.empty .slot-pos {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--ink-3);
   letter-spacing: 0.08em;
 }
@@ -487,21 +487,21 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 0.25rem;
   font-family: inherit;
   color: var(--ink-3);
   border-radius: var(--radius);
   transition: all 0.12s;
-  padding: 6px;
+  padding: 0.375rem;
 }
 .slot-empty-btn .slot-pos {
   position: absolute;
-  top: 6px;
-  left: 8px;
+  top: 0.375rem;
+  left: 0.5rem;
 }
 .slot-add-icon {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
   border: 1px dashed var(--line-2);
   display: grid;
@@ -512,7 +512,7 @@ html, body {
 }
 .slot-add-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -544,9 +544,9 @@ html, body {
 .slot.drop-target.swap-target::after {
   content: 'SWAP';
   position: absolute;
-  top: 6px; right: 6px;
+  top: 0.375rem; right: 0.375rem;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
   color: var(--accent);
   font-weight: 600;
@@ -558,10 +558,10 @@ html, body {
   background: var(--panel);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 8px 8px 8px 12px;
+  padding: 0.5rem 0.5rem 0.5rem 0.75rem;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 4px;
+  gap: 0.25rem;
   cursor: grab;
   transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
   box-shadow: var(--shadow-sm);
@@ -571,7 +571,7 @@ html, body {
   content: '';
   position: absolute;
   left: 0; top: 0; bottom: 0;
-  width: 4px;
+  width: 0.25rem;
   background: var(--fuse-color, var(--ink-3));
   border-radius: var(--radius) 0 0 var(--radius);
 }
@@ -586,7 +586,7 @@ html, body {
   background: var(--accent-soft);
 }
 .fuse.selected::before {
-  width: 5px;
+  width: 0.3125rem;
 }
 .fuse.dragging {
   opacity: 0.4;
@@ -597,25 +597,25 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: 0.25rem;
 }
 .fuse-pos {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--ink-3);
   letter-spacing: 0.04em;
   font-weight: 500;
 }
 .fuse-remove {
-  width: 18px;
-  height: 18px;
+  width: 1.125rem;
+  height: 1.125rem;
   border: 0;
   background: transparent;
   cursor: pointer;
   color: var(--ink-3);
   display: grid;
   place-items: center;
-  border-radius: 3px;
+  border-radius: 0.1875rem;
   opacity: 0;
   transition: all 0.12s;
 }
@@ -623,7 +623,7 @@ html, body {
 .fuse-remove:hover { background: var(--bg-2); color: var(--amp-60); }
 
 .fuse-label {
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--ink);
   line-height: 1.25;
@@ -639,30 +639,30 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: 0.25rem;
 }
 .amp-badge {
   display: inline-flex;
   align-items: baseline;
-  gap: 2px;
-  padding: 2px 6px;
-  border-radius: 3px;
+  gap: 0.125rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.1875rem;
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 11px;
+  font-size: 0.6875rem;
   background: var(--badge-bg, var(--bg-2));
   color: var(--badge-fg, var(--ink));
   letter-spacing: 0.02em;
   border: 1px solid var(--badge-border, transparent);
 }
 .amp-badge .unit {
-  font-size: 9px;
+  font-size: 0.5625rem;
   font-weight: 500;
   opacity: 0.7;
 }
 .fuse-state {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
   color: var(--ink-3);
   text-transform: uppercase;
@@ -693,7 +693,7 @@ html, body {
   box-shadow: var(--shadow-sm);
 }
 .card-header {
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--line);
   display: flex;
   align-items: center;
@@ -703,35 +703,35 @@ html, body {
 .card-title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .card-body {
-  padding: 16px;
+  padding: 1rem;
 }
 
 .field {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 0.375rem;
+  margin-bottom: 0.75rem;
 }
 .field-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 10px;
+  font-size: 0.625rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
 }
 .input, .select {
-  height: 36px;
-  padding: 0 10px;
+  height: 2.25rem;
+  padding: 0 0.625rem;
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
   background: var(--bg);
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--ink);
   transition: border-color 0.12s, box-shadow 0.12s;
   outline: none;
@@ -745,16 +745,16 @@ html, body {
 .amp-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
+  gap: 0.375rem;
 }
 .amp-pill {
-  height: 36px;
+  height: 2.25rem;
   border: 1px solid var(--line-2);
   background: var(--bg);
   border-radius: var(--radius);
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 12px;
+  font-size: 0.75rem;
   cursor: pointer;
   display: grid;
   place-items: center;
@@ -765,9 +765,9 @@ html, body {
 .amp-pill::before {
   content: '';
   position: absolute;
-  left: 6px; top: 50%;
-  width: 6px; height: 6px;
-  margin-top: -3px;
+  left: 0.375rem; top: 50%;
+  width: 0.375rem; height: 0.375rem;
+  margin-top: -0.1875rem;
   background: var(--pill-color);
   border-radius: 50%;
 }
@@ -778,13 +778,13 @@ html, body {
   color: var(--bg);
 }
 
-.btn-block { width: 100%; justify-content: center; height: 38px; }
+.btn-block { width: 100%; justify-content: center; height: 2.375rem; }
 
 .form-actions {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
 }
-.form-actions .btn { flex: 1; height: 38px; justify-content: center; }
+.form-actions .btn { flex: 1; height: 2.375rem; justify-content: center; }
 
 .card-edit {
   border-color: var(--accent);
@@ -806,34 +806,34 @@ html, body {
 .legend {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px 18px;
+  gap: 0.5rem 1.125rem;
 }
 .legend-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  font-size: 12px;
+  gap: 0.625rem;
+  font-size: 0.75rem;
 }
 .legend-key {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
 }
 .legend-swatch {
-  width: 14px;
-  height: 14px;
-  border-radius: 3px;
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 0.1875rem;
   border: 1px solid rgba(0,0,0,0.08);
 }
 .legend-name {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .legend-count {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--ink-3);
 }
 
@@ -848,14 +848,14 @@ html, body {
 }
 .stat {
   background: var(--panel);
-  padding: 12px;
+  padding: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 0.125rem;
 }
 .stat-label {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 9px;
+  font-size: 0.5625rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -863,7 +863,7 @@ html, body {
 .stat-value {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 1.125rem;
   letter-spacing: -0.01em;
 }
 .stat-value.warn { color: var(--amp-40); }
@@ -871,15 +871,15 @@ html, body {
 
 .toast {
   position: fixed;
-  bottom: 24px;
+  bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
   background: var(--ink);
   color: var(--bg);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
-  padding: 10px 16px;
+  padding: 0.625rem 1rem;
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   z-index: 100;
@@ -899,16 +899,16 @@ html, body {
 .panel-dropdown-trigger {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 0.5rem;
   background: transparent;
   border: 1px solid rgba(245,242,236,0.2);
   border-radius: var(--radius);
   color: rgba(245,242,236,0.7);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  padding: 4px 10px;
+  padding: 0.25rem 0.625rem;
   cursor: pointer;
   transition: border-color 0.12s, color 0.12s, background 0.12s;
 }
@@ -919,30 +919,30 @@ html, body {
 }
 .panel-dropdown-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 0.5rem);
   right: 0;
-  min-width: 200px;
+  min-width: 12.5rem;
   background: #262420;
   border: 1px solid rgba(245,242,236,0.12);
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   z-index: 200;
   overflow: hidden;
-  padding: 4px;
+  padding: 0.25rem;
 }
 .panel-dropdown-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 0.625rem;
   width: 100%;
-  padding: 8px 10px;
+  padding: 0.5rem 0.625rem;
   background: transparent;
   border: 0;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   color: rgba(245,242,236,0.75);
   font-family: 'JetBrains Mono', monospace;
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
   text-align: left;
   cursor: pointer;
@@ -957,7 +957,7 @@ html, body {
 }
 .panel-dropdown-new {
   color: rgba(245,242,236,0.5);
-  font-size: 11px;
+  font-size: 0.6875rem;
 }
 .panel-dropdown-new:hover {
   color: var(--accent);
@@ -966,23 +966,23 @@ html, body {
 .panel-dropdown-sep {
   height: 1px;
   background: rgba(245,242,236,0.1);
-  margin: 4px 0;
+  margin: 0.25rem 0;
 }
 .panel-dropdown-form {
-  padding: 8px 6px 4px;
+  padding: 0.5rem 0.375rem 0.25rem;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 0.375rem;
 }
 .panel-dropdown-input {
-  height: 30px;
-  padding: 0 8px;
+  height: 1.875rem;
+  padding: 0 0.5rem;
   background: rgba(245,242,236,0.06);
   border: 1px solid rgba(245,242,236,0.15);
-  border-radius: 4px;
+  border-radius: 0.25rem;
   color: rgba(245,242,236,0.9);
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 0.75rem;
   outline: none;
   transition: border-color 0.12s;
   width: 100%;
@@ -991,16 +991,16 @@ html, body {
 .panel-dropdown-input:focus { border-color: var(--accent); }
 .panel-dropdown-form-actions {
   display: flex;
-  gap: 6px;
-  margin-top: 2px;
+  gap: 0.375rem;
+  margin-top: 0.125rem;
 }
 .panel-dropdown-action {
   flex: 1;
-  height: 28px;
-  border-radius: 4px;
+  height: 1.75rem;
+  border-radius: 0.25rem;
   border: 1px solid rgba(245,242,236,0.15);
   font-family: 'Inter', sans-serif;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.12s;
@@ -1044,19 +1044,19 @@ html, body {
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  width: 360px;
-  max-width: calc(100vw - 48px);
+  width: 22.5rem;
+  max-width: calc(100vw - 3rem);
   animation: modal-in 0.18s cubic-bezier(.4,1.4,.6,1);
 }
 @keyframes modal-in {
-  from { opacity: 0; transform: translateY(-12px) scale(0.97); }
+  from { opacity: 0; transform: translateY(-0.75rem) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 .dialog-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
+  padding: 0.875rem 1rem;
   border-bottom: 1px solid var(--line);
   background: var(--bg);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
@@ -1064,18 +1064,18 @@ html, body {
 .dialog-title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 .dialog-body {
-  padding: 20px 16px 16px;
+  padding: 1.25rem 1rem 1rem;
 }
 .dialog-footer {
   display: flex;
-  gap: 8px;
+  gap: 0.5rem;
   justify-content: flex-end;
-  padding: 12px 16px;
+  padding: 0.75rem 1rem;
   border-top: 1px solid var(--line);
   background: var(--bg);
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
@@ -1091,9 +1091,9 @@ html, body {
 
 .empty-state {
   text-align: center;
-  padding: 32px 12px;
+  padding: 2rem 0.75rem;
   color: var(--ink-3);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 @media (max-width: 1100px) {
