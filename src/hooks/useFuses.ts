@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getFuses, createFuse, updateFuse, deleteFuse, reorderFuses } from '../api/fuses'
-import type { AmpValue } from '../types'
+import type { AmpValue } from '../interfaces'
 
 function fusesKey(panelId: string) {
   return ['fuses', panelId] as const

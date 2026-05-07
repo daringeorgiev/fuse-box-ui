@@ -1,20 +1,20 @@
-import type { Fuse, DragState } from '../types'
+import type { IFuse, IDragState } from '../interfaces'
 import FuseCard from './FuseCard'
 import { Plus } from './Icons'
 
 interface SlotProps {
   pos: number
-  fuse: Fuse | undefined
+  fuse: IFuse | undefined
   selectedId: string | null
   focusPos: number | null
-  dragState: DragState
+  dragState: IDragState
   onSelect: (id: string) => void
   onAddHere: (pos: number) => void
   onDragOver: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
   onDragLeave: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
   onDrop: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
   onRemove: (id: string) => void
-  onDragStart: (e: React.DragEvent<HTMLDivElement>, fuse: Fuse) => void
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => void
   onDragEnd: () => void
 }
 

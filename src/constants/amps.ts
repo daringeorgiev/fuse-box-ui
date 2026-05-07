@@ -1,4 +1,4 @@
-import type { AmpValue, Fuse } from '../types'
+import type { AmpValue, IFuse } from '../interfaces'
 
 export interface AmpRating {
   value: AmpValue
@@ -21,7 +21,7 @@ export const AMP_RATINGS: AmpRating[] = [
 export const ampMeta = (v: AmpValue): AmpRating =>
   AMP_RATINGS.find(r => r.value === v) ?? AMP_RATINGS[0]
 
-export function totalLoad(fuses: Fuse[]): number {
+export function totalLoad(fuses: IFuse[]): number {
   return fuses.reduce((sum, f) => {
     const m = ampMeta(f.amp)
     const a = m.amps ?? (typeof m.value === 'number' ? m.value : 0)
@@ -33,7 +33,7 @@ export function nextId(): string {
   return 'f' + Math.random().toString(36).slice(2, 9)
 }
 
-export const SEED_FUSES: Fuse[] = [
+export const SEED_FUSES: IFuse[] = [
   { id: 'f1',  pos: 1,  label: 'Kitchen Outlets',     amp: 20 },
   { id: 'f2',  pos: 2,  label: 'Refrigerator',        amp: 20 },
   { id: 'f3',  pos: 3,  label: 'Dishwasher',          amp: 'GFCI' },

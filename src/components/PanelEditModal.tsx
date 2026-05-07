@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
-import type { Panel } from '../types'
+import type { IPanel } from '../interfaces'
 import { X } from './Icons'
 
 interface Props {
-  panel: Panel
+  panel: IPanel
   onSave: (patch: { name: string; location: string; mainAmp: number; voltage: number; frequency: number }) => void
   onClose: () => void
 }

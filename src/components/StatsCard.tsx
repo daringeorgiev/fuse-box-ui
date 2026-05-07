@@ -1,8 +1,8 @@
 import { totalLoad } from '../constants/amps'
-import type { Fuse } from '../types'
+import type { IFuse } from '../interfaces'
 
 interface StatsCardProps {
-  fuses: Fuse[]
+  fuses: IFuse[]
   capacity: number
   mainAmp: number
 }

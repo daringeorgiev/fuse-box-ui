@@ -1,16 +1,16 @@
-import type { Fuse } from '../types'
+import type { IFuse } from '../interfaces'
 import AmpBadge from './AmpBadge'
 import { ampMeta } from '../constants/amps'
 import { X } from './Icons'
 
 interface FuseCardProps {
-  fuse: Fuse
+  fuse: IFuse
   pos: number
   selected: boolean
   isDragging: boolean
   onSelect: (id: string) => void
   onRemove: (id: string) => void
-  onDragStart: (e: React.DragEvent<HTMLDivElement>, fuse: Fuse) => void
+  onDragStart: (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => void
   onDragEnd: () => void
 }
 

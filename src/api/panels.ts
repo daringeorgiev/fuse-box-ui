@@ -1,5 +1,5 @@
 import client from './client'
-import type { Panel } from '../types'
+import type { IPanel } from '../interfaces'
 
 interface PanelBody {
   name: string
@@ -13,7 +13,7 @@ interface PanelBody {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function toPanel(r: any): Panel {
+function toPanel(r: any): IPanel {
   return {
     id: String(r.id),
     name: r.name,
@@ -26,17 +26,17 @@ function toPanel(r: any): Panel {
   }
 }
 
-export async function getPanels(): Promise<Panel[]> {
+export async function getPanels(): Promise<IPanel[]> {
   const { data } = await client.get('/api/panels')
   return data.map(toPanel)
 }
 
-export async function createPanel(body: PanelBody): Promise<Panel> {
+export async function createPanel(body: PanelBody): Promise<IPanel> {
   const { data } = await client.post('/api/panels', body)
   return toPanel(data)
 }
 
-export async function updatePanel(id: string, body: PanelBody): Promise<Panel> {
+export async function updatePanel(id: string, body: PanelBody): Promise<IPanel> {
   const { data } = await client.put(`/api/panels/${id}`, body)
   return toPanel(data)
 }

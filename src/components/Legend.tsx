@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 import { AMP_RATINGS } from '../constants/amps'
-import type { Fuse } from '../types'
+import type { IFuse } from '../interfaces'
 
-export default function Legend({ fuses }: { fuses: Fuse[] }) {
+export default function Legend({ fuses }: { fuses: IFuse[] }) {
   const counts = useMemo(() => {
     const map: Record<string, number> = {}
     fuses.forEach(f => { map[String(f.amp)] = (map[String(f.amp)] ?? 0) + 1 })

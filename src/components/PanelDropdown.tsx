@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import type { Panel } from '../types'
+import type { IPanel } from '../interfaces'
 
 interface Props {
-  panels: Panel[]
+  panels: IPanel[]
   selectedPanelId: string | null
   onSelect: (id: string) => void
   onCreate: (name: string, location: string) => void

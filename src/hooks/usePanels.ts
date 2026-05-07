@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { getPanels, createPanel, updatePanel, deletePanel } from '../api/panels'
-import type { Panel } from '../types'
+import type { IPanel } from '../interfaces'
 
 const PANELS_KEY = ['panels'] as const
 
@@ -20,7 +20,7 @@ export function useCreatePanel() {
 export function useUpdatePanel() {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, ...body }: Panel) =>
+    mutationFn: ({ id, ...body }: IPanel) =>
       updatePanel(id, { name: body.name, location: body.location, numRows: body.numRows, fusesPerRow: body.fusesPerRow, mainAmp: body.mainAmp, voltage: body.voltage, frequency: body.frequency }),
     onSuccess: () => qc.invalidateQueries({ queryKey: PANELS_KEY }),
   })

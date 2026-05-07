@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import type { Fuse, DragState } from './types'
-import type { AmpValue } from './types'
+import type { IFuse, IDragState } from './interfaces'
+import type { AmpValue } from './interfaces'
 import MainBreaker from './components/MainBreaker'
 import Stepper from './components/Stepper'
 import Slot from './components/Slot'
@@ -56,7 +56,7 @@ function App() {
   const deleteFuseMutation = useDeleteFuse(selectedPanelId ?? '')
   const reorderMutation = useReorderFuses(selectedPanelId ?? '')
 
-  const fuses: Fuse[] = fusesData
+  const fuses: IFuse[] = fusesData
 
   const [mainOn, setMainOn] = useState(true)
   const mainAmp = selectedPanel?.mainAmp ?? 200
@@ -66,12 +66,12 @@ function App() {
   const [editingPanel, setEditingPanel] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
-  const [dragState, setDragState] = useState<DragState>({ draggingId: null, overPos: null })
+  const [dragState, setDragState] = useState<IDragState>({ draggingId: null, overPos: null })
   const [toast, setToast] = useState<string | null>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const fuseByPos = useMemo(() => {
-    const m: Record<number, Fuse> = {}
+    const m: Record<number, IFuse> = {}
     fuses.forEach(f => { if (f.pos <= capacity) m[f.pos] = f })
     return m
   }, [fuses, capacity])
@@ -150,7 +150,7 @@ function App() {
     )
   }
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, fuse: Fuse) => {
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => {
     e.dataTransfer.effectAllowed = 'move'
     e.dataTransfer.setData('text/plain', fuse.id)
     setDragState({ draggingId: fuse.id, overPos: null })

@@ -1,5 +1,5 @@
 import { ampMeta } from '../constants/amps'
-import type { AmpValue } from '../types'
+import type { AmpValue } from '../interfaces'
 
 export default function AmpBadge({ amp }: { amp: AmpValue }) {
   const m = ampMeta(amp)

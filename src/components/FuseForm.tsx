@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
 import { AMP_RATINGS } from '../constants/amps'
-import type { AmpValue, Fuse } from '../types'
+import type { AmpValue, IFuse } from '../interfaces'
 import { Plus } from './Icons'
 
 interface FuseFormProps {
-  editingFuse: Fuse | undefined
+  editingFuse: IFuse | undefined
   focusPos: number | null
   slotsAvailable: number
   onAdd: (data: { label: string; amp: AmpValue; pos: number | null }) => void
