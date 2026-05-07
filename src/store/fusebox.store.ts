@@ -1,11 +1,7 @@
 import { create } from 'zustand'
+import type { IFuseBoxState } from '../interfaces'
 
-interface FuseBoxState {
-  selectedPanelId: string | null
-  selectPanel: (id: string | null) => void
-}
-
-export const useFuseBoxStore = create<FuseBoxState>((set) => ({
+export const useFuseBoxStore = create<IFuseBoxState>((set) => ({
   selectedPanelId: null,
   selectPanel: (id) => set({ selectedPanelId: id }),
 }))

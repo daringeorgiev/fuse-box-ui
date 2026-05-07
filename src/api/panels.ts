@@ -1,16 +1,5 @@
 import client from './client'
-import type { IPanel } from '../interfaces'
-
-interface PanelBody {
-  name: string
-  location?: string
-  description?: string
-  numRows: number
-  fusesPerRow: number
-  mainAmp: number
-  voltage: number
-  frequency: number
-}
+import type { IPanel, IPanelBody } from '../interfaces'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function toPanel(r: any): IPanel {
@@ -31,12 +20,12 @@ export async function getPanels(): Promise<IPanel[]> {
   return data.map(toPanel)
 }
 
-export async function createPanel(body: PanelBody): Promise<IPanel> {
+export async function createPanel(body: IPanelBody): Promise<IPanel> {
   const { data } = await client.post('/api/panels', body)
   return toPanel(data)
 }
 
-export async function updatePanel(id: string, body: PanelBody): Promise<IPanel> {
+export async function updatePanel(id: string, body: IPanelBody): Promise<IPanel> {
   const { data } = await client.put(`/api/panels/${id}`, body)
   return toPanel(data)
 }

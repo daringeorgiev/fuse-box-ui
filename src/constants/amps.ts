@@ -1,14 +1,6 @@
-import type { AmpValue, IFuse } from '../interfaces'
+import type { AmpValue, IFuse, IAmpRating } from '../interfaces'
 
-export interface AmpRating {
-  value: AmpValue
-  label: string
-  color: string
-  tone: 'low' | 'mid' | 'high' | 'special'
-  amps?: number
-}
-
-export const AMP_RATINGS: AmpRating[] = [
+export const AMP_RATINGS: IAmpRating[] = [
   { value: 15,     label: '15A',  color: 'var(--amp-15)',   tone: 'low' },
   { value: 20,     label: '20A',  color: 'var(--amp-20)',   tone: 'low' },
   { value: 30,     label: '30A',  color: 'var(--amp-30)',   tone: 'mid' },
@@ -18,7 +10,7 @@ export const AMP_RATINGS: AmpRating[] = [
   { value: 'GFCI', label: 'GFCI', color: 'var(--amp-gfci)', tone: 'special', amps: 20 },
 ]
 
-export const ampMeta = (v: AmpValue): AmpRating =>
+export const ampMeta = (v: AmpValue): IAmpRating =>
   AMP_RATINGS.find(r => r.value === v) ?? AMP_RATINGS[0]
 
 export function totalLoad(fuses: IFuse[]): number {

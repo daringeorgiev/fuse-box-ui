@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import type { IPanel } from '../interfaces'
 import { X } from './Icons'
 
-interface Props {
+interface IPanelEditModalProps {
   panel: IPanel
   onSave: (patch: { name: string; location: string; mainAmp: number; voltage: number; frequency: number }) => void
   onClose: () => void
@@ -12,7 +12,7 @@ const MAIN_AMP_OPTIONS = [100, 150, 200, 400]
 const VOLTAGE_OPTIONS = [120, 230, 240]
 const FREQUENCY_OPTIONS = [50, 60]
 
-export default function PanelEditModal({ panel, onSave, onClose }: Props) {
+export default function PanelEditModal({ panel, onSave, onClose }: IPanelEditModalProps) {
   const [name, setName] = useState(panel.name)
   const [location, setLocation] = useState(panel.location)
   const [mainAmp, setMainAmp] = useState(panel.mainAmp)

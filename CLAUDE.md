@@ -26,7 +26,9 @@ This is a React 19 + TypeScript SPA built with Vite. The stack:
 
 ## Interfaces convention
 
-**Required:** Every interface or type alias lives in its own file under `src/interfaces/` (e.g. `src/interfaces/IFuse.ts`). `src/interfaces/index.ts` is a barrel that re-exports everything — it must never contain type definitions directly. When adding a new type, create its file first, then add the `export type { … } from './…'` line to the barrel.
+**Required:** Every **shared or reusable** interface or type alias lives in its own file under `src/interfaces/` (e.g. `src/interfaces/Fuse.ts`). File names do not carry the `I` prefix — only the interface name inside does. `src/interfaces/index.ts` is a barrel that re-exports everything — it must never contain type definitions directly. When adding a new type, create its file first, then add the `export type { … } from './…'` line to the barrel.
+
+**Exception:** Component-local props interfaces may be co-located in their component file (e.g. `IFuseCardProps` inside `FuseCard.tsx`), since they are never reused elsewhere. They must still use the `I` prefix.
 
 **Required:** All interfaces must be prefixed with `I` (e.g. `IFuse`, `IPanel`, `IDragState`). The `I` prefix applies only to the interface name — not to function names, variable names, component names, or UI text.
 
@@ -38,6 +40,9 @@ Defined in `src/interfaces/` (barrel at `src/interfaces/index.ts`):
 - **`IPanel`** — a physical fuse panel with a name and location (reserved for multi-panel support)
 - **`IDragState`** — `{ draggingId, overPos }` passed down to `Slot` and `FuseCard`
 - **`AmpValue`** — `number | 'GFCI'`; amp metadata and helpers live in `src/constants/amps.ts`
+- **`IAmpRating`** — amp display metadata (color, label, tone); used by `AMP_RATINGS` in `src/constants/amps.ts`
+- **`IPanelBody`** — HTTP request shape for create/update panel API calls
+- **`IFuseBoxState`** — Zustand store shape for `useFuseBoxStore`
 
 ## Component tree
 
