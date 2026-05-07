@@ -7,8 +7,9 @@ import Slot from './components/Slot'
 import FuseForm from './components/FuseForm'
 import StatsCard from './components/StatsCard'
 import Legend from './components/Legend'
-import { Reset } from './components/Icons'
+import { Reset, Pencil } from './components/Icons'
 import PanelDropdown from './components/PanelDropdown'
+import PanelEditModal from './components/PanelEditModal'
 import { useFuseBoxStore } from './store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from './hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse, useReorderFuses } from './hooks/useFuses'
@@ -66,6 +67,7 @@ function App() {
   const [mainOn, setMainOn] = useState(true)
   const mainAmp = 200
 
+  const [editingPanel, setEditingPanel] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
   const [dragState, setDragState] = useState<DragState>({ draggingId: null, overPos: null })
@@ -311,13 +313,19 @@ function App() {
       <main className="main">
         <section className="panel">
           <div className="panel-header">
-            <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
+              <button className="btn btn-ghost btn-icon panel-edit-btn" onClick={() => setEditingPanel(true)} title="Edit panel details" aria-label="Edit panel details">
+                <Pencil />
+              </button>
+            </div>
             <div className="panel-meta">
               <span>{rows}P · {perRow === 2 ? 'SPLIT-BUS' : `${perRow}-WIDE`}</span>
               <span>·</span>
               <span>{visibleFuses.length} ACTIVE</span>
             </div>
           </div>
+
           <MainBreaker on={mainOn} onToggle={() => setMainOn(o => !o)} ampRating={mainAmp} />
           <div className="fuse-rows">{rowList}</div>
         </section>
@@ -336,6 +344,13 @@ function App() {
         </aside>
       </main>
 
+      {editingPanel && selectedPanel && (
+        <PanelEditModal
+          panel={selectedPanel}
+          onSave={(patch) => updatePanelMutation.mutate({ ...selectedPanel, ...patch })}
+          onClose={() => setEditingPanel(false)}
+        />
+      )}
       {toast && <div className="toast">{toast}</div>}
     </div>
   )
