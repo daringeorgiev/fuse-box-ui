@@ -1,9 +1,9 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import type { IFuse, IDragState } from './interfaces'
+import type { IFuse } from './interfaces'
 import type { AmpValue } from './interfaces'
 import MainBreaker from './components/MainBreaker'
 import Stepper from './components/Stepper'
-import Slot from './components/Slot'
+import PanelGrid from './components/PanelGrid'
 import FuseForm from './components/FuseForm'
 import StatsCard from './components/StatsCard'
 import Legend from './components/Legend'
@@ -13,6 +13,7 @@ import PanelEditModal from './components/PanelEditModal'
 import { useFuseBoxStore } from './store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from './hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse, useReorderFuses } from './hooks/useFuses'
+import { useDragHandlers } from './hooks/useDragHandlers'
 
 function App() {
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
@@ -66,7 +67,6 @@ function App() {
   const [editingPanel, setEditingPanel] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
-  const [dragState, setDragState] = useState<IDragState>({ draggingId: null, overPos: null })
   const [toast, setToast] = useState<string | null>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -150,89 +150,8 @@ function App() {
     )
   }
 
-  const handleDragStart = (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => {
-    e.dataTransfer.effectAllowed = 'move'
-    e.dataTransfer.setData('text/plain', fuse.id)
-    setDragState({ draggingId: fuse.id, overPos: null })
-  }
-
-  const handleDragEnd = () => setDragState({ draggingId: null, overPos: null })
-
-  const handleDragOver = (e: React.DragEvent<HTMLDivElement>, pos: number) => {
-    e.preventDefault()
-    e.dataTransfer.dropEffect = 'move'
-    setDragState(prev => prev.overPos === pos ? prev : { ...prev, overPos: pos })
-  }
-
-  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>, pos: number) => {
-    if (e.currentTarget.contains(e.relatedTarget as Node)) return
-    setDragState(prev => prev.overPos === pos ? { ...prev, overPos: null } : prev)
-  }
-
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, pos: number) => {
-    e.preventDefault()
-    const id = e.dataTransfer.getData('text/plain')
-    if (!id) return
-    const src = fuses.find(f => f.id === id)
-    if (!src || src.pos === pos) { setDragState({ draggingId: null, overPos: null }); return }
-
-    // Build the new position map after the swap
-    const swapped = fuses.map(f => {
-      const target = fuses.find(x => x.pos === pos)
-      if (f.id === src.id) return { ...f, pos }
-      if (target && f.id === target.id) return { ...f, pos: src.pos }
-      return f
-    })
-
-    // Send ordered IDs sorted by new positions
-    const orderedIds = [...swapped].sort((a, b) => a.pos - b.pos).map(f => f.id)
-    reorderMutation.mutate(orderedIds)
-    setDragState({ draggingId: null, overPos: null })
-  }
-
-  const isStandard = perRow === 2
-  const rowList: React.ReactElement[] = []
-
-  for (let r = 0; r < rows; r++) {
-    const slots: React.ReactElement[] = []
-    for (let c = 0; c < perRow; c++) {
-      const pos = isStandard ? r * 2 + c + 1 : r * perRow + c + 1
-      slots.push(
-        <Slot
-          key={pos}
-          pos={pos}
-          fuse={fuseByPos[pos]}
-          selectedId={selectedId}
-          focusPos={focusPos}
-          dragState={dragState}
-          onSelect={selectFuse}
-          onAddHere={requestAddAt}
-          onDragOver={handleDragOver}
-          onDragLeave={handleDragLeave}
-          onDrop={handleDrop}
-          onRemove={removeFuse}
-          onDragStart={handleDragStart}
-          onDragEnd={handleDragEnd}
-        />
-      )
-    }
-    rowList.push(
-      <div className={`fuse-row${isStandard ? ' standard' : ''}`} key={r}>
-        <div className="row-label">{String(r + 1).padStart(2, '0')}</div>
-        {isStandard ? (
-          <>
-            <div className="row-slots" style={{ gridTemplateColumns: '1fr' }}>{slots[0]}</div>
-            <div className="bus-bar" aria-hidden="true"><span /><span /><span /></div>
-            <div className="row-slots" style={{ gridTemplateColumns: '1fr' }}>{slots[1]}</div>
-          </>
-        ) : (
-          <div className="row-slots" style={{ gridTemplateColumns: `repeat(${perRow}, 1fr)` }}>
-            {slots}
-          </div>
-        )}
-      </div>
-    )
-  }
+  const { dragState, handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } =
+    useDragHandlers(fuses, reorderMutation.mutate)
 
   if (panelsLoading || fusesLoading) {
     return (
@@ -314,7 +233,22 @@ function App() {
           </div>
 
           <MainBreaker on={mainOn} onToggle={() => setMainOn(o => !o)} ampRating={mainAmp} voltage={voltage} />
-          <div className="fuse-rows">{rowList}</div>
+          <PanelGrid
+            rows={rows}
+            perRow={perRow}
+            fuseByPos={fuseByPos}
+            selectedId={selectedId}
+            focusPos={focusPos}
+            dragState={dragState}
+            onSelect={selectFuse}
+            onAddHere={requestAddAt}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onRemove={removeFuse}
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
+          />
         </section>
 
         <aside className="sidebar">
