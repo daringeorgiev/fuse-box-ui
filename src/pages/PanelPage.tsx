@@ -7,7 +7,6 @@ import PanelGrid from '../components/PanelGrid'
 import FuseForm from '../components/FuseForm'
 import StatsCard from '../components/StatsCard'
 import Legend from '../components/Legend'
-import { Pencil } from '../components/Icons'
 import PanelDropdown from '../components/PanelDropdown'
 import { useFuseBoxStore } from '../store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
@@ -192,6 +191,15 @@ export default function PanelPage() {
       </header>
 
       <div className="configbar">
+        <div className="config-panel-identity">
+          <div style={{ display: 'flex', flexDirection: 'column' }}>
+            <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
+            {selectedPanel?.location && (
+              <span className="panel-location">{selectedPanel.location}</span>
+            )}
+          </div>
+        </div>
+        <div className="config-divider" />
         <div className="config-group">
           <span className="config-label">Rows</span>
           <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" />
@@ -214,23 +222,18 @@ export default function PanelPage() {
           <span className="config-stat-value">{mainAmp}A</span>
         </div>
         <div className="config-spacer" />
+        <button
+          className="btn btn-ghost panel-edit-btn"
+          onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
+        >
+          Edit
+        </button>
       </div>
 
       <main className="main">
         <section className="panel">
           <div className="panel-header">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span className="panel-label">Panel</span>
-              <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
-              <button
-                className="btn btn-ghost btn-icon panel-edit-btn"
-                onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
-                title="Edit panel details"
-                aria-label="Edit panel details"
-              >
-                <Pencil />
-              </button>
-            </div>
+            <span className="panel-label">Panel</span>
           </div>
 
           <PanelGrid

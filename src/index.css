@@ -195,6 +195,11 @@ body {
 }
 
 .config-spacer { flex: 1; }
+.config-panel-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .btn {
   font-family: 'Inter', sans-serif;
@@ -276,6 +281,13 @@ body {
   font-size: 0.75rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+.panel-location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.5625rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-3);
+  margin-top: 0.0625rem;
 }
 .panel-meta {
   display: flex;

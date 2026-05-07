@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePanels, useUpdatePanel } from '../hooks/usePanels'
+import Stepper from '../components/Stepper'
 
 const MAIN_AMP_OPTIONS = [100, 150, 200, 400]
 const VOLTAGE_OPTIONS = [120, 230, 240]
@@ -16,6 +17,8 @@ export default function PanelEditPage() {
 
   const [name, setName] = useState('')
   const [location, setLocation] = useState('')
+  const [numRows, setNumRows] = useState(2)
+  const [fusesPerRow, setFusesPerRow] = useState(12)
   const [mainAmp, setMainAmp] = useState(200)
   const [voltage, setVoltage] = useState(240)
   const [frequency, setFrequency] = useState(60)
@@ -25,6 +28,8 @@ export default function PanelEditPage() {
     if (panel) {
       setName(panel.name)
       setLocation(panel.location)
+      setNumRows(panel.numRows)
+      setFusesPerRow(panel.fusesPerRow)
       setMainAmp(panel.mainAmp)
       setVoltage(panel.voltage)
       setFrequency(panel.frequency)
@@ -38,7 +43,7 @@ export default function PanelEditPage() {
   const handleSave = () => {
     if (!panel || !name.trim()) return
     updatePanel.mutate(
-      { ...panel, name: name.trim(), location: location.trim(), mainAmp, voltage, frequency },
+      { ...panel, name: name.trim(), location: location.trim(), numRows, fusesPerRow, mainAmp, voltage, frequency },
       { onSuccess: () => navigate('/') }
     )
   }
@@ -112,6 +117,18 @@ export default function PanelEditPage() {
                 onKeyDown={e => { if (e.key === 'Enter') handleSave() }}
                 placeholder="e.g. Utility Room, Garage"
               />
+            </div>
+            <div className="field">
+              <label className="field-label">Rows</label>
+              <div style={{ alignSelf: 'flex-start' }}>
+                <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel="Number of rows" />
+              </div>
+            </div>
+            <div className="field">
+              <label className="field-label">Fuses / Row</label>
+              <div style={{ alignSelf: 'flex-start' }}>
+                <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel="Fuses per row" />
+              </div>
             </div>
             <div className="field">
               <label className="field-label">Main Breaker</label>
