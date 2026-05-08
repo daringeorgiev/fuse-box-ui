@@ -79,6 +79,11 @@ export default function PanelPage() {
 
   const slotsAvailable = capacity - visibleFuses.length
 
+  const freeSlots = useMemo(() => {
+    const occupied = new Set(visibleFuses.map(f => f.pos))
+    return Array.from({ length: capacity }, (_, i) => i + 1).filter(p => !occupied.has(p))
+  }, [visibleFuses, capacity])
+
   const showToast = useCallback((msg: string) => {
     if (toastTimerRef.current !== null) clearTimeout(toastTimerRef.current)
     setToast(msg)
@@ -128,11 +133,9 @@ export default function PanelPage() {
     setSelectedId(prev => prev === id ? null : id)
   }
 
-  const updateFuse = (id: string, patch: { label: string; amp: AmpValue }) => {
-    const fuse = fuses.find(f => f.id === id)
-    if (!fuse) return
+  const updateFuse = (id: string, patch: { label: string; amp: AmpValue; pos: number }) => {
     updateFuseMutation.mutate(
-      { id, pos: fuse.pos, ...patch },
+      { id, ...patch },
       { onSuccess: () => { showToast(`Updated "${patch.label}"`); setSelectedId(null) } }
     )
   }
@@ -254,7 +257,7 @@ export default function PanelPage() {
             onAdd={addFuse}
             onUpdate={updateFuse}
             onCancel={() => { setSelectedId(null); setFocusPos(null) }}
-            slotsAvailable={slotsAvailable}
+            freeSlots={freeSlots}
           />
           <StatsCard fuses={visibleFuses} capacity={capacity} mainAmp={mainAmp} />
           <Legend fuses={visibleFuses} />

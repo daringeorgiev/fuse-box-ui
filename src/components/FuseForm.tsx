@@ -1,29 +1,37 @@
 import { useState, useEffect, useRef } from 'react'
 import { AMP_RATINGS } from '../constants/amps'
 import type { AmpValue, IFuse } from '../interfaces'
-import { Plus } from './Icons'
+import { Minus, Plus } from './Icons'
 
 interface FuseFormProps {
   editingFuse: IFuse | undefined
   focusPos: number | null
-  slotsAvailable: number
+  freeSlots: number[]
   onAdd: (data: { label: string; amp: AmpValue; pos: number | null }) => void
-  onUpdate: (id: string, patch: { label: string; amp: AmpValue }) => void
+  onUpdate: (id: string, patch: { label: string; amp: AmpValue; pos: number }) => void
   onCancel: () => void
 }
 
-export default function FuseForm({ editingFuse, focusPos, slotsAvailable, onAdd, onUpdate, onCancel }: FuseFormProps) {
+export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUpdate, onCancel }: FuseFormProps) {
   const [label, setLabel] = useState('')
   const [amp, setAmp] = useState<AmpValue>(20)
+  const [localPos, setLocalPos] = useState<number | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
 
   const isEdit = !!editingFuse
-  const isFocused = !isEdit && focusPos != null
+
+  // slots available to pick in each mode
+  const activeSlots = isEdit
+    ? [editingFuse!.pos, ...freeSlots].sort((a, b) => a - b)
+    : freeSlots
+
+  const slotIndex = localPos !== null ? activeSlots.indexOf(localPos) : -1
 
   useEffect(() => {
     if (editingFuse) {
       setLabel(editingFuse.label)
       setAmp(editingFuse.amp)
+      setLocalPos(editingFuse.pos)
       inputRef.current?.focus()
       inputRef.current?.select()
     } else {
@@ -32,18 +40,33 @@ export default function FuseForm({ editingFuse, focusPos, slotsAvailable, onAdd,
     }
   }, [editingFuse?.id])
 
+  // when user clicks a slot, jump to it; otherwise default to first free
   useEffect(() => {
-    if (isFocused) inputRef.current?.focus()
+    if (!isEdit) {
+      setLocalPos(focusPos ?? freeSlots[0] ?? null)
+    }
   }, [focusPos])
+
+  useEffect(() => {
+    if (!isEdit) inputRef.current?.focus()
+  }, [focusPos])
+
+  // keep localPos valid as freeSlots changes (e.g. after an install)
+  useEffect(() => {
+    if (isEdit) return
+    if (localPos === null || !freeSlots.includes(localPos)) {
+      setLocalPos(freeSlots[0] ?? null)
+    }
+  }, [freeSlots])
 
   const submit = (e?: React.FormEvent) => {
     e?.preventDefault()
     const trimmed = label.trim()
     if (!trimmed) { inputRef.current?.focus(); return }
     if (isEdit) {
-      onUpdate(editingFuse!.id, { label: trimmed, amp })
+      onUpdate(editingFuse!.id, { label: trimmed, amp, pos: localPos ?? editingFuse!.pos })
     } else {
-      onAdd({ label: trimmed, amp, pos: focusPos })
+      onAdd({ label: trimmed, amp, pos: localPos })
       setLabel('')
       inputRef.current?.focus()
     }
@@ -55,14 +78,11 @@ export default function FuseForm({ editingFuse, focusPos, slotsAvailable, onAdd,
     onCancel()
   }
 
-  let headerMeta: React.ReactNode
-  if (isEdit) {
-    headerMeta = <span className="legend-count mono">SLOT {String(editingFuse!.pos).padStart(2, '0')}</span>
-  } else if (isFocused) {
-    headerMeta = <span className="legend-count mono">→ SLOT {String(focusPos).padStart(2, '0')}</span>
-  } else {
-    headerMeta = <span className="legend-count mono">{slotsAvailable} slot{slotsAvailable === 1 ? '' : 's'} free</span>
-  }
+  const isFocused = !isEdit && focusPos != null
+
+  const headerMeta = isEdit
+    ? <span className="legend-count mono">SLOT {String(editingFuse!.pos).padStart(2, '0')}</span>
+    : <span className="legend-count mono">{freeSlots.length} slot{freeSlots.length === 1 ? '' : 's'} free</span>
 
   const cardClass = isEdit ? 'card card-edit' : isFocused ? 'card card-focused' : 'card'
 
@@ -102,27 +122,43 @@ export default function FuseForm({ editingFuse, focusPos, slotsAvailable, onAdd,
             ))}
           </div>
         </div>
+        <div className="field">
+          <label className="field-label">Slot</label>
+          <div className="stepper" role="group" aria-label="Target slot">
+            <button
+              type="button"
+              onClick={() => setLocalPos(activeSlots[slotIndex - 1])}
+              disabled={slotIndex <= 0}
+              aria-label="previous slot"
+            >
+              <Minus />
+            </button>
+            <span className="stepper-value">
+              {localPos !== null ? String(localPos).padStart(2, '0') : '—'}
+            </span>
+            <button
+              type="button"
+              onClick={() => setLocalPos(activeSlots[slotIndex + 1])}
+              disabled={slotIndex >= activeSlots.length - 1}
+              aria-label="next slot"
+            >
+              <Plus />
+            </button>
+          </div>
+          <span className="field-hint">Empty slots only — use drag and drop to swap</span>
+        </div>
         {isEdit ? (
           <div className="form-actions">
             <button type="button" className="btn" onClick={cancel}>Cancel</button>
             <button className="btn btn-primary" type="submit">Save Changes</button>
           </div>
-        ) : isFocused ? (
+        ) : (
           <div className="form-actions">
             <button type="button" className="btn" onClick={cancel}>Cancel</button>
-            <button className="btn btn-primary" type="submit">
-              <Plus /> Install in Slot {String(focusPos).padStart(2, '0')}
+            <button className="btn btn-primary" type="submit" disabled={localPos === null}>
+              <Plus /> Install in Slot {localPos !== null ? String(localPos).padStart(2, '0') : '—'}
             </button>
           </div>
-        ) : (
-          <button
-            className="btn btn-primary btn-block"
-            type="submit"
-            disabled={slotsAvailable === 0}
-          >
-            <Plus />
-            {slotsAvailable === 0 ? 'No Slots Available' : 'Install Fuse'}
-          </button>
         )}
       </div>
     </form>
