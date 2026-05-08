@@ -1,7 +1,9 @@
 import { useState } from 'react'
-import type { IFuse, IDragState } from '../interfaces'
+import type { IFuse, IDragState, AmpValue } from '../interfaces'
 
-export function useDragHandlers(fuses: IFuse[], reorderMutate: (ids: string[]) => void) {
+type UpdateFn = (data: { id: string; pos: number; label: string; amp: AmpValue }) => void
+
+export function useDragHandlers(fuses: IFuse[], updateMutate: UpdateFn) {
   const [dragState, setDragState] = useState<IDragState>({ draggingId: null, overPos: null })
 
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => {
@@ -30,15 +32,12 @@ export function useDragHandlers(fuses: IFuse[], reorderMutate: (ids: string[]) =
     const src = fuses.find(f => f.id === id)
     if (!src || src.pos === pos) { setDragState({ draggingId: null, overPos: null }); return }
 
-    const swapped = fuses.map(f => {
-      const target = fuses.find(x => x.pos === pos)
-      if (f.id === src.id) return { ...f, pos }
-      if (target && f.id === target.id) return { ...f, pos: src.pos }
-      return f
-    })
+    const target = fuses.find(f => f.pos === pos)
+    // If target slot is occupied, swap its position back to the source slot
+    if (target) updateMutate({ id: target.id, pos: src.pos, label: target.label, amp: target.amp })
+    // Move the dragged fuse to the target slot
+    updateMutate({ id: src.id, pos, label: src.label, amp: src.amp })
 
-    const orderedIds = [...swapped].sort((a, b) => a.pos - b.pos).map(f => f.id)
-    reorderMutate(orderedIds)
     setDragState({ draggingId: null, overPos: null })
   }
 

@@ -10,7 +10,7 @@ import Legend from '../components/Legend'
 import PanelDropdown from '../components/PanelDropdown'
 import { useFuseBoxStore } from '../store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
-import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse, useReorderFuses } from '../hooks/useFuses'
+import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
 
 export default function PanelPage() {
@@ -54,7 +54,6 @@ export default function PanelPage() {
   const createFuseMutation = useCreateFuse(selectedPanelId ?? '')
   const updateFuseMutation = useUpdateFuse(selectedPanelId ?? '')
   const deleteFuseMutation = useDeleteFuse(selectedPanelId ?? '')
-  const reorderMutation = useReorderFuses(selectedPanelId ?? '')
 
   const fuses: IFuse[] = fusesData
 
@@ -148,7 +147,7 @@ export default function PanelPage() {
   }
 
   const { dragState, handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } =
-    useDragHandlers(fuses, reorderMutation.mutate)
+    useDragHandlers(fuses, updateFuseMutation.mutate)
 
   if (panelsLoading || fusesLoading) {
     return (
