@@ -180,12 +180,6 @@ export default function PanelPage() {
               panels={panels}
               selectedPanelId={selectedPanelId}
               onSelect={selectPanel}
-              onCreate={(name, location) =>
-                createPanelMutation.mutate(
-                  { name, location, numRows: 2, fusesPerRow: 12, mainAmp: 200, voltage: 240, frequency: 60 },
-                  { onSuccess: (p) => selectPanel(p.id) }
-                )
-              }
             />
         </div>
       </header>
