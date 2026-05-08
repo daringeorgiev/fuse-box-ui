@@ -48,7 +48,6 @@ export default function FuseCard({ fuse, pos, selected, isDragging, onSelect, on
       <div className="fuse-label">{fuse.label}</div>
       <div className="fuse-foot">
         <AmpBadge amp={fuse.amp} />
-        <span className="fuse-state">ON</span>
       </div>
     </div>
   )
