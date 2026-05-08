@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import type { IFuse } from '../interfaces'
 import type { AmpValue } from '../interfaces'
 import Stepper from '../components/Stepper'
@@ -15,22 +15,31 @@ import { useDragHandlers } from '../hooks/useDragHandlers'
 
 export default function PanelPage() {
   const navigate = useNavigate()
+  const [searchParams, setSearchParams] = useSearchParams()
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
+
+  const selectPanelAndSync = useCallback((id: string) => {
+    selectPanel(id)
+    setSearchParams({ panel: id }, { replace: true })
+  }, [selectPanel, setSearchParams])
 
   const { data: panels = [], isLoading: panelsLoading } = usePanels()
   const createPanelMutation = useCreatePanel()
   const updatePanelMutation = useUpdatePanel()
 
-  // Auto-select first panel; create a default one if none exist after load
+  // Auto-select panel from query param, fall back to first panel
   useEffect(() => {
     if (panelsLoading) return
     if (panels.length === 0) {
       createPanelMutation.mutate(
         { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 63, voltage: 230, frequency: 50 },
-        { onSuccess: (p) => selectPanel(p.id) }
+        { onSuccess: (p) => selectPanelAndSync(p.id) }
       )
-    } else if (!selectedPanelId || !panels.find(p => p.id === selectedPanelId)) {
-      selectPanel(panels[0].id)
+    } else {
+      const paramId = searchParams.get('panel')
+      const target = (paramId && panels.find(p => p.id === paramId)) ? paramId : panels[0].id
+      if (target !== selectedPanelId) selectPanelAndSync(target)
+      else if (!paramId) setSearchParams({ panel: target }, { replace: true })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [panelsLoading, panels.length])
@@ -181,7 +190,7 @@ export default function PanelPage() {
           <PanelDropdown
               panels={panels}
               selectedPanelId={selectedPanelId}
-              onSelect={selectPanel}
+              onSelect={selectPanelAndSync}
             />
         </div>
       </header>
