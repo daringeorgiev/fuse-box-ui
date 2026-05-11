@@ -1,12 +1,9 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
+import type { IPanelFormValues } from '../interfaces'
 import Topbar from '../components/Topbar'
-import Stepper from '../components/Stepper'
-
-const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
-const VOLTAGE_OPTIONS = [120, 230, 240]
-const FREQUENCY_OPTIONS = [50, 60]
+import PanelForm from '../components/PanelForm'
 
 export default function PanelEditPage() {
   const { id } = useParams<{ id: string }>()
@@ -14,34 +11,17 @@ export default function PanelEditPage() {
   const { data: panels = [], isLoading } = usePanels()
   const updatePanel = useUpdatePanel()
   const deletePanel = useDeletePanel()
+  const [confirmDelete, setConfirmDelete] = useState(false)
 
   const panel = panels.find(p => p.id === id)
 
-  const [name, setName] = useState('')
-  const [confirmDelete, setConfirmDelete] = useState(false)
-  const [location, setLocation] = useState('')
-  const [numRows, setNumRows] = useState(2)
-  const [fusesPerRow, setFusesPerRow] = useState(12)
-  const [mainAmp, setMainAmp] = useState(200)
-  const [voltage, setVoltage] = useState(240)
-  const [frequency, setFrequency] = useState(60)
-  const nameRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    if (panel) {
-      setName(panel.name)
-      setLocation(panel.location)
-      setNumRows(panel.numRows)
-      setFusesPerRow(panel.fusesPerRow)
-      setMainAmp(panel.mainAmp)
-      setVoltage(panel.voltage)
-      setFrequency(panel.frequency)
-    }
-  }, [panel?.id])
-
-  useEffect(() => {
-    if (!isLoading) nameRef.current?.focus()
-  }, [isLoading])
+  const handleSubmit = (values: IPanelFormValues) => {
+    if (!panel) return
+    updatePanel.mutate(
+      { ...panel, ...values },
+      { onSuccess: () => navigate(`/?panel=${panel.id}`) }
+    )
+  }
 
   const handleDelete = () => {
     if (!panel) return
@@ -49,35 +29,7 @@ export default function PanelEditPage() {
     deletePanel.mutate(panel.id, { onSuccess: () => navigate('/') })
   }
 
-  const handleSave = () => {
-    if (!panel || !name.trim()) return
-    updatePanel.mutate(
-      { ...panel, name: name.trim(), location: location.trim(), numRows, fusesPerRow, mainAmp, voltage, frequency },
-      { onSuccess: () => navigate(`/?panel=${panel.id}`) }
-    )
-  }
-
   const topbar = <Topbar />
-
-  const configbar = (
-    <div className="configbar">
-      <div className="config-panel-identity">
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span className="panel-title">{name || panel?.name || 'Distribution Panel'}</span>
-          {(location || panel?.location) && (
-            <span className="panel-location">{location || panel?.location}</span>
-          )}
-        </div>
-      </div>
-      <div className="config-spacer" />
-      <button
-        className="btn btn-ghost panel-edit-btn"
-        onClick={() => navigate(`/?panel=${id}`)}
-      >
-        ← Back
-      </button>
-    </div>
-  )
 
   if (isLoading) {
     return (
@@ -102,6 +54,21 @@ export default function PanelEditPage() {
     )
   }
 
+  const configbar = (
+    <div className="configbar">
+      <div className="config-panel-identity">
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
+          <span className="panel-title">{panel.name}</span>
+          {panel.location && <span className="panel-location">{panel.location}</span>}
+        </div>
+      </div>
+      <div className="config-spacer" />
+      <button className="btn btn-ghost panel-edit-btn" onClick={() => navigate(`/?panel=${id}`)}>
+        ← Back
+      </button>
+    </div>
+  )
+
   return (
     <div className="app">
       {topbar}
@@ -111,92 +78,13 @@ export default function PanelEditPage() {
           <div className="card-header">
             <span className="card-title">Edit Panel</span>
           </div>
-          <div className="card-body">
-            <div className="field">
-              <label className="field-label" htmlFor="panel-name">Name</label>
-              <input
-                ref={nameRef}
-                id="panel-name"
-                className="input"
-                value={name}
-                onChange={e => setName(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleSave() }}
-                placeholder="Panel name"
-              />
-            </div>
-            <div className="field">
-              <label className="field-label" htmlFor="panel-location">Location</label>
-              <input
-                id="panel-location"
-                className="input"
-                value={location}
-                onChange={e => setLocation(e.target.value)}
-                onKeyDown={e => { if (e.key === 'Enter') handleSave() }}
-                placeholder="e.g. Utility Room, Garage"
-              />
-            </div>
-            <div className="field">
-              <label className="field-label">Rows</label>
-              <div style={{ alignSelf: 'flex-start' }}>
-                <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel="Number of rows" />
-              </div>
-            </div>
-            <div className="field">
-              <label className="field-label">Fuses / Row</label>
-              <div style={{ alignSelf: 'flex-start' }}>
-                <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel="Fuses per row" />
-              </div>
-            </div>
-            <div className="field">
-              <label className="field-label">Main Breaker</label>
-              <div className="amp-grid">
-                {MAIN_AMP_OPTIONS.map(a => (
-                  <button
-                    key={a}
-                    type="button"
-                    className={`amp-pill${mainAmp === a ? ' active' : ''}`}
-                    onClick={() => setMainAmp(a)}
-                  >{a}A</button>
-                ))}
-              </div>
-            </div>
-            <div className="field">
-              <label className="field-label">Voltage</label>
-              <div className="amp-grid">
-                {VOLTAGE_OPTIONS.map(v => (
-                  <button
-                    key={v}
-                    type="button"
-                    className={`amp-pill${voltage === v ? ' active' : ''}`}
-                    onClick={() => setVoltage(v)}
-                  >{v}V</button>
-                ))}
-              </div>
-            </div>
-            <div className="field" style={{ marginBottom: 0 }}>
-              <label className="field-label">Frequency</label>
-              <div className="amp-grid">
-                {FREQUENCY_OPTIONS.map(f => (
-                  <button
-                    key={f}
-                    type="button"
-                    className={`amp-pill${frequency === f ? ' active' : ''}`}
-                    onClick={() => setFrequency(f)}
-                  >{f}Hz</button>
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className="dialog-footer">
-            <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>Cancel</button>
-            <button
-              className="btn btn-primary"
-              onClick={handleSave}
-              disabled={!name.trim() || updatePanel.isPending}
-            >
-              {updatePanel.isPending ? 'Saving…' : 'Save'}
-            </button>
-          </div>
+          <PanelForm
+            initialValues={panel}
+            submitLabel="Save"
+            isPending={updatePanel.isPending}
+            onSubmit={handleSubmit}
+            onCancel={() => navigate(`/?panel=${id}`)}
+          />
         </div>
 
         <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
