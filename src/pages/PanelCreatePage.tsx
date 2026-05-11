@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreatePanel } from '../hooks/usePanels'
-import { useFuseBoxStore } from '../store/fusebox.store'
 import Stepper from '../components/Stepper'
 
 const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
@@ -10,7 +9,6 @@ const FREQUENCY_OPTIONS = [50, 60]
 
 export default function PanelCreatePage() {
   const navigate = useNavigate()
-  const { selectPanel } = useFuseBoxStore()
   const createPanel = useCreatePanel()
 
   const [name, setName] = useState('')
@@ -30,7 +28,7 @@ export default function PanelCreatePage() {
     if (!name.trim()) return
     createPanel.mutate(
       { name: name.trim(), location: location.trim() || 'Unknown', numRows, fusesPerRow, mainAmp, voltage, frequency },
-      { onSuccess: (p) => { selectPanel(p.id); navigate('/') } }
+      { onSuccess: (p) => navigate(`/?panel=${p.id}`) }
     )
   }
 

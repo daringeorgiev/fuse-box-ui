@@ -44,7 +44,7 @@ export default function PanelEditPage() {
     if (!panel || !name.trim()) return
     updatePanel.mutate(
       { ...panel, name: name.trim(), location: location.trim(), numRows, fusesPerRow, mainAmp, voltage, frequency },
-      { onSuccess: () => navigate('/') }
+      { onSuccess: () => navigate(`/?panel=${panel.id}`) }
     )
   }
 
@@ -71,7 +71,7 @@ export default function PanelEditPage() {
       <div className="config-spacer" />
       <button
         className="btn btn-ghost panel-edit-btn"
-        onClick={() => navigate('/')}
+        onClick={() => navigate(`/?panel=${id}`)}
       >
         ← Back
       </button>
@@ -95,7 +95,7 @@ export default function PanelEditPage() {
         {topbar}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: 16, color: 'var(--ink-3)' }}>
           <span>Panel not found.</span>
-          <button className="btn" onClick={() => navigate('/')}>Go back</button>
+          <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>Go back</button>
         </div>
       </div>
     )
@@ -187,7 +187,7 @@ export default function PanelEditPage() {
             </div>
           </div>
           <div className="dialog-footer">
-            <button className="btn" onClick={() => navigate('/')}>Cancel</button>
+            <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>Cancel</button>
             <button
               className="btn btn-primary"
               onClick={handleSave}
