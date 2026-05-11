@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
@@ -7,13 +7,36 @@ export default function LoginPage() {
   if (user) return <Navigate to="/" replace />;
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
-      <div className="card shadow-sm p-4 text-center" style={{ width: 340 }}>
-        <h4 className="mb-1">Fuse Box</h4>
-        <p className="text-muted mb-4">Sign in to manage your panels</p>
-        <button className="btn btn-dark w-100" onClick={signIn}>
-          Sign in with Google
-        </button>
+    <div className="login-page">
+      <header className="topbar">
+        <Link to="/" className="brand">
+          <div className="brand-mark">F</div>
+          <span className="brand-name">Fuse Box</span>
+          <span className="brand-sub">Panel Configurator</span>
+        </Link>
+      </header>
+
+      <div className="login-content">
+        <div className="login-card">
+          <div className="login-brand">
+            <div className="brand-mark login-brand-mark">F</div>
+            <h1 className="login-title">Fuse Box</h1>
+            <p className="login-sub">Panel Configurator</p>
+          </div>
+
+          <ul className="login-features">
+            <li>Map every circuit to a slot and label it clearly</li>
+            <li>Track amp ratings and visualize load at a glance</li>
+            <li>Manage multiple panels from one place</li>
+          </ul>
+
+          <button className="login-btn" onClick={signIn}>
+            Sign in with Google
+          </button>
+          <button className="login-btn-back" onClick={() => window.history.back()}>
+            Go back
+          </button>
+        </div>
       </div>
     </div>
   );

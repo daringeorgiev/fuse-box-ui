@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 export default function UserMenu() {
-  const { user, signIn, signOut } = useAuth();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -16,7 +18,7 @@ export default function UserMenu() {
   }, []);
 
   if (!user) return (
-    <button className="btn btn-ghost user-menu-signin" onClick={signIn}>Sign in</button>
+    <button className="btn btn-ghost user-menu-signin" onClick={() => navigate('/login')}>Sign in</button>
   );
 
   const initials = user.displayName
