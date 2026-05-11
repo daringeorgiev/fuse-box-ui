@@ -1386,12 +1386,18 @@ body {
   border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
-.panel-edit-btn {
-  opacity: 0.5;
-  transition: opacity 0.12s;
+.panel-actions {
+  display: flex;
+  gap: 0.125rem;
 }
-.panel-edit-btn:hover {
-  opacity: 1;
+.panel-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.panel-action-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .empty-state {

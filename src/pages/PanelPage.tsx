@@ -10,10 +10,11 @@ import StatsCard from '../components/StatsCard'
 import Legend from '../components/Legend'
 import PanelTypeahead from '../components/PanelTypeahead'
 import { useFuseBoxStore } from '../store/fusebox.store'
-import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
+import { usePanels, useCreatePanel, useUpdatePanel, useCopyPanel } from '../hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
 import Topbar from '../components/Topbar'
+import { Plus, Copy as CopyIcon, Pencil } from '../components/Icons'
 import { useAuth } from '../context/AuthContext'
 
 export default function PanelPage() {
@@ -35,6 +36,7 @@ export default function PanelPage() {
   }, [user, authLoading, qc])
   const createPanelMutation = useCreatePanel()
   const updatePanelMutation = useUpdatePanel()
+  const copyPanelMutation = useCopyPanel()
 
   // Auto-select panel from query param, fall back to first panel
   useEffect(() => {
@@ -169,6 +171,14 @@ export default function PanelPage() {
     )
   }
 
+  const handleCopy = () => {
+    if (!selectedPanel) return
+    copyPanelMutation.mutate(
+      { panel: selectedPanel, fuses },
+      { onSuccess: (p) => navigate(`/panels/${p.id}/edit`) }
+    )
+  }
+
   const { dragState, handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } =
     useDragHandlers(fuses, updateFuseMutation.mutate)
 
@@ -218,12 +228,30 @@ export default function PanelPage() {
           <span className="config-stat-value">{mainAmp}A</span>
         </div>
         <div className="config-spacer" />
-        <button
-          className="btn btn-ghost panel-edit-btn"
-          onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
-        >
-          Edit
-        </button>
+        <div className="panel-actions">
+          <button
+            className="btn btn-ghost panel-action-btn"
+            onClick={() => navigate('/panels/new')}
+            title="Create a new panel"
+          >
+            <Plus /> New
+          </button>
+          <button
+            className="btn btn-ghost panel-action-btn"
+            onClick={handleCopy}
+            disabled={!selectedPanel || copyPanelMutation.isPending}
+            title="Duplicate this panel and its fuses"
+          >
+            <CopyIcon /> Copy
+          </button>
+          <button
+            className="btn btn-ghost panel-action-btn"
+            onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
+            title="Edit panel settings"
+          >
+            <Pencil /> Edit
+          </button>
+        </div>
       </div>
 
       <main className="main">

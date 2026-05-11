@@ -16,6 +16,13 @@ export const Minus = () => (
   </svg>
 )
 
+export const Copy = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <rect x="4" y="4" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M3 8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+)
+
 export const Pencil = () => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
     <path d="M8.5 1.5a1.414 1.414 0 0 1 2 2L3.5 10.5l-3 .5.5-3L8.5 1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
