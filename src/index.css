@@ -992,6 +992,12 @@ body {
 }
 .user-menu-signout:hover { background: var(--bg); }
 
+.user-menu-signin {
+  color: var(--bg);
+  border-color: rgba(255,255,255,0.3);
+}
+.user-menu-signin:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
+
 /* ============ PANEL DROPDOWN ============ */
 .panel-dropdown {
   position: relative;

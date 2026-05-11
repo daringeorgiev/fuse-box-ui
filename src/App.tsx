@@ -10,7 +10,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<ProtectedRoute><PanelPage /></ProtectedRoute>} />
+        <Route path="/" element={<PanelPage />} />
         <Route path="/panels/new" element={<ProtectedRoute><PanelCreatePage /></ProtectedRoute>} />
         <Route path="/panels/:id/edit" element={<ProtectedRoute><PanelEditPage /></ProtectedRoute>} />
       </Routes>

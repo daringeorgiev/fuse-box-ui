@@ -13,10 +13,12 @@ import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
 import UserMenu from '../components/UserMenu'
+import { useAuth } from '../context/AuthContext'
 
 export default function PanelPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const { user } = useAuth()
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
 
   const selectPanelAndSync = useCallback((id: string) => {
@@ -32,10 +34,12 @@ export default function PanelPage() {
   useEffect(() => {
     if (panelsLoading) return
     if (panels.length === 0) {
-      createPanelMutation.mutate(
-        { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 63, voltage: 230, frequency: 50 },
-        { onSuccess: (p) => selectPanelAndSync(p.id) }
-      )
+      if (user) {
+        createPanelMutation.mutate(
+          { name: 'Main Panel', location: 'Utility Room', numRows: 2, fusesPerRow: 12, mainAmp: 63, voltage: 230, frequency: 50 },
+          { onSuccess: (p) => selectPanelAndSync(p.id) }
+        )
+      }
     } else {
       const paramId = searchParams.get('panel')
       const target = (paramId && panels.find(p => p.id === paramId)) ? paramId : panels[0].id
@@ -43,7 +47,7 @@ export default function PanelPage() {
       else if (!paramId) setSearchParams({ panel: target }, { replace: true })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [panelsLoading, panels.length])
+  }, [panelsLoading, panels.length, user])
 
   const selectedPanel = panels.find(p => p.id === selectedPanelId)
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 
 export default function UserMenu() {
-  const { user, signOut } = useAuth();
+  const { user, signIn, signOut } = useAuth();
   const [open, setOpen] = useState(false);
   const [imgError, setImgError] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -15,7 +15,9 @@ export default function UserMenu() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  if (!user) return null;
+  if (!user) return (
+    <button className="btn btn-ghost user-menu-signin" onClick={signIn}>Sign in</button>
+  );
 
   const initials = user.displayName
     ? user.displayName.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase()
