@@ -278,6 +278,25 @@ body {
   text-transform: uppercase;
   color: var(--ink-3);
 }
+.panel-header-identity {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+.panel-header-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.panel-header-location {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.625rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
 .panel-title {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 600;
@@ -1042,6 +1061,143 @@ body {
 .panel-dropdown-action.create:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+/* ============ PANEL TYPEAHEAD ============ */
+.panel-typeahead {
+  position: relative;
+}
+.panel-typeahead-trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  height: 2rem;
+  padding: 0 0.5rem;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--bg);
+  cursor: pointer;
+  transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+}
+.panel-typeahead-trigger:hover {
+  border-color: var(--ink-3);
+  background: var(--bg-2);
+}
+.panel-typeahead-trigger.open {
+  border-color: var(--ink);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px rgba(20,25,30,0.06);
+}
+.panel-typeahead-input {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+  background: transparent;
+  border: 0;
+  padding: 0;
+  width: 11rem;
+  outline: none;
+  cursor: pointer;
+  transition: letter-spacing 0.12s;
+}
+.panel-typeahead-trigger.open .panel-typeahead-input {
+  cursor: text;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-weight: 500;
+}
+.panel-typeahead-input::placeholder {
+  color: var(--ink-3);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+.panel-typeahead-chevron {
+  flex-shrink: 0;
+  color: var(--ink-3);
+  transition: transform 0.15s, color 0.12s;
+}
+.panel-typeahead-trigger:hover .panel-typeahead-chevron {
+  color: var(--ink-2);
+}
+.panel-typeahead-trigger.open .panel-typeahead-chevron {
+  transform: rotate(180deg);
+  color: var(--ink);
+}
+.panel-typeahead-menu {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  left: 0;
+  min-width: 14rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  z-index: 200;
+  overflow: hidden;
+  padding: 0.25rem;
+}
+.panel-typeahead-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.4375rem 0.625rem;
+  background: transparent;
+  border: 0;
+  border-radius: 0.25rem;
+  color: var(--ink-2);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.03em;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.panel-typeahead-item:hover,
+.panel-typeahead-item.keyboard-focused {
+  background: var(--bg-2);
+  color: var(--ink);
+}
+.panel-typeahead-item.active {
+  color: var(--accent);
+}
+.panel-typeahead-item-name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.panel-typeahead-item-loc {
+  font-size: 0.625rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  margin-left: auto;
+  padding-left: 0.5rem;
+}
+.panel-typeahead-item.active .panel-typeahead-item-loc {
+  margin-left: 0;
+}
+.panel-typeahead-empty {
+  padding: 0.5rem 0.625rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+}
+.panel-typeahead-new {
+  color: var(--ink-3);
+  font-size: 0.6875rem;
+}
+.panel-typeahead-new:hover,
+.panel-typeahead-new.keyboard-focused {
+  color: var(--accent);
+  background: color-mix(in oklch, var(--accent) 8%, transparent);
 }
 
 /* ============ MODAL ============ */

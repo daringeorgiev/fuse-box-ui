@@ -7,7 +7,7 @@ import PanelGrid from '../components/PanelGrid'
 import FuseForm from '../components/FuseForm'
 import StatsCard from '../components/StatsCard'
 import Legend from '../components/Legend'
-import PanelDropdown from '../components/PanelDropdown'
+import PanelTypeahead from '../components/PanelTypeahead'
 import { useFuseBoxStore } from '../store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
@@ -186,23 +186,15 @@ export default function PanelPage() {
           <span className="brand-name">Fuse Box</span>
           <span className="brand-sub">Panel Configurator</span>
         </div>
-        <div className="topbar-right">
-          <PanelDropdown
-              panels={panels}
-              selectedPanelId={selectedPanelId}
-              onSelect={selectPanelAndSync}
-            />
-        </div>
       </header>
 
       <div className="configbar">
         <div className="config-panel-identity">
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            <span className="panel-title">{selectedPanel?.name ?? 'Distribution Panel'}</span>
-            {selectedPanel?.location && (
-              <span className="panel-location">{selectedPanel.location}</span>
-            )}
-          </div>
+          <PanelTypeahead
+            panels={panels}
+            selectedPanelId={selectedPanelId}
+            onSelect={selectPanelAndSync}
+          />
         </div>
         <div className="config-divider" />
         <div className="config-group">
@@ -238,7 +230,12 @@ export default function PanelPage() {
       <main className="main">
         <section className="panel">
           <div className="panel-header">
-            <span className="panel-label">Panel</span>
+            <div className="panel-header-identity">
+              <span className="panel-header-name">{selectedPanel?.name ?? 'Panel'}</span>
+              {selectedPanel?.location && (
+                <span className="panel-header-location">{selectedPanel.location}</span>
+              )}
+            </div>
           </div>
 
           <PanelGrid
