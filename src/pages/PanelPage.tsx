@@ -13,7 +13,7 @@ import { useFuseBoxStore } from '../store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
-import UserMenu from '../components/UserMenu'
+import Topbar from '../components/Topbar'
 import { useAuth } from '../context/AuthContext'
 
 export default function PanelPage() {
@@ -175,14 +175,7 @@ export default function PanelPage() {
   if (panelsLoading || fusesLoading) {
     return (
       <div className="app">
-        <header className="topbar">
-          <div className="brand">
-            <div className="brand-mark">F</div>
-            <span className="brand-name">Fuse Box</span>
-            <span className="brand-sub">Panel Configurator</span>
-          </div>
-          <UserMenu />
-        </header>
+        <Topbar />
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--text-muted)' }}>
           Loading…
         </div>
@@ -192,14 +185,7 @@ export default function PanelPage() {
 
   return (
     <div className="app">
-      <header className="topbar">
-        <div className="brand">
-          <div className="brand-mark">F</div>
-          <span className="brand-name">Fuse Box</span>
-          <span className="brand-sub">Panel Configurator</span>
-        </div>
-          <UserMenu />
-      </header>
+      <Topbar />
 
       <div className="configbar">
         <div className="config-panel-identity">

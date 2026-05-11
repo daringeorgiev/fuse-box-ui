@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useCreatePanel } from '../hooks/usePanels'
+import Topbar from '../components/Topbar'
 import Stepper from '../components/Stepper'
 
 const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
@@ -32,15 +33,7 @@ export default function PanelCreatePage() {
     )
   }
 
-  const topbar = (
-    <header className="topbar">
-      <div className="brand">
-        <div className="brand-mark">F</div>
-        <span className="brand-name">Fuse Box</span>
-        <span className="brand-sub">Panel Configurator</span>
-      </div>
-    </header>
-  )
+  const topbar = <Topbar />
 
   const configbar = (
     <div className="configbar">
