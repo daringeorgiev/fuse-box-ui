@@ -1,8 +1,15 @@
 import axios from 'axios'
+import { auth } from '../firebase'
 
 const client = axios.create({
   baseURL: 'http://localhost:8080',
   headers: { 'Content-Type': 'application/json' },
+})
+
+client.interceptors.request.use(async (config) => {
+  const token = await auth.currentUser?.getIdToken()
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
 })
 
 client.interceptors.response.use(

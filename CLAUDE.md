@@ -22,7 +22,7 @@ This is a React 19 + TypeScript SPA built with Vite. The stack:
 - **Client state** — Zustand store at `src/store/fusebox.store.ts`; a single store holds `panels` and `selectedPanelId`
 - **Drag and drop** — `@dnd-kit/core` + `@dnd-kit/sortable`; wrap sortable lists in `DndContext` + `SortableContext`
 - **HTTP** — Axios; instantiate a configured client in `src/api/` (base URL, auth headers, interceptors)
-- **Styling** — Bootstrap 5 utility classes; imported globally in `src/main.tsx`; `src/App.css` is intentionally empty
+- **Styling** — All component styles live in `src/index.css` as plain CSS classes, grouped by component under labelled section comments (e.g. `/* ============ USER MENU ============ */`). Do not use inline styles or CSS modules — always add new styles to `index.css` and reference them via `className`.
 
 ## Interfaces convention
 

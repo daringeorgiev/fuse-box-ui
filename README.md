@@ -1,6 +1,43 @@
-# React + TypeScript + Vite
+# Fuse Box UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React 19 + TypeScript SPA for managing electrical fuse panels.
+
+## Authentication setup
+
+This app uses Firebase Authentication with Google SSO. Before running locally you need a Firebase project configured.
+
+**Prerequisites**
+
+1. Create a project at [console.firebase.google.com](https://console.firebase.google.com)
+2. Enable **Authentication → Sign-in method → Google**
+3. Add `localhost` to **Authentication → Settings → Authorized domains**
+4. Copy the Firebase config from **Project Settings → General → Your apps**
+
+**Environment variables**
+
+Create `.env.local` in the project root (already git-ignored via `*.local`):
+
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+`VITE_FIREBASE_STORAGE_BUCKET` and `VITE_FIREBASE_MESSAGING_SENDER_ID` are not required for auth-only usage.
+
+For full setup details, backend token verification, and troubleshooting see [docs/firebase-auth.md](docs/firebase-auth.md).
+
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+
 
 Currently, two official plugins are available:
 

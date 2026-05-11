@@ -12,6 +12,7 @@ import { useFuseBoxStore } from '../store/fusebox.store'
 import { usePanels, useCreatePanel, useUpdatePanel } from '../hooks/usePanels'
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
+import UserMenu from '../components/UserMenu'
 
 export default function PanelPage() {
   const navigate = useNavigate()
@@ -170,6 +171,7 @@ export default function PanelPage() {
             <span className="brand-name">Fuse Box</span>
             <span className="brand-sub">Panel Configurator</span>
           </div>
+          <UserMenu />
         </header>
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--text-muted)' }}>
           Loading…
@@ -186,6 +188,7 @@ export default function PanelPage() {
           <span className="brand-name">Fuse Box</span>
           <span className="brand-sub">Panel Configurator</span>
         </div>
+          <UserMenu />
       </header>
 
       <div className="configbar">

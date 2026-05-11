@@ -931,6 +931,67 @@ body {
 
 .fuse[draggable="true"]:active { cursor: grabbing; }
 
+/* ============ USER MENU ============ */
+.user-menu {
+  position: relative;
+  margin-left: auto;
+}
+.user-menu-avatar {
+  cursor: pointer;
+  display: block;
+}
+.user-menu-photo {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.user-menu-initials {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--ink);
+  display: grid;
+  place-items: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 0.6875rem;
+}
+.user-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  z-index: 100;
+}
+.user-menu-email {
+  padding: 0.625rem 0.875rem;
+  font-size: 0.75rem;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+  word-break: break-all;
+}
+.user-menu-signout {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 0.625rem 0.875rem;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.8125rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  transition: background 0.12s;
+}
+.user-menu-signout:hover { background: var(--bg); }
+
 /* ============ PANEL DROPDOWN ============ */
 .panel-dropdown {
   position: relative;
