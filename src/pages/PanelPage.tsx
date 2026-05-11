@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useQueryClient } from '@tanstack/react-query'
 import type { IFuse } from '../interfaces'
 import type { AmpValue } from '../interfaces'
 import Stepper from '../components/Stepper'
@@ -18,15 +19,20 @@ import { useAuth } from '../context/AuthContext'
 export default function PanelPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
+  const qc = useQueryClient()
 
   const selectPanelAndSync = useCallback((id: string) => {
     selectPanel(id)
     setSearchParams({ panel: id }, { replace: true })
   }, [selectPanel, setSearchParams])
 
-  const { data: panels = [], isLoading: panelsLoading } = usePanels()
+  const { data: panels = [], isLoading: panelsLoading } = usePanels(!authLoading)
+
+  useEffect(() => {
+    if (!authLoading) qc.invalidateQueries({ queryKey: ['panels'] })
+  }, [user, authLoading, qc])
   const createPanelMutation = useCreatePanel()
   const updatePanelMutation = useUpdatePanel()
 

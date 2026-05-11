@@ -4,8 +4,8 @@ import type { IPanel } from '../interfaces'
 
 const PANELS_KEY = ['panels'] as const
 
-export function usePanels() {
-  return useQuery({ queryKey: PANELS_KEY, queryFn: getPanels })
+export function usePanels(enabled = true) {
+  return useQuery({ queryKey: PANELS_KEY, queryFn: getPanels, enabled })
 }
 
 export function useCreatePanel() {
