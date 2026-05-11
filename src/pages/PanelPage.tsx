@@ -172,6 +172,7 @@ export default function PanelPage() {
   }
 
   const handleCopy = () => {
+    if (!user) { navigate('/login'); return }
     if (!selectedPanel) return
     copyPanelMutation.mutate(
       { panel: selectedPanel, fuses },
