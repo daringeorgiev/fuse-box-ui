@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { usePanels, useUpdatePanel } from '../hooks/usePanels'
+import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
 import Stepper from '../components/Stepper'
 
 const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
@@ -12,10 +12,12 @@ export default function PanelEditPage() {
   const navigate = useNavigate()
   const { data: panels = [], isLoading } = usePanels()
   const updatePanel = useUpdatePanel()
+  const deletePanel = useDeletePanel()
 
   const panel = panels.find(p => p.id === id)
 
   const [name, setName] = useState('')
+  const [confirmDelete, setConfirmDelete] = useState(false)
   const [location, setLocation] = useState('')
   const [numRows, setNumRows] = useState(2)
   const [fusesPerRow, setFusesPerRow] = useState(12)
@@ -39,6 +41,12 @@ export default function PanelEditPage() {
   useEffect(() => {
     if (!isLoading) nameRef.current?.focus()
   }, [isLoading])
+
+  const handleDelete = () => {
+    if (!panel) return
+    if (!confirmDelete) { setConfirmDelete(true); return }
+    deletePanel.mutate(panel.id, { onSuccess: () => navigate('/') })
+  }
 
   const handleSave = () => {
     if (!panel || !name.trim()) return
@@ -195,6 +203,31 @@ export default function PanelEditPage() {
             >
               {updatePanel.isPending ? 'Saving…' : 'Save'}
             </button>
+          </div>
+        </div>
+
+        <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
+          <div className="danger-zone-header">Danger Zone</div>
+          <div className="danger-zone-body">
+            <p>
+              {confirmDelete
+                ? 'This will permanently delete the panel and all its fuses. Are you sure?'
+                : 'Permanently delete this panel and all its fuses.'}
+            </p>
+            <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+              {confirmDelete && (
+                <button className="btn" onClick={() => setConfirmDelete(false)}>
+                  Cancel
+                </button>
+              )}
+              <button
+                className="btn btn-danger"
+                onClick={handleDelete}
+                disabled={deletePanel.isPending}
+              >
+                {deletePanel.isPending ? 'Deleting…' : confirmDelete ? 'Yes, delete' : 'Delete Panel'}
+              </button>
+            </div>
           </div>
         </div>
       </main>
