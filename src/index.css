@@ -235,6 +235,7 @@ body {
   border-color: var(--ink);
 }
 .btn-primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+.btn-primary:disabled { background: var(--ink-3); border-color: var(--ink-3); color: var(--bg); opacity: 0.5; cursor: not-allowed; }
 .btn-ghost { background: transparent; border-color: transparent; }
 .btn-ghost:hover { background: var(--bg-2); }
 .btn-icon { width: 2rem; padding: 0; justify-content: center; }
@@ -800,6 +801,7 @@ body {
   text-transform: uppercase;
   color: var(--ink-3);
 }
+.field-required { color: var(--red); font-style: normal; }
 .field-hint {
   font-size: 0.6875rem;
   color: var(--ink-3);
@@ -821,6 +823,14 @@ body {
 .input:focus, .select:focus {
   border-color: var(--ink);
   box-shadow: 0 0 0 3px rgba(20,25,30,0.08);
+}
+.input:-webkit-autofill,
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg) inset;
+  -webkit-text-fill-color: var(--ink);
+  border-color: var(--line-2);
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .amp-grid {

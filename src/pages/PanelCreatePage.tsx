@@ -61,7 +61,7 @@ export default function PanelCreatePage() {
           </div>
           <div className="card-body">
             <div className="field">
-              <label className="field-label" htmlFor="panel-name">Name</label>
+              <label className="field-label" htmlFor="panel-name">Name <span className="field-required">*</span></label>
               <input
                 ref={nameRef}
                 id="panel-name"
