@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import type { IPanel } from '../interfaces'
 
 interface IPanelTypeaheadProps {
@@ -9,7 +8,6 @@ interface IPanelTypeaheadProps {
 }
 
 export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IPanelTypeaheadProps) {
-  const navigate = useNavigate()
   const selectedPanel = panels.find(p => p.id === selectedPanelId)
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
@@ -51,19 +49,17 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const totalItems = filtered.length + 1 // +1 for "New Panel"
     if (e.key === 'Escape') { close(); inputRef.current?.blur(); return }
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setActiveIdx(i => Math.min(i + 1, totalItems - 1))
+      setActiveIdx(i => Math.min(i + 1, filtered.length - 1))
     }
     if (e.key === 'ArrowUp') {
       e.preventDefault()
       setActiveIdx(i => Math.max(i - 1, 0))
     }
     if (e.key === 'Enter') {
-      if (activeIdx === filtered.length) { close(); navigate('/panels/new') }
-      else if (activeIdx >= 0 && filtered[activeIdx]) handleSelect(filtered[activeIdx].id)
+      if (activeIdx >= 0 && filtered[activeIdx]) handleSelect(filtered[activeIdx].id)
     }
   }
 
@@ -115,13 +111,6 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
               )}
             </button>
           ))}
-          <div className="panel-dropdown-sep" />
-          <button
-            className={`panel-typeahead-item panel-typeahead-new${activeIdx === filtered.length ? ' keyboard-focused' : ''}`}
-            onMouseDown={e => { e.preventDefault(); close(); navigate('/panels/new') }}
-          >
-            + New Panel
-          </button>
         </div>
       )}
     </div>

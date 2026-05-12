@@ -20,7 +20,7 @@ export default function PanelCreatePage() {
         <span className="panel-title">New Panel</span>
       </div>
       <div className="config-spacer" />
-      <button className="btn btn-ghost panel-edit-btn" onClick={() => navigate('/')}>
+      <button className="btn btn-ghost panel-edit-btn" onClick={() => navigate(-1)}>
         ← Back
       </button>
     </div>
@@ -39,7 +39,7 @@ export default function PanelCreatePage() {
             submitLabel="Create"
             isPending={createPanel.isPending}
             onSubmit={handleSubmit}
-            onCancel={() => navigate('/')}
+            onCancel={() => navigate(-1)}
           />
         </div>
       </main>

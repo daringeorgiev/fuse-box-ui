@@ -47,6 +47,12 @@ export default function UserMenu() {
         <div className="user-menu-dropdown">
           <div className="user-menu-email">{user.email}</div>
           <button
+            className="user-menu-item"
+            onClick={() => { setOpen(false); navigate('/panels'); }}
+          >
+            My Panels
+          </button>
+          <button
             className="user-menu-signout"
             onClick={() => { setOpen(false); signOut(); }}
           >
