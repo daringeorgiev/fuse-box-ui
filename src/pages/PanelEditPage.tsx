@@ -90,17 +90,7 @@ export default function PanelEditPage() {
         <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
           <div className="danger-zone-header">Danger Zone</div>
           <div className="danger-zone-body">
-            <p>
-              {confirmDelete
-                ? 'This will permanently delete the panel and all its fuses. Are you sure?'
-                : 'Permanently delete this panel and all its fuses.'}
-            </p>
             <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-              {confirmDelete && (
-                <button className="btn" onClick={() => setConfirmDelete(false)}>
-                  Cancel
-                </button>
-              )}
               <button
                 className="btn btn-danger"
                 onClick={handleDelete}
@@ -108,7 +98,17 @@ export default function PanelEditPage() {
               >
                 {deletePanel.isPending ? 'Deleting…' : confirmDelete ? 'Yes, delete' : 'Delete Panel'}
               </button>
+              {confirmDelete && (
+                <button className="btn" onClick={() => setConfirmDelete(false)}>
+                  Cancel
+                </button>
+              )}
             </div>
+            <p>
+              {confirmDelete
+                ? 'This will permanently delete the panel and all its fuses. Are you sure?'
+                : 'Permanently delete this panel and all its fuses.'}
+            </p>
           </div>
         </div>
       </main>
