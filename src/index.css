@@ -1473,6 +1473,60 @@ body {
   .main { /* still vertical */ }
 }
 
+@media (max-width: 768px) {
+  .fuse-row {
+    grid-template-columns: 2rem 1fr;
+  }
+  .fuse-row.standard {
+    grid-template-columns: 2rem 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .fuse-row.standard .bus-bar {
+    flex-direction: row;
+    min-height: 1.5rem;
+    grid-column: 2;
+  }
+  .row-slots {
+    grid-auto-flow: row;
+    grid-auto-columns: unset;
+    grid-template-columns: 1fr !important;
+  }
+  .slot {
+    min-height: 3rem;
+  }
+  .fuse {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.375rem 0.5rem 0.375rem 0.75rem;
+  }
+  .fuse-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .fuse-remove {
+    opacity: 1;
+  }
+  .fuse-label {
+    flex: 1;
+    min-width: 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: unset;
+  }
+  .fuse-foot {
+    flex-shrink: 0;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.125rem;
+  }
+}
+
 /* ============ LOGIN PAGE ============ */
 .login-page {
   min-height: 100vh;
