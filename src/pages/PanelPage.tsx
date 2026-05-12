@@ -199,37 +199,24 @@ export default function PanelPage() {
       <Topbar />
 
       <div className="configbar">
-        <div className="config-panel-identity">
+        <div className="configbar-group configbar-group--identity">
           <PanelTypeahead
             panels={panels}
             selectedPanelId={selectedPanelId}
             onSelect={selectPanelAndSync}
           />
         </div>
-        <div className="config-divider" />
-        <div className="config-group">
-          <span className="config-label">Rows</span>
-          <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" />
+        <div className="configbar-group configbar-group--switches">
+          <div className="config-group">
+            <span className="config-label">Rows</span>
+            <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" />
+          </div>
+          <div className="config-group">
+            <span className="config-label">Fuses / Row</span>
+            <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel="Fuses per row" />
+          </div>
         </div>
-        <div className="config-group">
-          <span className="config-label">Fuses / Row</span>
-          <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel="Fuses per row" />
-        </div>
-        <div className="config-divider" />
-        <div className="config-stat">
-          <span className="config-stat-label">Voltage</span>
-          <span className="config-stat-value">{voltage}V</span>
-        </div>
-        <div className="config-stat">
-          <span className="config-stat-label">Frequency</span>
-          <span className="config-stat-value">{frequency}Hz</span>
-        </div>
-        <div className="config-stat">
-          <span className="config-stat-label">Main Breaker</span>
-          <span className="config-stat-value">{mainAmp}A</span>
-        </div>
-        <div className="config-spacer" />
-        <div className="panel-actions">
+        <div className="configbar-group configbar-group--actions">
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={() => navigate('/panels/new')}
@@ -254,6 +241,16 @@ export default function PanelPage() {
           </button>
         </div>
       </div>
+
+      {selectedPanel && (
+        <div className="panel-infostrip">
+          <span>{selectedPanel.name}</span>
+          {selectedPanel.location && <><span className="infostrip-dot">·</span><span>{selectedPanel.location}</span></>}
+          <span className="infostrip-dot">·</span><span>{voltage}V</span>
+          <span className="infostrip-dot">·</span><span>{frequency}Hz</span>
+          <span className="infostrip-dot">·</span><span>{mainAmp}A</span>
+        </div>
+      )}
 
       <main className="main">
         <section className="panel">
