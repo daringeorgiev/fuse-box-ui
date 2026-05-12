@@ -1,10 +1,36 @@
+import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+type IMode = 'signin' | 'signup';
+
 export default function LoginPage() {
-  const { user, signIn } = useAuth();
+  const { user, signIn, signInWithEmail, signUpWithEmail } = useAuth();
+  const [mode, setMode] = useState<IMode>('signin');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
 
   if (user) return <Navigate to="/" replace />;
+
+  const handleEmailSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError('');
+    setBusy(true);
+    try {
+      if (mode === 'signin') {
+        await signInWithEmail(email, password);
+      } else {
+        await signUpWithEmail(email, password);
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Authentication failed.';
+      setError(friendlyError(msg));
+    } finally {
+      setBusy(false);
+    }
+  };
 
   return (
     <div className="login-page">
@@ -30,7 +56,52 @@ export default function LoginPage() {
             <li>Manage multiple panels from one place</li>
           </ul>
 
-          <button className="login-btn" onClick={signIn}>
+          <form className="login-email-form" onSubmit={handleEmailSubmit} noValidate>
+            <input
+              className="login-input"
+              type="email"
+              placeholder="Email"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <input
+              className="login-input"
+              type="password"
+              placeholder="Password"
+              autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            {error && <p className="login-error">{error}</p>}
+            <button className="login-btn" type="submit" disabled={busy}>
+              {busy ? 'Please wait…' : mode === 'signin' ? 'Sign in' : 'Create account'}
+            </button>
+          </form>
+
+          <div className="login-mode-toggle">
+            {mode === 'signin' ? (
+              <>
+                No account?{' '}
+                <button className="login-link-btn" onClick={() => { setMode('signup'); setError(''); }}>
+                  Sign up
+                </button>
+              </>
+            ) : (
+              <>
+                Already have one?{' '}
+                <button className="login-link-btn" onClick={() => { setMode('signin'); setError(''); }}>
+                  Sign in
+                </button>
+              </>
+            )}
+          </div>
+
+          <div className="login-divider"><span>or</span></div>
+
+          <button className="login-btn login-btn-google" onClick={signIn}>
             Sign in with Google
           </button>
           <button className="login-btn-back" onClick={() => window.history.back()}>
@@ -40,4 +111,20 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+function friendlyError(msg: string): string {
+  if (msg.includes('invalid-credential') || msg.includes('wrong-password') || msg.includes('user-not-found')) {
+    return 'Incorrect email or password.';
+  }
+  if (msg.includes('email-already-in-use')) {
+    return 'An account with this email already exists.';
+  }
+  if (msg.includes('weak-password')) {
+    return 'Password must be at least 6 characters.';
+  }
+  if (msg.includes('invalid-email')) {
+    return 'Please enter a valid email address.';
+  }
+  return 'Something went wrong. Please try again.';
 }
