@@ -30,6 +30,7 @@ export default function UserMenu() {
       <img
         src={user.photoURL}
         alt={user.displayName ?? ''}
+        referrerPolicy="no-referrer"
         onError={() => setImgError(true)}
         className="user-menu-photo"
       />
