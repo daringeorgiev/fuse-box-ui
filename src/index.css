@@ -1008,11 +1008,12 @@ body {
 .stat-value.warn { color: var(--amp-40); }
 .stat-value.ok { color: var(--amp-10); }
 
-.toast {
+.snack {
   position: fixed;
-  bottom: 1.5rem;
+  top: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
+  opacity: 1;
   background: var(--ink);
   color: var(--bg);
   font-family: 'JetBrains Mono', monospace;
@@ -1022,10 +1023,14 @@ body {
   border-radius: var(--radius);
   box-shadow: var(--shadow-lg);
   z-index: 100;
-  animation: toast-in 0.2s ease-out;
+  animation: snack-in 0.2s ease-out;
 }
-@keyframes toast-in {
-  from { opacity: 0; transform: translate(-50%, 8px); }
+.snack--error {
+  background: #c0392b;
+  color: #fff;
+}
+@keyframes snack-in {
+  from { opacity: 0; transform: translate(-50%, -8px); }
   to   { opacity: 1; transform: translate(-50%, 0); }
 }
 

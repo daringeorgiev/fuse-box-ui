@@ -16,13 +16,14 @@ export default function PanelCreatePage() {
 
   const configbar = (
     <div className="configbar">
-      <div className="config-panel-identity">
+      <div className="configbar-group configbar-group--identity">
         <span className="panel-title">New Panel</span>
       </div>
-      <div className="config-spacer" />
-      <button className="btn btn-ghost panel-edit-btn" onClick={() => navigate(-1)}>
-        ← Back
-      </button>
+      <div className="configbar-group configbar-group--actions">
+        <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(-1)}>
+          ← Back
+        </button>
+      </div>
     </div>
   )
 

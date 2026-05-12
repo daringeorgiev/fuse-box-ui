@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
@@ -12,6 +12,14 @@ export default function PanelEditPage() {
   const updatePanel = useUpdatePanel()
   const deletePanel = useDeletePanel()
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [snack, setSnack] = useState<{ msg: string; isError: boolean } | null>(null)
+  const snackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  const showSnack = useCallback((msg: string, isError = false) => {
+    if (snackTimerRef.current !== null) clearTimeout(snackTimerRef.current)
+    setSnack({ msg, isError })
+    snackTimerRef.current = setTimeout(() => setSnack(null), isError ? 4000 : 2000)
+  }, [])
 
   const panel = panels.find(p => p.id === id)
 
@@ -19,14 +27,23 @@ export default function PanelEditPage() {
     if (!panel) return
     updatePanel.mutate(
       { ...panel, ...values },
-      { onSuccess: () => navigate(`/?panel=${panel.id}`) }
+      {
+        onSuccess: () => navigate(`/?panel=${panel.id}`),
+        onError: (e) => showSnack((e as Error).message, true),
+      }
     )
   }
 
   const handleDelete = () => {
     if (!panel) return
     if (!confirmDelete) { setConfirmDelete(true); return }
-    deletePanel.mutate(panel.id, { onSuccess: () => navigate('/') })
+    deletePanel.mutate(
+      panel.id,
+      {
+        onSuccess: () => navigate('/'),
+        onError: (e) => showSnack((e as Error).message, true),
+      }
+    )
   }
 
   const topbar = <Topbar />
@@ -56,16 +73,17 @@ export default function PanelEditPage() {
 
   const configbar = (
     <div className="configbar">
-      <div className="config-panel-identity">
+      <div className="configbar-group configbar-group--identity">
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span className="panel-title">{panel.name}</span>
           {panel.location && <span className="panel-location">{panel.location}</span>}
         </div>
       </div>
-      <div className="config-spacer" />
-      <button className="btn btn-ghost panel-edit-btn" onClick={() => navigate(`/?panel=${id}`)}>
-        ← Back
-      </button>
+      <div className="configbar-group configbar-group--actions">
+        <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(`/?panel=${id}`)}>
+          ← Back
+        </button>
+      </div>
     </div>
   )
 
@@ -112,6 +130,7 @@ export default function PanelEditPage() {
           </div>
         </div>
       </main>
+      {snack && <div className={`snack${snack.isError ? ' snack--error' : ''}`}>{snack.msg}</div>}
     </div>
   )
 }

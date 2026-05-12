@@ -85,7 +85,7 @@ export default function PanelPage() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
-  const [toast, setToast] = useState<string | null>(null)
+  const [toast, setToast] = useState<{ msg: string; isError: boolean } | null>(null)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const fuseByPos = useMemo(() => {
@@ -106,17 +106,20 @@ export default function PanelPage() {
     return Array.from({ length: capacity }, (_, i) => i + 1).filter(p => !occupied.has(p))
   }, [visibleFuses, capacity])
 
-  const showToast = useCallback((msg: string) => {
+  const showToast = useCallback((msg: string, isError = false) => {
     if (toastTimerRef.current !== null) clearTimeout(toastTimerRef.current)
-    setToast(msg)
-    toastTimerRef.current = setTimeout(() => setToast(null), 2000)
+    setToast({ msg, isError })
+    toastTimerRef.current = setTimeout(() => setToast(null), isError ? 4000 : 2000)
   }, [])
 
   const handleRowsChange = (n: number) => {
     const displaced = fuses.filter(f => f.pos > n * perRow).length
     setRows(n)
     if (selectedPanel) {
-      updatePanelMutation.mutate({ ...selectedPanel, numRows: n })
+      updatePanelMutation.mutate(
+        { ...selectedPanel, numRows: n },
+        { onError: (e) => showToast((e as Error).message, true) }
+      )
     }
     if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
   }
@@ -125,7 +128,10 @@ export default function PanelPage() {
     const displaced = fuses.filter(f => f.pos > rows * n).length
     setPerRow(n)
     if (selectedPanel) {
-      updatePanelMutation.mutate({ ...selectedPanel, fusesPerRow: n })
+      updatePanelMutation.mutate(
+        { ...selectedPanel, fusesPerRow: n },
+        { onError: (e) => showToast((e as Error).message, true) }
+      )
     }
     if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
   }
@@ -140,7 +146,10 @@ export default function PanelPage() {
     if (pos > capacity) return
     createFuseMutation.mutate(
       { pos, label, amp },
-      { onSuccess: () => showToast(`Installed "${label}" in slot ${String(pos).padStart(2, '0')}`) }
+      {
+        onSuccess: () => showToast(`Installed "${label}" in slot ${String(pos).padStart(2, '0')}`),
+        onError: (e) => showToast((e as Error).message, true),
+      }
     )
     setFocusPos(null)
   }
@@ -158,7 +167,10 @@ export default function PanelPage() {
   const updateFuse = (id: string, patch: { label: string; amp: AmpValue; pos: number }) => {
     updateFuseMutation.mutate(
       { id, ...patch },
-      { onSuccess: () => { showToast(`Updated "${patch.label}"`); setSelectedId(null) } }
+      {
+        onSuccess: () => { showToast(`Updated "${patch.label}"`); setSelectedId(null) },
+        onError: (e) => showToast((e as Error).message, true),
+      }
     )
   }
 
@@ -167,7 +179,10 @@ export default function PanelPage() {
     if (selectedId === id) setSelectedId(null)
     deleteFuseMutation.mutate(
       id,
-      { onSuccess: () => { if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`) } }
+      {
+        onSuccess: () => { if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`) },
+        onError: (e) => showToast((e as Error).message, true),
+      }
     )
   }
 
@@ -176,12 +191,22 @@ export default function PanelPage() {
     if (!selectedPanel) return
     copyPanelMutation.mutate(
       { panel: selectedPanel, fuses },
-      { onSuccess: (p) => navigate(`/panels/${p.id}/edit`) }
+      {
+        onSuccess: (p) => navigate(`/panels/${p.id}/edit`),
+        onError: (e) => showToast((e as Error).message, true),
+      }
     )
   }
 
+  const mutateFuseForDrag = useCallback(
+    (...args: Parameters<typeof updateFuseMutation.mutate>) =>
+      updateFuseMutation.mutate(args[0], { ...args[1], onError: (e) => showToast((e as Error).message, true) }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [updateFuseMutation.mutate]
+  )
+
   const { dragState, handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } =
-    useDragHandlers(fuses, updateFuseMutation.mutate)
+    useDragHandlers(fuses, mutateFuseForDrag)
 
   if (panelsLoading || fusesLoading) {
     return (
@@ -295,7 +320,7 @@ export default function PanelPage() {
         </aside>
       </main>
 
-      {toast && <div className="toast">{toast}</div>}
+      {toast && <div className={`snack${toast.isError ? ' snack--error' : ''}`}>{toast.msg}</div>}
     </div>
   )
 }
