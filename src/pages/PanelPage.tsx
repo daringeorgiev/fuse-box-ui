@@ -14,7 +14,8 @@ import { usePanels, useCreatePanel, useUpdatePanel, useCopyPanel } from '../hook
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
 import Topbar from '../components/Topbar'
-import { Plus, Copy as CopyIcon, Pencil } from '../components/Icons'
+import { Plus, Copy as CopyIcon, Pencil, Printer } from '../components/Icons'
+import PrintView from '../components/PrintView'
 import { useAuth } from '../context/AuthContext'
 
 export default function PanelPage() {
@@ -260,6 +261,14 @@ export default function PanelPage() {
           </button>
           <button
             className="btn btn-ghost panel-action-btn"
+            onClick={() => window.print()}
+            disabled={!selectedPanel}
+            title="Print panel layout"
+          >
+            <Printer /> Print
+          </button>
+          <button
+            className="btn btn-ghost panel-action-btn"
             onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
             title="Edit panel settings"
           >
@@ -324,6 +333,15 @@ export default function PanelPage() {
       </main>
 
       {toast && <div className={`snack${toast.isError ? ' snack--error' : ''}`}>{toast.msg}</div>}
+
+      {selectedPanel && (
+        <PrintView
+          panel={selectedPanel}
+          fuses={visibleFuses}
+          rows={rows}
+          perRow={perRow}
+        />
+      )}
     </div>
   )
 }

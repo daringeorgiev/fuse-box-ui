@@ -28,3 +28,12 @@ export const Pencil = () => (
     <path d="M8.5 1.5a1.414 1.414 0 0 1 2 2L3.5 10.5l-3 .5.5-3L8.5 1.5z" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
+
+export const Printer = () => (
+  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <rect x="2" y="1" width="8" height="3" rx="0.5" stroke="currentColor" strokeWidth="1.3"/>
+    <rect x="2" y="7" width="8" height="4" rx="0.5" stroke="currentColor" strokeWidth="1.3"/>
+    <path d="M2 8H1a.5.5 0 0 1-.5-.5v-3A.5.5 0 0 1 1 4h10a.5.5 0 0 1 .5.5v3A.5.5 0 0 1 11 8h-1" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+    <path d="M4 10h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+  </svg>
+)
