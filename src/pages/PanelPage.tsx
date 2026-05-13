@@ -74,7 +74,7 @@ export default function PanelPage() {
 
   const capacity = rows * perRow
 
-  const { data: fusesData = [], isLoading: fusesLoading } = useFuses(selectedPanelId)
+  const { data: fusesData = [] } = useFuses(selectedPanelId)
   const createFuseMutation = useCreateFuse(selectedPanelId ?? '')
   const updateFuseMutation = useUpdateFuse(selectedPanelId ?? '')
   const deleteFuseMutation = useDeleteFuse(selectedPanelId ?? '')
@@ -210,17 +210,6 @@ export default function PanelPage() {
   const { dragState, handleDragStart, handleDragEnd, handleDragOver, handleDragLeave, handleDrop } =
     useDragHandlers(fuses, mutateFuseForDrag)
 
-  if (panelsLoading || fusesLoading) {
-    return (
-      <div className="app">
-        <Topbar />
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--text-muted)' }}>
-          Loading…
-        </div>
-      </div>
-    )
-  }
-
   return (
     <div className="app">
       <Topbar />
@@ -277,15 +266,25 @@ export default function PanelPage() {
         </div>
       </div>
 
-      {selectedPanel && (
-        <div className="panel-infostrip">
-          <span>{selectedPanel.name}</span>
-          {selectedPanel.location && <><span className="infostrip-dot">·</span><span>{selectedPanel.location}</span></>}
-          <span className="infostrip-dot">·</span><span>{voltage}V</span>
-          <span className="infostrip-dot">·</span><span>{frequency}Hz</span>
-          <span className="infostrip-dot">·</span><span>{mainAmp}A</span>
-        </div>
-      )}
+      <div className="panel-infostrip">
+        {selectedPanel ? (
+          <>
+            <span>{selectedPanel.name}</span>
+            {selectedPanel.location && <><span className="infostrip-dot">·</span><span>{selectedPanel.location}</span></>}
+            <span className="infostrip-dot">·</span><span>{voltage}V</span>
+            <span className="infostrip-dot">·</span><span>{frequency}Hz</span>
+            <span className="infostrip-dot">·</span><span>{mainAmp}A</span>
+          </>
+        ) : (
+          <>
+            <span className="skeleton skeleton--text" style={{ width: '7rem' }} />
+            <span className="infostrip-dot">·</span>
+            <span className="skeleton skeleton--text" style={{ width: '5rem' }} />
+            <span className="infostrip-dot">·</span>
+            <span className="skeleton skeleton--text" style={{ width: '3rem' }} />
+          </>
+        )}
+      </div>
 
       <main className="main">
         <section className="panel">
