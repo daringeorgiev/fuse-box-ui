@@ -8,6 +8,7 @@ interface IPanelGridProps {
   selectedId: string | null
   focusPos: number | null
   dragState: IDragState
+  readOnly?: boolean
   onSelect: (id: string) => void
   onAddHere: (pos: number) => void
   onDragOver: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
@@ -19,7 +20,7 @@ interface IPanelGridProps {
 }
 
 export default function PanelGrid({
-  rows, perRow, fuseByPos, selectedId, focusPos, dragState,
+  rows, perRow, fuseByPos, selectedId, focusPos, dragState, readOnly,
   onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd,
 }: IPanelGridProps) {
   const isStandard = perRow === 2
@@ -37,6 +38,7 @@ export default function PanelGrid({
           selectedId={selectedId}
           focusPos={focusPos}
           dragState={dragState}
+          readOnly={readOnly}
           onSelect={onSelect}
           onAddHere={onAddHere}
           onDragOver={onDragOver}

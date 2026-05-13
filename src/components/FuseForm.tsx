@@ -2,17 +2,20 @@ import { useState, useEffect, useRef } from 'react'
 import { AMP_RATINGS } from '../constants/amps'
 import type { AmpValue, IFuse } from '../interfaces'
 import { Minus, Plus } from './Icons'
+import Notice from './Notice'
 
 interface FuseFormProps {
   editingFuse: IFuse | undefined
   focusPos: number | null
   freeSlots: number[]
+  readOnly?: boolean
   onAdd: (data: { label: string; amp: AmpValue; pos: number | null }) => void
   onUpdate: (id: string, patch: { label: string; amp: AmpValue; pos: number }) => void
   onCancel: () => void
 }
 
-export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUpdate, onCancel }: FuseFormProps) {
+export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, onAdd, onUpdate, onCancel }: FuseFormProps) {
+
   const [label, setLabel] = useState('')
   const [amp, setAmp] = useState<AmpValue>(20)
   const [localPos, setLocalPos] = useState<number | null>(null)
@@ -104,6 +107,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUp
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             maxLength={40}
+            disabled={readOnly}
           />
         </div>
         <div className="field">
@@ -116,6 +120,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUp
                 className={`amp-pill${amp === r.value ? ' active' : ''}`}
                 style={{ '--pill-color': r.color } as React.CSSProperties}
                 onClick={() => setAmp(r.value)}
+                disabled={readOnly}
               >
                 {r.value === 'GFCI' ? 'GFCI' : `${r.value}A`}
               </button>
@@ -128,7 +133,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUp
             <button
               type="button"
               onClick={() => setLocalPos(activeSlots[slotIndex - 1])}
-              disabled={slotIndex <= 0}
+              disabled={readOnly || slotIndex <= 0}
               aria-label="previous slot"
             >
               <Minus />
@@ -139,7 +144,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUp
             <button
               type="button"
               onClick={() => setLocalPos(activeSlots[slotIndex + 1])}
-              disabled={slotIndex >= activeSlots.length - 1}
+              disabled={readOnly || slotIndex >= activeSlots.length - 1}
               aria-label="next slot"
             >
               <Plus />
@@ -147,15 +152,18 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, onAdd, onUp
           </div>
           <span className="field-hint">Empty slots only — use drag and drop to swap</span>
         </div>
+        {readOnly && (
+          <Notice className="notice--mb">This is the default panel. Create your own to make changes.</Notice>
+        )}
         {isEdit ? (
           <div className="form-actions">
             <button type="button" className="btn" onClick={cancel}>Cancel</button>
-            <button className="btn btn-primary" type="submit">Save Changes</button>
+            <button className="btn btn-primary" type="submit" disabled={readOnly}>Save Changes</button>
           </div>
         ) : (
           <div className="form-actions">
             <button type="button" className="btn" onClick={cancel}>Cancel</button>
-            <button className="btn btn-primary" type="submit" disabled={localPos === null}>
+            <button className="btn btn-primary" type="submit" disabled={readOnly || localPos === null}>
               <Plus /> Install in Slot {localPos !== null ? String(localPos).padStart(2, '0') : '—'}
             </button>
           </div>

@@ -10,6 +10,7 @@ interface IPanelFormProps {
   initialValues?: Partial<IPanelFormValues>
   submitLabel: string
   isPending: boolean
+  readOnly?: boolean
   onSubmit: (values: IPanelFormValues) => void
   onCancel: () => void
 }
@@ -24,7 +25,7 @@ const DEFAULTS: IPanelFormValues = {
   frequency: 50,
 }
 
-export default function PanelForm({ initialValues, submitLabel, isPending, onSubmit, onCancel }: IPanelFormProps) {
+export default function PanelForm({ initialValues, submitLabel, isPending, readOnly, onSubmit, onCancel }: IPanelFormProps) {
   const init = { ...DEFAULTS, ...initialValues }
   const [name, setName] = useState(init.name)
   const [location, setLocation] = useState(init.location)
@@ -72,6 +73,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
             onChange={e => setName(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Panel name"
+            disabled={readOnly}
           />
         </div>
         <div className="field">
@@ -83,18 +85,19 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
             onChange={e => setLocation(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="e.g. Utility Room, Garage"
+            disabled={readOnly}
           />
         </div>
         <div className="field">
           <label className="field-label">Rows</label>
           <div style={{ alignSelf: 'flex-start' }}>
-            <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel="Number of rows" />
+            <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel="Number of rows" disabled={readOnly} />
           </div>
         </div>
         <div className="field">
           <label className="field-label">Fuses / Row</label>
           <div style={{ alignSelf: 'flex-start' }}>
-            <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel="Fuses per row" />
+            <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel="Fuses per row" disabled={readOnly} />
           </div>
         </div>
         <div className="field">
@@ -106,6 +109,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
                 type="button"
                 className={`amp-pill${mainAmp === a ? ' active' : ''}`}
                 onClick={() => setMainAmp(a)}
+                disabled={readOnly}
               >{a}A</button>
             ))}
           </div>
@@ -119,6 +123,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
                 type="button"
                 className={`amp-pill${voltage === v ? ' active' : ''}`}
                 onClick={() => setVoltage(v)}
+                disabled={readOnly}
               >{v}V</button>
             ))}
           </div>
@@ -132,6 +137,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
                 type="button"
                 className={`amp-pill${frequency === f ? ' active' : ''}`}
                 onClick={() => setFrequency(f)}
+                disabled={readOnly}
               >{f}Hz</button>
             ))}
           </div>
@@ -139,13 +145,15 @@ export default function PanelForm({ initialValues, submitLabel, isPending, onSub
       </div>
       <div className="dialog-footer">
         <button className="btn" onClick={onCancel}>Cancel</button>
-        <button
-          className="btn btn-primary"
-          onClick={handleSubmit}
-          disabled={!name.trim() || isPending}
-        >
-          {isPending ? `${submitLabel}…` : submitLabel}
-        </button>
+        {!readOnly && (
+          <button
+            className="btn btn-primary"
+            onClick={handleSubmit}
+            disabled={!name.trim() || isPending}
+          >
+            {isPending ? `${submitLabel}…` : submitLabel}
+          </button>
+        )}
       </div>
     </>
   )

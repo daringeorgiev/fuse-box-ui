@@ -8,6 +8,7 @@ interface SlotProps {
   selectedId: string | null
   focusPos: number | null
   dragState: IDragState
+  readOnly?: boolean
   onSelect: (id: string) => void
   onAddHere: (pos: number) => void
   onDragOver: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
@@ -18,8 +19,8 @@ interface SlotProps {
   onDragEnd: () => void
 }
 
-export default function Slot({ pos, fuse, selectedId, focusPos, dragState, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
-  const isTarget = dragState.overPos === pos && dragState.draggingId !== fuse?.id
+export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readOnly, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
+  const isTarget = !readOnly && dragState.overPos === pos && dragState.draggingId !== fuse?.id
   const isSwap = isTarget && !!fuse
   const isFocused = !fuse && focusPos === pos
 
@@ -34,9 +35,9 @@ export default function Slot({ pos, fuse, selectedId, focusPos, dragState, onSel
   return (
     <div
       className={classes}
-      onDragOver={(e) => onDragOver(e, pos)}
-      onDragLeave={(e) => onDragLeave(e, pos)}
-      onDrop={(e) => onDrop(e, pos)}
+      onDragOver={readOnly ? undefined : (e) => onDragOver(e, pos)}
+      onDragLeave={readOnly ? undefined : (e) => onDragLeave(e, pos)}
+      onDrop={readOnly ? undefined : (e) => onDrop(e, pos)}
     >
       {fuse ? (
         <FuseCard
@@ -44,6 +45,7 @@ export default function Slot({ pos, fuse, selectedId, focusPos, dragState, onSel
           pos={pos}
           selected={selectedId === fuse.id}
           isDragging={dragState.draggingId === fuse.id}
+          readOnly={readOnly}
           onSelect={onSelect}
           onRemove={onRemove}
           onDragStart={onDragStart}
@@ -53,7 +55,8 @@ export default function Slot({ pos, fuse, selectedId, focusPos, dragState, onSel
         <button
           type="button"
           className="slot-empty-btn"
-          onClick={() => onAddHere(pos)}
+          onClick={readOnly ? undefined : () => onAddHere(pos)}
+          disabled={readOnly}
           title={`Install fuse in slot ${String(pos).padStart(2, '0')}`}
         >
           <span className="slot-pos mono">{String(pos).padStart(2, '0')}</span>

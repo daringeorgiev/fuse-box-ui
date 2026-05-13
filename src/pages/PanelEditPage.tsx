@@ -4,10 +4,13 @@ import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
 import Topbar from '../components/Topbar'
 import PanelForm from '../components/PanelForm'
+import Notice from '../components/Notice'
+import { useAuth } from '../context/AuthContext'
 
 export default function PanelEditPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { isAdmin } = useAuth()
   const { data: panels = [], isLoading } = usePanels()
   const updatePanel = useUpdatePanel()
   const deletePanel = useDeletePanel()
@@ -22,6 +25,7 @@ export default function PanelEditPage() {
   }, [])
 
   const panel = panels.find(p => p.id === id)
+  const readOnly = (panel?.isDefault ?? false) && !isAdmin
 
   const handleSubmit = (values: IPanelFormValues) => {
     if (!panel) return
@@ -71,6 +75,7 @@ export default function PanelEditPage() {
     )
   }
 
+
   const configbar = (
     <div className="configbar">
       <div className="configbar-group configbar-group--identity">
@@ -92,6 +97,11 @@ export default function PanelEditPage() {
       {topbar}
       {configbar}
       <main className="main" style={{ maxWidth: 520 }}>
+        {readOnly && (
+          <Notice className="notice--mb">
+            This is the default panel. Create your own to make changes.
+          </Notice>
+        )}
         <div className="card">
           <div className="card-header">
             <span className="card-title">Edit Panel</span>
@@ -100,35 +110,38 @@ export default function PanelEditPage() {
             initialValues={panel}
             submitLabel="Save"
             isPending={updatePanel.isPending}
+            readOnly={readOnly}
             onSubmit={handleSubmit}
             onCancel={() => navigate(`/?panel=${id}`)}
           />
         </div>
 
-        <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
-          <div className="danger-zone-header">Danger Zone</div>
-          <div className="danger-zone-body">
-            <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
-              <button
-                className="btn btn-danger"
-                onClick={handleDelete}
-                disabled={deletePanel.isPending}
-              >
-                {deletePanel.isPending ? 'Deleting…' : confirmDelete ? 'Yes, delete' : 'Delete Panel'}
-              </button>
-              {confirmDelete && (
-                <button className="btn" onClick={() => setConfirmDelete(false)}>
-                  Cancel
+        {!readOnly && (
+          <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
+            <div className="danger-zone-header">Danger Zone</div>
+            <div className="danger-zone-body">
+              <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
+                <button
+                  className="btn btn-danger"
+                  onClick={handleDelete}
+                  disabled={deletePanel.isPending}
+                >
+                  {deletePanel.isPending ? 'Deleting…' : confirmDelete ? 'Yes, delete' : 'Delete Panel'}
                 </button>
-              )}
+                {confirmDelete && (
+                  <button className="btn" onClick={() => setConfirmDelete(false)}>
+                    Cancel
+                  </button>
+                )}
+              </div>
+              <p>
+                {confirmDelete
+                  ? 'This will permanently delete the panel and all its fuses. Are you sure?'
+                  : 'Permanently delete this panel and all its fuses.'}
+              </p>
             </div>
-            <p>
-              {confirmDelete
-                ? 'This will permanently delete the panel and all its fuses. Are you sure?'
-                : 'Permanently delete this panel and all its fuses.'}
-            </p>
           </div>
-        </div>
+        )}
       </main>
       {snack && <div className={`snack${snack.isError ? ' snack--error' : ''}`}>{snack.msg}</div>}
     </div>

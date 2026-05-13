@@ -20,7 +20,7 @@ import { useAuth } from '../context/AuthContext'
 export default function PanelPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const { user, loading: authLoading } = useAuth()
+  const { user, isAdmin, loading: authLoading } = useAuth()
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
   const qc = useQueryClient()
 
@@ -58,6 +58,7 @@ export default function PanelPage() {
   }, [panelsLoading, panels.length, user])
 
   const selectedPanel = panels.find(p => p.id === selectedPanelId)
+  const readOnly = (selectedPanel?.isDefault ?? false) && !isAdmin
 
   // rows / perRow: local state for instant stepper feedback, synced from panel on selection change
   const [rows, setRows] = useState(selectedPanel?.numRows ?? 2)
@@ -234,11 +235,11 @@ export default function PanelPage() {
         <div className="configbar-group configbar-group--switches">
           <div className="config-group">
             <span className="config-label">Rows</span>
-            <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" />
+            <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" disabled={readOnly} />
           </div>
           <div className="config-group">
             <span className="config-label">Fuses / Row</span>
-            <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel="Fuses per row" />
+            <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel="Fuses per row" disabled={readOnly} />
           </div>
         </div>
         <div className="configbar-group configbar-group--actions">
@@ -295,6 +296,7 @@ export default function PanelPage() {
             selectedId={selectedId}
             focusPos={focusPos}
             dragState={dragState}
+            readOnly={readOnly}
             onSelect={selectFuse}
             onAddHere={requestAddAt}
             onDragOver={handleDragOver}
@@ -314,6 +316,7 @@ export default function PanelPage() {
             onUpdate={updateFuse}
             onCancel={() => { setSelectedId(null); setFocusPos(null) }}
             freeSlots={freeSlots}
+            readOnly={readOnly}
           />
           <StatsCard fuses={visibleFuses} capacity={capacity} mainAmp={mainAmp} />
           <Legend fuses={visibleFuses} />

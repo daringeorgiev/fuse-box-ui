@@ -276,6 +276,18 @@ body {
 .btn-danger:hover { background: var(--red); color: #fff; border-color: var(--red); }
 .btn-danger:active { background: var(--red); color: #fff; border-color: var(--red); opacity: 0.8; }
 
+/* ============ NOTICE ============ */
+.notice {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-lg);
+  background: var(--accent-soft);
+  border: 1px solid color-mix(in oklch, var(--accent) 35%, transparent);
+  font-size: 0.8125rem;
+  color: color-mix(in oklch, var(--accent) 70%, black);
+  line-height: 1.5;
+}
+.notice--mb { margin-bottom: 1rem; }
+
 /* ============ DANGER ZONE ============ */
 .danger-zone {
   border: 1px solid oklch(0.85 0.06 25);

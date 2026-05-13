@@ -12,6 +12,7 @@ function toPanel(r: any): IPanel {
     mainAmp: r.mainAmp ?? 200,
     voltage: r.voltage ?? 240,
     frequency: r.frequency ?? 60,
+    isDefault: r.isDefault ?? false,
   }
 }
 
