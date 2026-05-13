@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
 import Topbar from '../components/Topbar'
@@ -10,6 +11,7 @@ import { useAuth } from '../context/AuthContext'
 export default function PanelEditPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { isAdmin } = useAuth()
   const { data: panels = [], isLoading } = usePanels()
   const updatePanel = useUpdatePanel()
@@ -57,7 +59,7 @@ export default function PanelEditPage() {
       <div className="app">
         {topbar}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--ink-3)' }}>
-          Loading…
+          {t('panelEditPage.loading')}
         </div>
       </div>
     )
@@ -68,13 +70,12 @@ export default function PanelEditPage() {
       <div className="app">
         {topbar}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: 16, color: 'var(--ink-3)' }}>
-          <span>Panel not found.</span>
-          <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>Go back</button>
+          <span>{t('panelEditPage.panelNotFound')}</span>
+          <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>{t('panelEditPage.goBack')}</button>
         </div>
       </div>
     )
   }
-
 
   const configbar = (
     <div className="configbar">
@@ -86,7 +87,7 @@ export default function PanelEditPage() {
       </div>
       <div className="configbar-group configbar-group--actions">
         <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(`/?panel=${id}`)}>
-          ← Back
+          {t('panelEditPage.back')}
         </button>
       </div>
     </div>
@@ -99,16 +100,16 @@ export default function PanelEditPage() {
       <main className="main" style={{ maxWidth: 520 }}>
         {readOnly && (
           <Notice className="notice--mb">
-            This is the default panel. Create your own to make changes.
+            {t('panelEditPage.defaultNotice')}
           </Notice>
         )}
         <div className="card">
           <div className="card-header">
-            <span className="card-title">Edit Panel</span>
+            <span className="card-title">{t('panelEditPage.cardTitle')}</span>
           </div>
           <PanelForm
             initialValues={panel}
-            submitLabel="Save"
+            submitLabel={t('panelEditPage.save')}
             isPending={updatePanel.isPending}
             readOnly={readOnly}
             onSubmit={handleSubmit}
@@ -118,7 +119,7 @@ export default function PanelEditPage() {
 
         {!readOnly && (
           <div className="danger-zone" style={{ marginTop: '1.25rem' }}>
-            <div className="danger-zone-header">Danger Zone</div>
+            <div className="danger-zone-header">{t('panelEditPage.dangerZone')}</div>
             <div className="danger-zone-body">
               <div style={{ display: 'flex', gap: '0.5rem', flexShrink: 0 }}>
                 <button
@@ -126,18 +127,22 @@ export default function PanelEditPage() {
                   onClick={handleDelete}
                   disabled={deletePanel.isPending}
                 >
-                  {deletePanel.isPending ? 'Deleting…' : confirmDelete ? 'Yes, delete' : 'Delete Panel'}
+                  {deletePanel.isPending
+                    ? t('panelEditPage.deleting')
+                    : confirmDelete
+                      ? t('panelEditPage.yesDelete')
+                      : t('panelEditPage.deletePanel')}
                 </button>
                 {confirmDelete && (
                   <button className="btn" onClick={() => setConfirmDelete(false)}>
-                    Cancel
+                    {t('panelEditPage.cancel')}
                   </button>
                 )}
               </div>
               <p>
                 {confirmDelete
-                  ? 'This will permanently delete the panel and all its fuses. Are you sure?'
-                  : 'Permanently delete this panel and all its fuses.'}
+                  ? t('panelEditPage.dangerConfirmDescription')
+                  : t('panelEditPage.dangerDescription')}
               </p>
             </div>
           </div>

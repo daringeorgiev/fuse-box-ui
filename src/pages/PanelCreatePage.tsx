@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useCreatePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
 import Topbar from '../components/Topbar'
@@ -6,6 +7,7 @@ import PanelForm from '../components/PanelForm'
 
 export default function PanelCreatePage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const createPanel = useCreatePanel()
 
   const handleSubmit = (values: IPanelFormValues) => {
@@ -17,11 +19,11 @@ export default function PanelCreatePage() {
   const configbar = (
     <div className="configbar">
       <div className="configbar-group configbar-group--identity">
-        <span className="panel-title">New Panel</span>
+        <span className="panel-title">{t('panelCreatePage.title')}</span>
       </div>
       <div className="configbar-group configbar-group--actions">
         <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(-1)}>
-          ← Back
+          {t('panelCreatePage.back')}
         </button>
       </div>
     </div>
@@ -34,10 +36,10 @@ export default function PanelCreatePage() {
       <main className="main" style={{ maxWidth: 520 }}>
         <div className="card">
           <div className="card-header">
-            <span className="card-title">New Panel</span>
+            <span className="card-title">{t('panelCreatePage.cardTitle')}</span>
           </div>
           <PanelForm
-            submitLabel="Create"
+            submitLabel={t('panelCreatePage.submit')}
             isPending={createPanel.isPending}
             onSubmit={handleSubmit}
             onCancel={() => navigate(-1)}

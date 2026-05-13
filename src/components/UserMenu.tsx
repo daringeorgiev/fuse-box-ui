@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 
 export default function UserMenu() {
+  const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -18,7 +20,7 @@ export default function UserMenu() {
   }, []);
 
   if (!user) return (
-    <button className="btn btn-ghost user-menu-signin" onClick={() => navigate('/login')}>Sign in</button>
+    <button className="btn btn-ghost user-menu-signin" onClick={() => navigate('/login')}>{t('userMenu.signIn')}</button>
   );
 
   const initials = user.displayName
@@ -51,13 +53,13 @@ export default function UserMenu() {
             className="user-menu-item"
             onClick={() => { setOpen(false); navigate('/panels'); }}
           >
-            My Panels
+            {t('userMenu.myPanels')}
           </button>
           <button
             className="user-menu-signout"
             onClick={() => { setOpen(false); signOut(); }}
           >
-            Sign out
+            {t('userMenu.signOut')}
           </button>
         </div>
       )}

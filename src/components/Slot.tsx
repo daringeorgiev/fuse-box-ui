@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { IFuse, IDragState } from '../interfaces'
 import FuseCard from './FuseCard'
 import { Plus } from './Icons'
@@ -20,6 +21,7 @@ interface SlotProps {
 }
 
 export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readOnly, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
+  const { t } = useTranslation()
   const isTarget = !readOnly && dragState.overPos === pos && dragState.draggingId !== fuse?.id
   const isSwap = isTarget && !!fuse
   const isFocused = !fuse && focusPos === pos
@@ -57,11 +59,11 @@ export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readO
           className="slot-empty-btn"
           onClick={readOnly ? undefined : () => onAddHere(pos)}
           disabled={readOnly}
-          title={`Install fuse in slot ${String(pos).padStart(2, '0')}`}
+          title={t('slot.installTitle', { slot: String(pos).padStart(2, '0') })}
         >
           <span className="slot-pos mono">{String(pos).padStart(2, '0')}</span>
           <span className="slot-add-icon" aria-hidden="true"><Plus /></span>
-          <span className="slot-add-label">Install</span>
+          <span className="slot-add-label">{t('slot.install')}</span>
         </button>
       )}
     </div>

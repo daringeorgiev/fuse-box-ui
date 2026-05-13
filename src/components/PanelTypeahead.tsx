@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { IPanel } from '../interfaces'
 
 interface IPanelTypeaheadProps {
@@ -8,6 +9,7 @@ interface IPanelTypeaheadProps {
 }
 
 export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IPanelTypeaheadProps) {
+  const { t } = useTranslation()
   const selectedPanel = panels.find(p => p.id === selectedPanelId)
   const [query, setQuery] = useState('')
   const [open, setOpen] = useState(false)
@@ -73,12 +75,12 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
           ref={inputRef}
           className="panel-typeahead-input"
           value={open ? query : (selectedPanel?.name ?? '')}
-          placeholder={open ? (selectedPanel?.name ?? 'Search panels…') : ''}
+          placeholder={open ? (selectedPanel?.name ?? t('panelTypeahead.searchPlaceholder')) : ''}
           onFocus={openDropdown}
           onChange={e => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           role="combobox"
-          aria-label="Select panel"
+          aria-label={t('panelTypeahead.selectPanel')}
           aria-expanded={open}
           aria-haspopup="listbox"
           aria-autocomplete="list"
@@ -95,7 +97,7 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
       {open && (
         <div className="panel-typeahead-menu" id="panel-typeahead-menu" role="listbox">
           {filtered.length === 0 && (
-            <div className="panel-typeahead-empty">No panels match</div>
+            <div className="panel-typeahead-empty">{t('panelTypeahead.noMatch')}</div>
           )}
           {filtered.map((p, i) => (
             <button

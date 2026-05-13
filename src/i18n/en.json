@@ -1,0 +1,144 @@
+{
+  "topbar": {
+    "brandSub": "Panel Configurator"
+  },
+  "userMenu": {
+    "signIn": "Sign in",
+    "myPanels": "My Panels",
+    "signOut": "Sign out"
+  },
+  "loginPage": {
+    "featureMap": "Map every circuit to a slot and label it clearly",
+    "featureTrack": "Track amp ratings and visualize load at a glance",
+    "featureManage": "Manage multiple panels from one place",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "pleaseWait": "Please wait…",
+    "signIn": "Sign in",
+    "createAccount": "Create account",
+    "noAccount": "No account?",
+    "signUp": "Sign up",
+    "alreadyHaveOne": "Already have one?",
+    "or": "or",
+    "signInWithGoogle": "Sign in with Google",
+    "goBack": "Go back",
+    "errorInvalidCredential": "Incorrect email or password.",
+    "errorEmailInUse": "An account with this email already exists.",
+    "errorWeakPassword": "Password must be at least 6 characters.",
+    "errorInvalidEmail": "Please enter a valid email address.",
+    "errorGeneric": "Something went wrong. Please try again."
+  },
+  "panelsPage": {
+    "title": "My Panels",
+    "newPanel": "+ New Panel",
+    "loading": "Loading…",
+    "empty": "No panels yet. Create your first one.",
+    "view": "View",
+    "edit": "Edit"
+  },
+  "panelPage": {
+    "rows": "Rows",
+    "fusesPerRow": "Fuses / Row",
+    "new": "New",
+    "newTitle": "Create a new panel",
+    "copy": "Copy",
+    "copyTitle": "Duplicate this panel and its fuses",
+    "print": "Print",
+    "printTitle": "Print panel layout",
+    "editTitle": "Edit panel settings",
+    "panel": "Panel",
+    "fusesHidden_one": "{{count}} fuse hidden — increase capacity to restore",
+    "fusesHidden_other": "{{count}} fuses hidden — increase capacity to restore"
+  },
+  "panelCreatePage": {
+    "title": "New Panel",
+    "back": "← Back",
+    "cardTitle": "New Panel",
+    "submit": "Create"
+  },
+  "panelEditPage": {
+    "back": "← Back",
+    "cardTitle": "Edit Panel",
+    "defaultNotice": "This is the default panel. Create your own to make changes.",
+    "panelNotFound": "Panel not found.",
+    "goBack": "Go back",
+    "dangerZone": "Danger Zone",
+    "dangerDescription": "Permanently delete this panel and all its fuses.",
+    "dangerConfirmDescription": "This will permanently delete the panel and all its fuses. Are you sure?",
+    "deleting": "Deleting…",
+    "yesDelete": "Yes, delete",
+    "deletePanel": "Delete Panel",
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading…"
+  },
+  "fuseForm": {
+    "editFuse": "Edit Fuse",
+    "addFuse": "Add Fuse",
+    "slotLabel": "SLOT",
+    "slotsAvailable_one": "{{count}} slot free",
+    "slotsAvailable_other": "{{count}} slots free",
+    "circuitLabel": "Circuit Label",
+    "circuitPlaceholder": "e.g. Living Room Lights",
+    "amperage": "Amperage",
+    "slot": "Slot",
+    "slotHint": "Empty slots only — use drag and drop to swap",
+    "defaultNotice": "This is the default panel. Create your own to make changes.",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "installInSlot": "Install in Slot {{slot}}"
+  },
+  "panelForm": {
+    "name": "Name",
+    "namePlaceholder": "Panel name",
+    "location": "Location",
+    "locationPlaceholder": "e.g. Utility Room, Garage",
+    "rows": "Rows",
+    "fusesPerRow": "Fuses / Row",
+    "mainBreaker": "Main Breaker",
+    "voltage": "Voltage",
+    "frequency": "Frequency",
+    "cancel": "Cancel"
+  },
+  "statsCard": {
+    "title": "Panel Status",
+    "installed": "Installed",
+    "totalLoad": "Total Load",
+    "spareCapacity": "Spare Capacity",
+    "utilization": "Utilization"
+  },
+  "legend": {
+    "title": "Amperage Legend",
+    "gfci": "GFCI 20A",
+    "amps": "{{value}} Amps"
+  },
+  "mainBreaker": {
+    "label": "Main Breaker",
+    "name": "SERVICE DISCONNECT",
+    "energized": "Energized · Panel live",
+    "deEnergized": "De-energized · All circuits off",
+    "titleOn": "Click to shut off main",
+    "titleOff": "Click to energize main"
+  },
+  "slot": {
+    "install": "Install",
+    "installTitle": "Install fuse in slot {{slot}}"
+  },
+  "fuseCard": {
+    "editHint": "{{label}} — click to edit, drag to move",
+    "remove": "Remove"
+  },
+  "panelTypeahead": {
+    "searchPlaceholder": "Search panels…",
+    "noMatch": "No panels match",
+    "selectPanel": "Select panel"
+  },
+  "printView": {
+    "main": "Main: {{amp}}A"
+  },
+  "toasts": {
+    "installed": "Installed \"{{label}}\" in slot {{slot}}",
+    "updated": "Updated \"{{label}}\"",
+    "removed": "Removed \"{{label}}\" from slot {{slot}}"
+  }
+}

@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface MainBreakerProps {
   on: boolean
   onToggle: () => void
@@ -6,6 +8,7 @@ interface MainBreakerProps {
 }
 
 export default function MainBreaker({ on, onToggle, ampRating, voltage }: MainBreakerProps) {
+  const { t } = useTranslation()
   return (
     <div className="breaker">
       <div
@@ -13,14 +16,14 @@ export default function MainBreaker({ on, onToggle, ampRating, voltage }: MainBr
         onClick={onToggle}
         role="button"
         tabIndex={0}
-        title={on ? 'Click to shut off main' : 'Click to energize main'}
+        title={on ? t('mainBreaker.titleOn') : t('mainBreaker.titleOff')}
         onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && onToggle()}
       />
       <div className="breaker-info">
-        <div className="breaker-label">Main Breaker</div>
-        <div className="breaker-name">SERVICE DISCONNECT</div>
+        <div className="breaker-label">{t('mainBreaker.label')}</div>
+        <div className="breaker-name">{t('mainBreaker.name')}</div>
         <div className="breaker-sub">
-          {on ? 'Energized · Panel live' : 'De-energized · All circuits off'}
+          {on ? t('mainBreaker.energized') : t('mainBreaker.deEnergized')}
         </div>
       </div>
       <div className="breaker-amp">

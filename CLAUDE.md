@@ -44,6 +44,33 @@ Defined in `src/interfaces/` (barrel at `src/interfaces/index.ts`):
 - **`IPanelBody`** — HTTP request shape for create/update panel API calls
 - **`IFuseBoxState`** — Zustand store shape for `useFuseBoxStore`
 
+## Translations (i18n)
+
+**Required:** All user-visible strings must be translated. Never hard-code UI text in components.
+
+- Library: `i18next` + `react-i18next`; configured in `src/i18n/index.ts`
+- Translation files: `src/i18n/en.json` (English) and `src/i18n/bg.json` (Bulgarian)
+- Use the `useTranslation` hook and the `t()` function: `const { t } = useTranslation()`
+- Keys are namespaced by component/page (e.g. `fuseForm.cancel`, `panelPage.print`)
+- When adding a new string: add the key to **both** `en.json` and `bg.json` under the appropriate namespace
+- For plurals use the `_one` / `_other` suffix convention (e.g. `slotsAvailable_one`, `slotsAvailable_other`)
+- For interpolated values use `{{variable}}` syntax (e.g. `"installInSlot": "Install in Slot {{slot}}"`)
+- Language preference is stored in `localStorage` under the key `fuse-box-lang`; supported locales are `en` and `bg`
+
+## Accessibility
+
+**Required:** All UI changes must meet WCAG 2.1 AA. Before marking a UI task done, verify these:
+
+- **Semantic HTML** — use the correct element for the job (`<button>` for actions, `<a>` for navigation, `<label>` for form fields). Never make a `<div>` or `<span>` interactive without `role` + `tabIndex`.
+- **ARIA labels** — every interactive element without visible text needs `aria-label` or `aria-labelledby`. Icon-only buttons must have an `aria-label`.
+- **Keyboard navigation** — all interactive elements must be reachable and operable via keyboard. Focus order must follow visual order.
+- **Color contrast** — text and interactive elements must meet 4.5:1 contrast ratio (3:1 for large text). Never rely on color alone to convey meaning (e.g. amp ratings in `Legend` must also use text labels).
+- **Focus indicators** — never remove the default outline without replacing it with a visible custom style.
+- **Form fields** — every `<input>` and `<select>` must have an associated `<label>` (via `htmlFor` / `id` or `aria-label`).
+- **Images / SVG icons** — decorative icons get `aria-hidden="true"`; meaningful icons need `aria-label` or a visually-hidden text sibling.
+
+Run a Lighthouse accessibility audit (`F12 → Lighthouse → Accessibility`) on any page touched by a UI change and resolve issues with a score below 90.
+
 ## Component tree
 
 ```

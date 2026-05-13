@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { useQueryClient } from '@tanstack/react-query'
 import type { IFuse } from '../interfaces'
 import type { AmpValue } from '../interfaces'
@@ -21,6 +22,7 @@ import { useAuth } from '../context/AuthContext'
 export default function PanelPage() {
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
+  const { t } = useTranslation()
   const { user, isAdmin, loading: authLoading } = useAuth()
   const { selectedPanelId, selectPanel } = useFuseBoxStore()
   const qc = useQueryClient()
@@ -123,7 +125,7 @@ export default function PanelPage() {
         { onError: (e) => showToast((e as Error).message, true) }
       )
     }
-    if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
+    if (displaced > 0) showToast(t('panelPage.fusesHidden', { count: displaced }))
   }
 
   const handlePerRowChange = (n: number) => {
@@ -135,7 +137,7 @@ export default function PanelPage() {
         { onError: (e) => showToast((e as Error).message, true) }
       )
     }
-    if (displaced > 0) showToast(`${displaced} fuse${displaced === 1 ? '' : 's'} hidden — increase capacity to restore`)
+    if (displaced > 0) showToast(t('panelPage.fusesHidden', { count: displaced }))
   }
 
   const addFuse = ({ label, amp, pos: requestedPos }: { label: string; amp: AmpValue; pos: number | null }) => {
@@ -149,7 +151,7 @@ export default function PanelPage() {
     createFuseMutation.mutate(
       { pos, label, amp },
       {
-        onSuccess: () => showToast(`Installed "${label}" in slot ${String(pos).padStart(2, '0')}`),
+        onSuccess: () => showToast(t('toasts.installed', { label, slot: String(pos).padStart(2, '0') })),
         onError: (e) => showToast((e as Error).message, true),
       }
     )
@@ -170,7 +172,7 @@ export default function PanelPage() {
     updateFuseMutation.mutate(
       { id, ...patch },
       {
-        onSuccess: () => { showToast(`Updated "${patch.label}"`); setSelectedId(null) },
+        onSuccess: () => { showToast(t('toasts.updated', { label: patch.label })); setSelectedId(null) },
         onError: (e) => showToast((e as Error).message, true),
       }
     )
@@ -182,7 +184,7 @@ export default function PanelPage() {
     deleteFuseMutation.mutate(
       id,
       {
-        onSuccess: () => { if (f) showToast(`Removed "${f.label}" from slot ${String(f.pos).padStart(2, '0')}`) },
+        onSuccess: () => { if (f) showToast(t('toasts.removed', { label: f.label, slot: String(f.pos).padStart(2, '0') })) },
         onError: (e) => showToast((e as Error).message, true),
       }
     )
@@ -224,44 +226,44 @@ export default function PanelPage() {
         </div>
         <div className="configbar-group configbar-group--switches">
           <div className="config-group">
-            <span className="config-label">Rows</span>
-            <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel="Number of rows" disabled={readOnly} />
+            <span className="config-label">{t('panelPage.rows')}</span>
+            <Stepper value={rows} min={1} max={12} onChange={handleRowsChange} ariaLabel={t('panelPage.rows')} disabled={readOnly} />
           </div>
           <div className="config-group">
-            <span className="config-label">Fuses / Row</span>
-            <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel="Fuses per row" disabled={readOnly} />
+            <span className="config-label">{t('panelPage.fusesPerRow')}</span>
+            <Stepper value={perRow} min={2} max={12} onChange={handlePerRowChange} ariaLabel={t('panelPage.fusesPerRow')} disabled={readOnly} />
           </div>
         </div>
         <div className="configbar-group configbar-group--actions">
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={() => navigate('/panels/new')}
-            title="Create a new panel"
+            title={t('panelPage.newTitle')}
           >
-            <Plus /> New
+            <Plus /> {t('panelPage.new')}
           </button>
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={handleCopy}
             disabled={!selectedPanel || copyPanelMutation.isPending}
-            title="Duplicate this panel and its fuses"
+            title={t('panelPage.copyTitle')}
           >
-            <CopyIcon /> Copy
+            <CopyIcon /> {t('panelPage.copy')}
           </button>
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={() => window.print()}
             disabled={!selectedPanel}
-            title="Print panel layout"
+            title={t('panelPage.printTitle')}
           >
-            <Printer /> Print
+            <Printer /> {t('panelPage.print')}
           </button>
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
-            title="Edit panel settings"
+            title={t('panelPage.editTitle')}
           >
-            <Pencil /> Edit
+            <Pencil /> {t('panelsPage.edit')}
           </button>
         </div>
       </div>
@@ -290,7 +292,7 @@ export default function PanelPage() {
         <section className="panel">
           <div className="panel-header">
             <div className="panel-header-identity">
-              <span className="panel-header-name">{selectedPanel?.name ?? 'Panel'}</span>
+              <span className="panel-header-name">{selectedPanel?.name ?? t('panelPage.panel')}</span>
               {selectedPanel?.location && (
                 <span className="panel-header-location">{selectedPanel.location}</span>
               )}

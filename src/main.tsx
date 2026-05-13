@@ -1,4 +1,5 @@
 import { StrictMode } from 'react'
+import './i18n/index'
 import { AuthProvider } from './context/AuthContext'
 import { createRoot } from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'

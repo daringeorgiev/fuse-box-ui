@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { IPanelFormValues } from '../interfaces'
 import Stepper from './Stepper'
 
@@ -26,6 +27,7 @@ const DEFAULTS: IPanelFormValues = {
 }
 
 export default function PanelForm({ initialValues, submitLabel, isPending, readOnly, onSubmit, onCancel }: IPanelFormProps) {
+  const { t } = useTranslation()
   const init = { ...DEFAULTS, ...initialValues }
   const [name, setName] = useState(init.name)
   const [location, setLocation] = useState(init.location)
@@ -64,7 +66,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
     <>
       <div className="card-body">
         <div className="field">
-          <label className="field-label" htmlFor="panel-name">Name <span className="field-required">*</span></label>
+          <label className="field-label" htmlFor="panel-name">{t('panelForm.name')} <span className="field-required">*</span></label>
           <input
             ref={nameRef}
             id="panel-name"
@@ -72,36 +74,36 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
             value={name}
             onChange={e => setName(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Panel name"
+            placeholder={t('panelForm.namePlaceholder')}
             disabled={readOnly}
           />
         </div>
         <div className="field">
-          <label className="field-label" htmlFor="panel-location">Location</label>
+          <label className="field-label" htmlFor="panel-location">{t('panelForm.location')}</label>
           <input
             id="panel-location"
             className="input"
             value={location}
             onChange={e => setLocation(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="e.g. Utility Room, Garage"
+            placeholder={t('panelForm.locationPlaceholder')}
             disabled={readOnly}
           />
         </div>
         <div className="field">
-          <label className="field-label">Rows</label>
+          <label className="field-label">{t('panelForm.rows')}</label>
           <div style={{ alignSelf: 'flex-start' }}>
-            <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel="Number of rows" disabled={readOnly} />
+            <Stepper value={numRows} min={1} max={12} onChange={setNumRows} ariaLabel={t('panelForm.rows')} disabled={readOnly} />
           </div>
         </div>
         <div className="field">
-          <label className="field-label">Fuses / Row</label>
+          <label className="field-label">{t('panelForm.fusesPerRow')}</label>
           <div style={{ alignSelf: 'flex-start' }}>
-            <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel="Fuses per row" disabled={readOnly} />
+            <Stepper value={fusesPerRow} min={2} max={12} onChange={setFusesPerRow} ariaLabel={t('panelForm.fusesPerRow')} disabled={readOnly} />
           </div>
         </div>
         <div className="field">
-          <label className="field-label">Main Breaker</label>
+          <label className="field-label">{t('panelForm.mainBreaker')}</label>
           <div className="amp-grid">
             {MAIN_AMP_OPTIONS.map(a => (
               <button
@@ -115,7 +117,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
           </div>
         </div>
         <div className="field">
-          <label className="field-label">Voltage</label>
+          <label className="field-label">{t('panelForm.voltage')}</label>
           <div className="amp-grid">
             {VOLTAGE_OPTIONS.map(v => (
               <button
@@ -129,7 +131,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
           </div>
         </div>
         <div className="field" style={{ marginBottom: 0 }}>
-          <label className="field-label">Frequency</label>
+          <label className="field-label">{t('panelForm.frequency')}</label>
           <div className="amp-grid">
             {FREQUENCY_OPTIONS.map(f => (
               <button
@@ -144,7 +146,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
         </div>
       </div>
       <div className="dialog-footer">
-        <button className="btn" onClick={onCancel}>Cancel</button>
+        <button className="btn" onClick={onCancel}>{t('panelForm.cancel')}</button>
         {!readOnly && (
           <button
             className="btn btn-primary"

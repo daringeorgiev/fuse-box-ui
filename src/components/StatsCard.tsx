@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import { totalLoad } from '../constants/amps'
 import type { IFuse } from '../interfaces'
 
@@ -8,6 +9,7 @@ interface StatsCardProps {
 }
 
 export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) {
+  const { t } = useTranslation()
   const installed = fuses.length
   const load = totalLoad(fuses)
   const spare = mainAmp - load
@@ -17,32 +19,32 @@ export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) 
   return (
     <div className="card">
       <div className="card-header">
-        <span className="card-title">Panel Status</span>
+        <span className="card-title">{t('statsCard.title')}</span>
       </div>
       <div className="card-body" style={{ padding: 0 }}>
         <div className="stats">
           <div className="stat">
-            <span className="stat-label">Installed</span>
+            <span className="stat-label">{t('statsCard.installed')}</span>
             <span className="stat-value">
               {installed}
               <span style={{ fontSize: 12, color: 'var(--ink-3)', fontWeight: 500 }}> / {capacity}</span>
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">Total Load</span>
+            <span className="stat-label">{t('statsCard.totalLoad')}</span>
             <span className="stat-value">
               {load}
               <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">Spare Capacity</span>
+            <span className="stat-label">{t('statsCard.spareCapacity')}</span>
             <span className={`stat-value${spare < 20 ? ' warn' : ''}`}>
               {spare}<span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">Utilization</span>
+            <span className="stat-label">{t('statsCard.utilization')}</span>
             <span className={`stat-value${utilClass}`}>
               {utilization}
               <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>%</span>

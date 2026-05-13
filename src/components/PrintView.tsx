@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { IFuse, IPanel } from '../interfaces'
 import { ampMeta } from '../constants/amps'
 import AmpBadge from './AmpBadge'
@@ -35,11 +36,12 @@ function PrintSlot({ pos, fuse }: { pos: number; fuse: IFuse | undefined }) {
 }
 
 export default function PrintView({ panel, fuses, rows, perRow }: IPrintViewProps) {
+  const { t, i18n } = useTranslation()
   const fuseByPos: Record<number, IFuse> = {}
   fuses.forEach(f => { fuseByPos[f.pos] = f })
 
   const isStandard = perRow === 2
-  const today = new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+  const today = new Date().toLocaleDateString(i18n.language, { year: 'numeric', month: 'long', day: 'numeric' })
 
   return (
     <div className="print-view">
@@ -54,7 +56,7 @@ export default function PrintView({ panel, fuses, rows, perRow }: IPrintViewProp
           {panel.location && <span className="print-panel-location">{panel.location}</span>}
         </div>
         <div className="print-header-meta">
-          <span className="print-meta-item">Main: {panel.mainAmp}A</span>
+          <span className="print-meta-item">{t('printView.main', { amp: panel.mainAmp })}</span>
           <span className="print-meta-item">{panel.voltage}V / {panel.frequency}Hz</span>
           <span className="print-meta-item">{today}</span>
         </div>

@@ -1,8 +1,10 @@
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AMP_RATINGS } from '../constants/amps'
 import type { IFuse } from '../interfaces'
 
 export default function Legend({ fuses }: { fuses: IFuse[] }) {
+  const { t } = useTranslation()
   const counts = useMemo(() => {
     const map: Record<string, number> = {}
     fuses.forEach(f => { map[String(f.amp)] = (map[String(f.amp)] ?? 0) + 1 })
@@ -12,7 +14,7 @@ export default function Legend({ fuses }: { fuses: IFuse[] }) {
   return (
     <div className="card">
       <div className="card-header">
-        <span className="card-title">Amperage Legend</span>
+        <span className="card-title">{t('legend.title')}</span>
       </div>
       <div className="card-body">
         <div className="legend">
@@ -21,7 +23,7 @@ export default function Legend({ fuses }: { fuses: IFuse[] }) {
               <div className="legend-key">
                 <span className="legend-swatch" style={{ background: r.color }} />
                 <span className="legend-name">
-                  {r.value === 'GFCI' ? 'GFCI 20A' : `${r.value} Amps`}
+                  {r.value === 'GFCI' ? t('legend.gfci') : t('legend.amps', { value: r.value })}
                 </span>
               </div>
               <span className="legend-count">{counts[String(r.value)] ?? 0}</span>

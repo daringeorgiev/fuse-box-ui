@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { usePanels } from '../hooks/usePanels'
 import Topbar from '../components/Topbar'
 
 export default function PanelsPage() {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const { data: panels = [], isLoading } = usePanels()
 
   return (
@@ -11,18 +13,18 @@ export default function PanelsPage() {
       <Topbar />
       <main className="main panels-page">
         <div className="page-header">
-          <h1 className="page-title">My Panels</h1>
-          <button className="btn" onClick={() => navigate('/panels/new')}>+ New Panel</button>
+          <h1 className="page-title">{t('panelsPage.title')}</h1>
+          <button className="btn" onClick={() => navigate('/panels/new')}>{t('panelsPage.newPanel')}</button>
         </div>
 
         <div className="card">
 
           {isLoading && (
-            <div className="panels-list-empty">Loading…</div>
+            <div className="panels-list-empty">{t('panelsPage.loading')}</div>
           )}
 
           {!isLoading && panels.length === 0 && (
-            <div className="panels-list-empty">No panels yet. Create your first one.</div>
+            <div className="panels-list-empty">{t('panelsPage.empty')}</div>
           )}
 
           {!isLoading && panels.length > 0 && (
@@ -43,13 +45,13 @@ export default function PanelsPage() {
                       className="btn btn-ghost"
                       onClick={() => navigate(`/?panel=${p.id}`)}
                     >
-                      View
+                      {t('panelsPage.view')}
                     </button>
                     <button
                       className="btn btn-ghost"
                       onClick={() => navigate(`/panels/${p.id}/edit`)}
                     >
-                      Edit
+                      {t('panelsPage.edit')}
                     </button>
                   </div>
                 </div>

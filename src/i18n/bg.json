@@ -1,0 +1,144 @@
+{
+  "topbar": {
+    "brandSub": "Конфигуратор на табло"
+  },
+  "userMenu": {
+    "signIn": "Влезте",
+    "myPanels": "Моите табла",
+    "signOut": "Изход"
+  },
+  "loginPage": {
+    "featureMap": "Назначете всяка верига към слот и я маркирайте ясно",
+    "featureTrack": "Следете амперажните стойности и визуализирайте натоварването",
+    "featureManage": "Управлявайте множество табла от едно място",
+    "emailPlaceholder": "Имейл",
+    "passwordPlaceholder": "Парола",
+    "pleaseWait": "Моля, изчакайте…",
+    "signIn": "Влезте",
+    "createAccount": "Създайте акаунт",
+    "noAccount": "Нямате акаунт?",
+    "signUp": "Регистрирайте се",
+    "alreadyHaveOne": "Вече имате акаунт?",
+    "or": "или",
+    "signInWithGoogle": "Влезте с Google",
+    "goBack": "Назад",
+    "errorInvalidCredential": "Невалиден имейл или парола.",
+    "errorEmailInUse": "Акаунт с този имейл вече съществува.",
+    "errorWeakPassword": "Паролата трябва да е поне 6 символа.",
+    "errorInvalidEmail": "Въведете валиден имейл адрес.",
+    "errorGeneric": "Нещо се обърка. Опитайте отново."
+  },
+  "panelsPage": {
+    "title": "Моите табла",
+    "newPanel": "+ Ново табло",
+    "loading": "Зареждане…",
+    "empty": "Нямате табла. Създайте вашето първо.",
+    "view": "Преглед",
+    "edit": "Редактиране"
+  },
+  "panelPage": {
+    "rows": "Редове",
+    "fusesPerRow": "Предпазители / Ред",
+    "new": "Ново",
+    "newTitle": "Създайте ново табло",
+    "copy": "Копиране",
+    "copyTitle": "Дублирайте това табло и предпазителите му",
+    "print": "Печат",
+    "printTitle": "Отпечатайте схемата на таблото",
+    "editTitle": "Редактиране на настройките на таблото",
+    "panel": "Табло",
+    "fusesHidden_one": "{{count}} предпазител скрит — увеличете капацитета за възстановяване",
+    "fusesHidden_other": "{{count}} предпазителя скрити — увеличете капацитета за възстановяване"
+  },
+  "panelCreatePage": {
+    "title": "Ново табло",
+    "back": "← Назад",
+    "cardTitle": "Ново табло",
+    "submit": "Създаване"
+  },
+  "panelEditPage": {
+    "back": "← Назад",
+    "cardTitle": "Редактиране на табло",
+    "defaultNotice": "Това е стандартното табло. Създайте свое, за да правите промени.",
+    "panelNotFound": "Таблото не е намерено.",
+    "goBack": "Назад",
+    "dangerZone": "Опасна зона",
+    "dangerDescription": "Окончателно изтрийте таблото и всички предпазители.",
+    "dangerConfirmDescription": "Това ще изтрие окончателно таблото и всички предпазители. Сигурни ли сте?",
+    "deleting": "Изтриване…",
+    "yesDelete": "Да, изтрий",
+    "deletePanel": "Изтриване на табло",
+    "cancel": "Отказ",
+    "save": "Запазване",
+    "loading": "Зареждане…"
+  },
+  "fuseForm": {
+    "editFuse": "Редактиране на предпазител",
+    "addFuse": "Добавяне на предпазител",
+    "slotLabel": "СЛОТ",
+    "slotsAvailable_one": "{{count}} свободен слот",
+    "slotsAvailable_other": "{{count}} свободни слота",
+    "circuitLabel": "Описание на веригата",
+    "circuitPlaceholder": "напр. Осветление в хола",
+    "amperage": "Ампераж",
+    "slot": "Слот",
+    "slotHint": "Само свободни слотове — използвайте плъзгане за размяна",
+    "defaultNotice": "Това е стандартното табло. Създайте свое, за да правите промени.",
+    "cancel": "Отказ",
+    "saveChanges": "Запазване на промените",
+    "installInSlot": "Инсталиране в слот {{slot}}"
+  },
+  "panelForm": {
+    "name": "Название",
+    "namePlaceholder": "Название на таблото",
+    "location": "Местоположение",
+    "locationPlaceholder": "напр. Мазе, Гараж",
+    "rows": "Редове",
+    "fusesPerRow": "Предпазители / Ред",
+    "mainBreaker": "Главен предпазител",
+    "voltage": "Напрежение",
+    "frequency": "Честота",
+    "cancel": "Отказ"
+  },
+  "statsCard": {
+    "title": "Статус на таблото",
+    "installed": "Инсталирани",
+    "totalLoad": "Общо натоварване",
+    "spareCapacity": "Свободен капацитет",
+    "utilization": "Използване"
+  },
+  "legend": {
+    "title": "Легенда за ампераж",
+    "gfci": "GFCI 20A",
+    "amps": "{{value}} ампера"
+  },
+  "mainBreaker": {
+    "label": "Главен предпазител",
+    "name": "ГЛАВЕН ИЗКЛЮЧВАТЕЛ",
+    "energized": "Включено · Таблото е под ток",
+    "deEnergized": "Изключено · Всички вериги изключени",
+    "titleOn": "Кликнете за изключване на главния",
+    "titleOff": "Кликнете за включване на главния"
+  },
+  "slot": {
+    "install": "Инсталиране",
+    "installTitle": "Инсталиране на предпазител в слот {{slot}}"
+  },
+  "fuseCard": {
+    "editHint": "{{label}} — кликнете за редактиране, плъзнете за преместване",
+    "remove": "Премахване"
+  },
+  "panelTypeahead": {
+    "searchPlaceholder": "Търсене на табла…",
+    "noMatch": "Няма съвпадащи табла",
+    "selectPanel": "Изберете табло"
+  },
+  "printView": {
+    "main": "Главен: {{amp}}A"
+  },
+  "toasts": {
+    "installed": "«{{label}}» инсталиран в слот {{slot}}",
+    "updated": "«{{label}}» обновен",
+    "removed": "«{{label}}» премахнат от слот {{slot}}"
+  }
+}

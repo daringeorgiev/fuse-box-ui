@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import { useTranslation } from 'react-i18next'
 import { AMP_RATINGS } from '../constants/amps'
 import type { AmpValue, IFuse } from '../interfaces'
 import { Minus, Plus } from './Icons'
@@ -15,6 +16,7 @@ interface FuseFormProps {
 }
 
 export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, onAdd, onUpdate, onCancel }: FuseFormProps) {
+  const { t } = useTranslation()
 
   const [label, setLabel] = useState('')
   const [amp, setAmp] = useState<AmpValue>(20)
@@ -84,26 +86,26 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
   const isFocused = !isEdit && focusPos != null
 
   const headerMeta = isEdit
-    ? <span className="legend-count mono">SLOT {String(editingFuse!.pos).padStart(2, '0')}</span>
-    : <span className="legend-count mono">{freeSlots.length} slot{freeSlots.length === 1 ? '' : 's'} free</span>
+    ? <span className="legend-count mono">{t('fuseForm.slotLabel')} {String(editingFuse!.pos).padStart(2, '0')}</span>
+    : <span className="legend-count mono">{t('fuseForm.slotsAvailable', { count: freeSlots.length })}</span>
 
   const cardClass = isEdit ? 'card card-edit' : isFocused ? 'card card-focused' : 'card'
 
   return (
     <form className={cardClass} onSubmit={submit}>
       <div className="card-header">
-        <span className="card-title">{isEdit ? 'Edit Fuse' : 'Add Fuse'}</span>
+        <span className="card-title">{isEdit ? t('fuseForm.editFuse') : t('fuseForm.addFuse')}</span>
         {headerMeta}
       </div>
       <div className="card-body">
         <div className="field">
-          <label className="field-label" htmlFor="fuse-label">Circuit Label</label>
+          <label className="field-label" htmlFor="fuse-label">{t('fuseForm.circuitLabel')}</label>
           <input
             id="fuse-label"
             ref={inputRef}
             className="input"
             type="text"
-            placeholder="e.g. Living Room Lights"
+            placeholder={t('fuseForm.circuitPlaceholder')}
             value={label}
             onChange={(e) => setLabel(e.target.value)}
             maxLength={40}
@@ -111,7 +113,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
           />
         </div>
         <div className="field">
-          <label className="field-label">Amperage</label>
+          <label className="field-label">{t('fuseForm.amperage')}</label>
           <div className="amp-grid">
             {AMP_RATINGS.map(r => (
               <button
@@ -128,8 +130,8 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
           </div>
         </div>
         <div className="field">
-          <label className="field-label">Slot</label>
-          <div className="stepper" role="group" aria-label="Target slot">
+          <label className="field-label">{t('fuseForm.slot')}</label>
+          <div className="stepper" role="group" aria-label={t('fuseForm.slot')}>
             <button
               type="button"
               onClick={() => setLocalPos(activeSlots[slotIndex - 1])}
@@ -150,21 +152,21 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
               <Plus />
             </button>
           </div>
-          <span className="field-hint">Empty slots only — use drag and drop to swap</span>
+          <span className="field-hint">{t('fuseForm.slotHint')}</span>
         </div>
         {readOnly && (
-          <Notice className="notice--mb">This is the default panel. Create your own to make changes.</Notice>
+          <Notice className="notice--mb">{t('fuseForm.defaultNotice')}</Notice>
         )}
         {isEdit ? (
           <div className="form-actions">
-            <button type="button" className="btn" onClick={cancel}>Cancel</button>
-            <button className="btn btn-primary" type="submit" disabled={readOnly}>Save Changes</button>
+            <button type="button" className="btn" onClick={cancel}>{t('fuseForm.cancel')}</button>
+            <button className="btn btn-primary" type="submit" disabled={readOnly}>{t('fuseForm.saveChanges')}</button>
           </div>
         ) : (
           <div className="form-actions">
-            <button type="button" className="btn" onClick={cancel}>Cancel</button>
+            <button type="button" className="btn" onClick={cancel}>{t('fuseForm.cancel')}</button>
             <button className="btn btn-primary" type="submit" disabled={readOnly || localPos === null}>
-              <Plus /> Install in Slot {localPos !== null ? String(localPos).padStart(2, '0') : '—'}
+              <Plus /> {t('fuseForm.installInSlot', { slot: localPos !== null ? String(localPos).padStart(2, '0') : '—' })}
             </button>
           </div>
         )}
