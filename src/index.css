@@ -5,10 +5,10 @@
   --panel: #FAFBFC;
   --ink: #1F2328;
   --ink-2: #4A4F57;
-  --ink-3: #8B919A;
+  --ink-3: #52596A;
   --line: #CFD3D9;
   --line-2: #B5BAC2;
-  --accent: oklch(0.62 0.18 45);
+  --accent: oklch(0.70 0.18 45);
   --accent-soft: oklch(0.94 0.04 45);
   --red: oklch(0.55 0.2 25);
   --red-soft: oklch(0.96 0.04 25);
@@ -280,12 +280,12 @@ body {
 .btn:active { background: var(--line-2); border-color: var(--ink-3); }
 .btn-primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--ink);
   border-color: var(--accent);
 }
 .btn-primary:hover { background: color-mix(in oklch, var(--accent) 85%, black); border-color: color-mix(in oklch, var(--accent) 85%, black); }
 .btn.btn-primary:active { background: var(--accent); border-color: var(--accent); opacity: 0.8; }
-.btn-primary:disabled { background: var(--accent); border-color: var(--accent); color: #fff; opacity: 0.5; cursor: not-allowed; }
+.btn-primary:disabled { background: var(--accent); border-color: var(--accent); color: var(--ink); opacity: 0.5; cursor: not-allowed; }
 .btn-ghost { background: transparent; border-color: transparent; }
 .btn-ghost:hover { background: var(--bg-2); }
 .btn-ghost:active { background: var(--line-2); }
@@ -887,7 +887,6 @@ body {
 .field-hint {
   font-size: 0.6875rem;
   color: var(--ink-3);
-  opacity: 0.8;
 }
 .input, .select {
   height: 2.25rem;
@@ -1037,8 +1036,7 @@ body {
   font-size: 1.125rem;
   letter-spacing: -0.01em;
 }
-.stat-value.warn { color: var(--amp-40); }
-.stat-value.ok { color: var(--amp-10); }
+.stat-value.warn { color: oklch(0.56 0.17 40); }
 
 .snack {
   position: fixed;

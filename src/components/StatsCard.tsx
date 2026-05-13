@@ -12,7 +12,7 @@ export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) 
   const load = totalLoad(fuses)
   const spare = mainAmp - load
   const utilization = Math.round((load / mainAmp) * 100)
-  const utilClass = utilization > 90 ? 'warn' : utilization > 60 ? '' : 'ok'
+  const utilClass = utilization > 90 ? ' warn' : ''
 
   return (
     <div className="card">
@@ -37,13 +37,13 @@ export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) 
           </div>
           <div className="stat">
             <span className="stat-label">Spare Capacity</span>
-            <span className={`stat-value ${spare < 20 ? 'warn' : 'ok'}`}>
+            <span className={`stat-value${spare < 20 ? ' warn' : ''}`}>
               {spare}<span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
             </span>
           </div>
           <div className="stat">
             <span className="stat-label">Utilization</span>
-            <span className={`stat-value ${utilClass}`}>
+            <span className={`stat-value${utilClass}`}>
               {utilization}
               <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>%</span>
             </span>

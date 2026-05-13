@@ -77,9 +77,12 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
           onFocus={openDropdown}
           onChange={e => setQuery(e.target.value)}
           onKeyDown={handleKeyDown}
+          role="combobox"
+          aria-label="Select panel"
           aria-expanded={open}
           aria-haspopup="listbox"
           aria-autocomplete="list"
+          aria-controls="panel-typeahead-menu"
         />
         <svg
           className="panel-typeahead-chevron"
@@ -90,7 +93,7 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
         </svg>
       </div>
       {open && (
-        <div className="panel-typeahead-menu" role="listbox">
+        <div className="panel-typeahead-menu" id="panel-typeahead-menu" role="listbox">
           {filtered.length === 0 && (
             <div className="panel-typeahead-empty">No panels match</div>
           )}
