@@ -68,30 +68,37 @@ The following are not required for Google SSO auth:
 
 ---
 
-## Backend setup (.NET)
+## Backend setup (Spring Boot)
 
-Install the NuGet package:
+Add the Firebase Admin SDK dependency to `pom.xml`:
 
-```bash
-dotnet add package FirebaseAdmin
+```xml
+<dependency>
+    <groupId>com.google.firebase</groupId>
+    <artifactId>firebase-admin</artifactId>
+    <version>9.4.2</version>
+</dependency>
 ```
 
-Initialize in `Program.cs`:
+Initialize in a `@Configuration` class (`FirebaseConfig.java`):
 
-```csharp
-FirebaseApp.Create(new AppOptions
-{
-    Credential = GoogleCredential.FromFile("service-account.json"),
-});
+```java
+@PostConstruct
+public void initialize() throws IOException {
+    if (FirebaseApp.getApps().isEmpty()) {
+        try (var serviceAccount = new FileInputStream(serviceAccountPath)) {
+            FirebaseOptions options = FirebaseOptions.builder()
+                    .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+                    .build();
+            FirebaseApp.initializeApp(options);
+        }
+    }
+}
 ```
 
-Register the auth middleware before route mappings:
+Token verification runs in a Spring Security filter (`FirebaseTokenFilter`) that reads the `Authorization: Bearer <token>` header and calls `FirebaseAuth.getInstance().verifyIdToken(token)`. The verified `uid` is set as the Spring Security principal and used to scope database queries to the authenticated user.
 
-```csharp
-app.UseMiddleware<FirebaseAuthMiddleware>();
-```
-
-See [auth-implementation.md](auth-implementation.md#backend-fuse-box-api--net) for the full middleware implementation.
+See [auth-implementation.md](auth-implementation.md#backend-fuse-box-api--spring-boot) for the full filter implementation.
 
 ---
 
