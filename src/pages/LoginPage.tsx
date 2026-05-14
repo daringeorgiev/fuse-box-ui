@@ -3,6 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Topbar from '../components/Topbar';
+import Logo from '../components/Logo';
 
 type IMode = 'signin' | 'signup';
 
@@ -58,9 +59,7 @@ export default function LoginPage() {
       <div className="login-content">
         <div className="login-card">
           <div className="login-brand">
-            <div className="brand-mark login-brand-mark">F</div>
-            <h1 className="login-title">Fuse Box</h1>
-            <p className="login-sub">{t('topbar.brandSub')}</p>
+            <Logo variant="large" />
           </div>
 
           <ul className="login-features">

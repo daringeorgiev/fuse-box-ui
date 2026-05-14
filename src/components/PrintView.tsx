@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import type { IFuse, IPanel } from '../interfaces'
 import { ampMeta } from '../constants/amps'
 import AmpBadge from './AmpBadge'
+import Logo from './Logo'
 
 interface IPrintViewProps {
   panel: IPanel
@@ -46,8 +47,7 @@ export default function PrintView({ panel, fuses, rows, perRow }: IPrintViewProp
   return (
     <div className="print-view">
       <div className="print-brand">
-        <div className="print-brand-mark">F</div>
-        <span className="print-brand-name">Fuse Box</span>
+        <Logo variant="compact" />
       </div>
 
       <div className="print-header">
