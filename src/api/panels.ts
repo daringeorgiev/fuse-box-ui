@@ -13,6 +13,8 @@ function toPanel(r: any): IPanel {
     voltage: r.voltage ?? 240,
     frequency: r.frequency ?? 60,
     isDefault: r.isDefault ?? false,
+    createdAt: r.createdAt,
+    updatedAt: r.updatedAt,
   }
 }
 

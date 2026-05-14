@@ -33,8 +33,22 @@
     "newPanel": "+ New Panel",
     "loading": "Loading…",
     "empty": "No panels yet. Create your first one.",
+    "noResults": "No panels match your search.",
     "view": "View",
-    "edit": "Edit"
+    "edit": "Edit",
+    "searchPlaceholder": "Search by name or location…",
+    "sortBy": "Sort",
+    "sortNameAsc": "Name A → Z",
+    "sortNameDesc": "Name Z → A",
+    "sortLocation": "Location",
+    "sortNewest": "Newest",
+    "sortOldest": "Oldest",
+    "created": "Created",
+    "updated": "Updated",
+    "colName": "Name",
+    "colLocation": "Location",
+    "colCreated": "Created",
+    "colUpdated": "Updated"
   },
   "panelPage": {
     "rows": "Rows",

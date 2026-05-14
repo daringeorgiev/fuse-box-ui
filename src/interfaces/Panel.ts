@@ -8,4 +8,6 @@ export interface IPanel {
   voltage: number
   frequency: number
   isDefault: boolean
+  createdAt?: string
+  updatedAt?: string
 }
