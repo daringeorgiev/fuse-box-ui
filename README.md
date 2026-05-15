@@ -27,6 +27,19 @@ npm run lint       # ESLint
 npm run preview    # serve the production build locally
 ```
 
+## Deploying to Firebase Hosting
+
+```bash
+npm install -g firebase-tools   # once
+firebase login                  # once
+npm run build
+firebase deploy
+```
+
+Live at `https://fuse-box-8ec50.web.app` after deploy.
+
+> Set `VITE_API_BASE_URL` in `.env.production` to your Cloud Run URL before building for production. See [docs/deployment-plan.md](docs/deployment-plan.md) for the full deployment guide.
+
 ## Authentication setup
 
 This app uses Firebase Authentication with Google SSO. Before running locally you need a Firebase project configured.
