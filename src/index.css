@@ -94,19 +94,11 @@ body {
   cursor: pointer;
 }
 .brand:hover .brand-mark {
-  background: color-mix(in oklch, var(--accent) 80%, white);
+  opacity: 0.85;
 }
 .brand-mark {
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 2px solid var(--bg);
-  display: grid;
-  place-items: center;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 700;
-  font-size: 0.875rem;
-  background: var(--accent);
-  color: var(--ink);
+  display: block;
+  flex-shrink: 0;
 }
 .brand-name {
   font-family: 'JetBrains Mono', monospace;
@@ -1619,9 +1611,7 @@ body {
 }
 
 .login-brand-mark {
-  width: 2.5rem;
-  height: 2.5rem;
-  font-size: 1.125rem;
+  display: block;
   margin-bottom: 0.25rem;
 }
 

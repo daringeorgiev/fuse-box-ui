@@ -73,16 +73,7 @@
   }
 
   .print-brand-mark {
-    width: 2.25rem;
-    height: 2.25rem;
-    background: oklch(0.62 0.18 45);
-    color: #1F2328;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 1.1rem;
-    display: grid;
-    place-items: center;
-    border-radius: 2px;
+    display: block;
   }
 
   .print-brand-name {

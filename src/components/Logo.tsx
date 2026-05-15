@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import { FuseBoxLogo } from './FuseBoxLogo'
 
 type ILogoVariant = 'default' | 'large' | 'compact'
 
@@ -12,7 +13,7 @@ export default function Logo({ variant }: ILogoProps) {
   if (variant === 'large') {
     return (
       <>
-        <div className="brand-mark login-brand-mark">F</div>
+        <FuseBoxLogo size={40} tone="default" className="login-brand-mark" />
         <h1 className="login-title">Fuse Box</h1>
         <p className="login-sub">{t('topbar.brandSub')}</p>
       </>
@@ -22,7 +23,7 @@ export default function Logo({ variant }: ILogoProps) {
   if (variant === 'compact') {
     return (
       <>
-        <div className="print-brand-mark">F</div>
+        <FuseBoxLogo size={36} tone="default" className="print-brand-mark" />
         <span className="print-brand-name">Fuse Box</span>
       </>
     )
@@ -30,7 +31,7 @@ export default function Logo({ variant }: ILogoProps) {
 
   return (
     <>
-      <div className="brand-mark">F</div>
+      <FuseBoxLogo size={32} plate className="brand-mark" />
       <span className="brand-name">Fuse Box</span>
       <span className="brand-sub">{t('topbar.brandSub')}</span>
     </>
