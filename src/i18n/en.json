@@ -117,8 +117,8 @@
   "statsCard": {
     "title": "Panel Status",
     "installed": "Installed",
-    "totalLoad": "Total Load",
-    "spareCapacity": "Spare Capacity",
+    "freeSlots": "Free Slots",
+    "mainBreaker": "Main Breaker",
     "utilization": "Utilization"
   },
   "legend": {

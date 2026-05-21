@@ -117,8 +117,8 @@
   "statsCard": {
     "title": "Статус на таблото",
     "installed": "Инсталирани",
-    "totalLoad": "Общо натоварване",
-    "spareCapacity": "Свободен капацитет",
+    "freeSlots": "Свободни слотове",
+    "mainBreaker": "Главен предпазител",
     "utilization": "Използване"
   },
   "legend": {

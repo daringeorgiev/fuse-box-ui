@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import { totalLoad } from '../constants/amps'
+
 import type { IFuse } from '../interfaces'
 
 interface StatsCardProps {
@@ -11,9 +11,8 @@ interface StatsCardProps {
 export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) {
   const { t } = useTranslation()
   const installed = fuses.length
-  const load = totalLoad(fuses)
-  const spare = mainAmp - load
-  const utilization = Math.round((load / mainAmp) * 100)
+  const free = capacity - installed
+  const utilization = capacity > 0 ? Math.round((installed / capacity) * 100) : 0
   const utilClass = utilization > 90 ? ' warn' : ''
 
   return (
@@ -31,16 +30,15 @@ export default function StatsCard({ fuses, capacity, mainAmp }: StatsCardProps) 
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">{t('statsCard.totalLoad')}</span>
-            <span className="stat-value">
-              {load}
-              <span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
+            <span className="stat-label">{t('statsCard.freeSlots')}</span>
+            <span className={`stat-value${free === 0 ? ' warn' : ''}`}>
+              {free}
             </span>
           </div>
           <div className="stat">
-            <span className="stat-label">{t('statsCard.spareCapacity')}</span>
-            <span className={`stat-value${spare < 20 ? ' warn' : ''}`}>
-              {spare}<span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
+            <span className="stat-label">{t('statsCard.mainBreaker')}</span>
+            <span className="stat-value">
+              {mainAmp}<span style={{ fontSize: 11, color: 'var(--ink-3)' }}>A</span>
             </span>
           </div>
           <div className="stat">
