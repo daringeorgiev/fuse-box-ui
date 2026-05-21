@@ -9,8 +9,8 @@ export default function AmpBadge({ amp }: { amp: AmpValue }) {
     '--badge-border': `color-mix(in oklch, ${m.color} 40%, transparent)`,
   } as React.CSSProperties
 
-  if (m.value === 'GFCI') {
-    return <span className="amp-badge mono" style={style}>GFCI</span>
+  if (m.value === 'RCD') {
+    return <span className="amp-badge mono" style={style}>RCD</span>
   }
   return (
     <span className="amp-badge mono" style={style}>

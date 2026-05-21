@@ -13,14 +13,16 @@
   --red: oklch(0.55 0.2 25);
   --red-soft: oklch(0.96 0.04 25);
 
-  --amp-10: oklch(0.72 0.14 145);
-  --amp-16: oklch(0.76 0.14 120);
-  --amp-20: oklch(0.78 0.14 95);
-  --amp-25: oklch(0.76 0.14 80);
-  --amp-32: oklch(0.74 0.14 65);
-  --amp-40: oklch(0.66 0.16 35);
-  --amp-63: oklch(0.55 0.18 15);
-  --amp-gfci: oklch(0.68 0.14 240);
+  /* IEC 60269 fuse-link colour convention */
+  --amp-6:   oklch(0.62 0.19 145);  /* green   */
+  --amp-10:  oklch(0.52 0.22 22);   /* red     */
+  --amp-16:  oklch(0.62 0.03 260);  /* grey    */
+  --amp-20:  oklch(0.55 0.18 255);  /* blue    */
+  --amp-25:  oklch(0.78 0.17 92);   /* yellow  */
+  --amp-32:  oklch(0.32 0.03 260);  /* black   */
+  --amp-40:  oklch(0.68 0.19 52);   /* orange  */
+  --amp-63:  oklch(0.55 0.14 48);   /* copper  */
+  --amp-rcd: oklch(0.60 0.18 300);  /* violet  */
 
   --shadow-sm: 0 1px 0 rgba(20,25,30,0.04), 0 1px 2px rgba(20,25,30,0.06);
   --shadow-md: 0 2px 4px rgba(20,25,30,0.06), 0 4px 12px rgba(20,25,30,0.08);
@@ -993,6 +995,9 @@ body {
   font-family: 'JetBrains Mono', monospace;
   font-weight: 500;
   font-size: 0.6875rem;
+}
+.legend-row--rcd {
+  grid-column: 1 / -1;
 }
 .legend-count {
   font-family: 'JetBrains Mono', monospace;

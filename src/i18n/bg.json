@@ -123,7 +123,8 @@
   },
   "legend": {
     "title": "Легенда за ампераж",
-    "gfci": "GFCI 20A",
+    "rcd": "ДТЗ (Дефектно-Токова Защита)",
+    "rcdShort": "ДТЗ",
     "amps": "{{value}} ампера"
   },
   "mainBreaker": {

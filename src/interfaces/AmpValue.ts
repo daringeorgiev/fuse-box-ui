@@ -1,1 +1,1 @@
-export type AmpValue = number | 'GFCI'
+export type AmpValue = number | 'RCD'

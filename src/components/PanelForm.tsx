@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import type { IPanelFormValues } from '../interfaces'
 import Stepper from './Stepper'
 
-const MAIN_AMP_OPTIONS = [40, 63, 80, 100, 125, 200]
+const MAIN_AMP_OPTIONS = [25, 32, 40, 50, 63, 80, 100, 125]
 const VOLTAGE_OPTIONS = [120, 230, 240]
 const FREQUENCY_OPTIONS = [50, 60]
 

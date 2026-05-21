@@ -124,7 +124,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
                 onClick={() => setAmp(r.value)}
                 disabled={readOnly}
               >
-                {r.value === 'GFCI' ? 'GFCI' : `${r.value}A`}
+                {r.value === 'RCD' ? t('legend.rcdShort') : `${r.value}A`}
               </button>
             ))}
           </div>

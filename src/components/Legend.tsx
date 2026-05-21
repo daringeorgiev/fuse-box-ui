@@ -19,11 +19,11 @@ export default function Legend({ fuses }: { fuses: IFuse[] }) {
       <div className="card-body">
         <div className="legend">
           {AMP_RATINGS.map(r => (
-            <div className="legend-row" key={String(r.value)}>
+            <div className={`legend-row${r.value === 'RCD' ? ' legend-row--rcd' : ''}`} key={String(r.value)}>
               <div className="legend-key">
                 <span className="legend-swatch" style={{ background: r.color }} />
                 <span className="legend-name">
-                  {r.value === 'GFCI' ? t('legend.gfci') : t('legend.amps', { value: r.value })}
+                  {r.value === 'RCD' ? t('legend.rcd') : t('legend.amps', { value: r.value })}
                 </span>
               </div>
               <span className="legend-count">{counts[String(r.value)] ?? 0}</span>

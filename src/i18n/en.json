@@ -123,7 +123,8 @@
   },
   "legend": {
     "title": "Amperage Legend",
-    "gfci": "GFCI 20A",
+    "rcd": "RCD (Residual Current Device)",
+    "rcdShort": "RCD",
     "amps": "{{value}} Amps"
   },
   "mainBreaker": {
