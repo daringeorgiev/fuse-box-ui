@@ -307,6 +307,8 @@ export default function PanelPage() {
             focusPos={focusPos}
             dragState={dragState}
             readOnly={readOnly}
+            mainAmp={mainAmp}
+            mainBreakerLabel={t('mainBreaker.label')}
             onSelect={selectFuse}
             onAddHere={requestAddAt}
             onDragOver={handleDragOver}

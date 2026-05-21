@@ -2,8 +2,9 @@ import { useState, useRef, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { IPanelFormValues } from '../interfaces'
 import Stepper from './Stepper'
+import { ampMeta } from '../constants/amps'
 
-const MAIN_AMP_OPTIONS = [25, 32, 40, 50, 63, 80, 100, 125]
+const MAIN_AMP_OPTIONS = [32, 40, 50, 63]
 const VOLTAGE_OPTIONS = [120, 230, 240]
 const FREQUENCY_OPTIONS = [50, 60]
 
@@ -110,6 +111,7 @@ export default function PanelForm({ initialValues, submitLabel, isPending, readO
                 key={a}
                 type="button"
                 className={`amp-pill${mainAmp === a ? ' active' : ''}`}
+                style={{ '--pill-color': ampMeta(a).color } as React.CSSProperties}
                 onClick={() => setMainAmp(a)}
                 disabled={readOnly}
               >{a}A</button>

@@ -10,13 +10,14 @@ interface FuseCardProps {
   selected: boolean
   isDragging: boolean
   readOnly?: boolean
+  hideRemove?: boolean
   onSelect: (id: string) => void
   onRemove: (id: string) => void
   onDragStart: (e: React.DragEvent<HTMLDivElement>, fuse: IFuse) => void
   onDragEnd: () => void
 }
 
-export default function FuseCard({ fuse, pos, selected, isDragging, readOnly, onSelect, onRemove, onDragStart, onDragEnd }: FuseCardProps) {
+export default function FuseCard({ fuse, pos, selected, isDragging, readOnly, hideRemove, onSelect, onRemove, onDragStart, onDragEnd }: FuseCardProps) {
   const { t } = useTranslation()
   const m = ampMeta(fuse.amp)
   const cardStyle = { '--fuse-color': m.color } as React.CSSProperties
@@ -39,15 +40,17 @@ export default function FuseCard({ fuse, pos, selected, isDragging, readOnly, on
     >
       <div className="fuse-head">
         <span className="fuse-pos mono">{String(pos).padStart(2, '0')}</span>
-        <button
-          className="fuse-remove"
-          onClick={(e) => { e.stopPropagation(); onRemove(fuse.id) }}
-          title={t('fuseCard.remove')}
-          aria-label={t('fuseCard.remove')}
-          disabled={readOnly}
-        >
-          <X />
-        </button>
+        {!hideRemove && (
+          <button
+            className="fuse-remove"
+            onClick={(e) => { e.stopPropagation(); onRemove(fuse.id) }}
+            title={t('fuseCard.remove')}
+            aria-label={t('fuseCard.remove')}
+            disabled={readOnly}
+          >
+            <X />
+          </button>
+        )}
       </div>
       <div className="fuse-label">{fuse.label}</div>
       <div className="fuse-foot">

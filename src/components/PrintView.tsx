@@ -65,14 +65,15 @@ export default function PrintView({ panel, fuses, rows, perRow }: IPrintViewProp
       <div className="print-grid">
         {Array.from({ length: rows }, (_, r) => {
           const rowNum = String(r + 1).padStart(2, '0')
+          const mainFuse: IFuse = { id: 'main', pos: 0, label: t('mainBreaker.label'), amp: panel.mainAmp as IFuse['amp'] }
 
           if (isStandard) {
-            const leftPos = r * 2 + 1
-            const rightPos = r * 2 + 2
+            const leftPos = r === 0 ? 0 : r * 2
+            const rightPos = r === 0 ? 1 : r * 2 + 1
             return (
               <div key={r} className="print-row print-row--standard">
                 <span className="print-row-label">{rowNum}</span>
-                <PrintSlot pos={leftPos} fuse={fuseByPos[leftPos]} />
+                <PrintSlot pos={leftPos} fuse={r === 0 ? mainFuse : fuseByPos[leftPos]} />
                 <div className="print-bus-bar" />
                 <PrintSlot pos={rightPos} fuse={fuseByPos[rightPos]} />
               </div>
@@ -86,8 +87,9 @@ export default function PrintView({ panel, fuses, rows, perRow }: IPrintViewProp
                 className="print-slots-row"
                 style={{ gridTemplateColumns: `repeat(${perRow}, 1fr)` }}
               >
-                {Array.from({ length: perRow }, (_, c) => {
-                  const pos = r * perRow + c + 1
+                {r === 0 && <PrintSlot key="mb" pos={0} fuse={mainFuse} />}
+                {Array.from({ length: r === 0 ? perRow - 1 : perRow }, (_, c) => {
+                  const pos = r === 0 ? c + 1 : r * perRow + c
                   return <PrintSlot key={c} pos={pos} fuse={fuseByPos[pos]} />
                 })}
               </div>
