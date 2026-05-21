@@ -8,6 +8,7 @@ export const AMP_RATINGS: IAmpRating[] = [
   { value: 25,     label: '25A',  color: 'var(--amp-25)',   tone: 'mid' },
   { value: 32,     label: '32A',  color: 'var(--amp-32)',   tone: 'mid' },
   { value: 40,     label: '40A',  color: 'var(--amp-40)',   tone: 'high' },
+  { value: 50,     label: '50A',  color: 'var(--amp-50)',   tone: 'high', light: true },
   { value: 63,     label: '63A',  color: 'var(--amp-63)',   tone: 'high' },
   { value: 'RCD',  label: 'RCD',  color: 'var(--amp-rcd)',  tone: 'special', amps: 16 },
 ]

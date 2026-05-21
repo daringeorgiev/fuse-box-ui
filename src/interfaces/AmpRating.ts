@@ -6,4 +6,5 @@ export interface IAmpRating {
   color: string
   tone: 'low' | 'mid' | 'high' | 'special'
   amps?: number
+  light?: boolean
 }
