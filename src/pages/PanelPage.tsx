@@ -155,7 +155,7 @@ export default function PanelPage() {
         onError: (e) => showToast((e as Error).message, true),
       }
     )
-    setFocusPos(null)
+    setFocusPos(freeSlots.find(s => s !== pos) ?? null)
   }
 
   const requestAddAt = (pos: number) => {
