@@ -719,6 +719,7 @@ body {
   transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s;
   box-shadow: var(--shadow-sm);
   user-select: none;
+  overflow: hidden;
 }
 .fuse::before {
   content: '';
