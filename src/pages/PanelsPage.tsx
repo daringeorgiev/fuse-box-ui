@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { usePanels } from '../hooks/usePanels'
+import { useAuth } from '../context/AuthContext'
 import Topbar from '../components/Topbar'
 
 type SortKey = 'name-asc' | 'name-desc' | 'location' | 'newest' | 'oldest'
@@ -16,7 +17,9 @@ function formatDate(iso: string | undefined, locale: string): string {
 export default function PanelsPage() {
   const navigate = useNavigate()
   const { t, i18n } = useTranslation()
-  const { data: panels = [], isLoading } = usePanels()
+  const { isAdmin } = useAuth()
+  const { data: rawPanels = [], isLoading } = usePanels()
+  const panels = isAdmin ? rawPanels : rawPanels.filter(p => !p.isDefault)
   const [search, setSearch] = useState('')
   const [sort, setSort] = useState<SortKey>('name-asc')
 
@@ -58,7 +61,10 @@ export default function PanelsPage() {
           )}
 
           {!isLoading && panels.length === 0 && (
-            <div className="panels-list-empty">{t('panelsPage.empty')}</div>
+            <div className="panels-list-empty">
+              <span>{t('panelsPage.emptyTitle')}</span>
+              <a onClick={() => navigate('/panels/new')} className="panels-empty-link" role="button" tabIndex={0} onKeyDown={e => e.key === 'Enter' && navigate('/panels/new')}>{t('panelsPage.emptyAction')}</a>
+            </div>
           )}
 
           {!isLoading && panels.length > 0 && (
