@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { usePanels, useUpdatePanel, useDeletePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
@@ -11,6 +11,8 @@ import { useAuth } from '../context/AuthContext'
 export default function PanelEditPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const backTo = searchParams.get('from') === 'panels' ? '/panels' : `/?panel=${id}`
   const { t } = useTranslation()
   const { isAdmin } = useAuth()
   const { data: panels = [], isLoading } = usePanels()
@@ -46,7 +48,7 @@ export default function PanelEditPage() {
     deletePanel.mutate(
       panel.id,
       {
-        onSuccess: () => navigate('/'),
+        onSuccess: () => navigate(backTo === '/panels' ? '/panels' : '/'),
         onError: (e) => showSnack((e as Error).message, true),
       }
     )
@@ -71,7 +73,7 @@ export default function PanelEditPage() {
         {topbar}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', gap: 16, color: 'var(--ink-3)' }}>
           <span>{t('panelEditPage.panelNotFound')}</span>
-          <button className="btn" onClick={() => navigate(`/?panel=${id}`)}>{t('panelEditPage.goBack')}</button>
+          <button className="btn" onClick={() => navigate(backTo)}>{t('panelEditPage.goBack')}</button>
         </div>
       </div>
     )
@@ -86,7 +88,7 @@ export default function PanelEditPage() {
         </div>
       </div>
       <div className="configbar-group configbar-group--actions">
-        <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(`/?panel=${id}`)}>
+        <button className="btn btn-ghost panel-action-btn" onClick={() => navigate(backTo)}>
           {t('panelEditPage.back')}
         </button>
       </div>
@@ -113,7 +115,7 @@ export default function PanelEditPage() {
             isPending={updatePanel.isPending}
             readOnly={readOnly}
             onSubmit={handleSubmit}
-            onCancel={() => navigate(`/?panel=${id}`)}
+            onCancel={() => navigate(backTo)}
           />
         </div>
 

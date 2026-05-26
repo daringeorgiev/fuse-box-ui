@@ -130,7 +130,7 @@ export default function PanelsPage() {
                         </button>
                         <button
                           className="btn"
-                          onClick={() => navigate(`/panels/${p.id}/edit`)}
+                          onClick={() => navigate(`/panels/${p.id}/edit?from=panels`)}
                         >
                           {t('panelsPage.edit')}
                         </button>

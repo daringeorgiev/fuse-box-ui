@@ -32,7 +32,7 @@ export default function PanelPage() {
     setSearchParams({ panel: id }, { replace: true })
   }, [selectPanel, setSearchParams])
 
-  const { data: panels = [], isLoading: panelsLoading } = usePanels(!authLoading)
+  const { data: panels = [], isLoading: panelsLoading, isFetching: panelsFetching } = usePanels(!authLoading)
 
   useEffect(() => {
     if (!authLoading) qc.invalidateQueries({ queryKey: ['panels'] })
@@ -53,12 +53,14 @@ export default function PanelPage() {
       }
     } else {
       const paramId = searchParams.get('panel')
+      // If the requested panel isn't in the stale cache yet but a fetch is in progress, wait
+      if (paramId && !panels.find(p => p.id === paramId) && panelsFetching) return
       const target = (paramId && panels.find(p => p.id === paramId)) ? paramId : panels[0].id
       if (target !== selectedPanelId) selectPanelAndSync(target)
       else if (!paramId) setSearchParams({ panel: target }, { replace: true })
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [panelsLoading, panels.length, user])
+  }, [panelsLoading, panelsFetching, panels.length, user])
 
   const selectedPanel = panels.find(p => p.id === selectedPanelId)
   const readOnly = (selectedPanel?.isDefault ?? false) && !isAdmin
