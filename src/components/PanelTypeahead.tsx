@@ -17,9 +17,10 @@ export default function PanelTypeahead({ panels, selectedPanelId, onSelect }: IP
   const inputRef = useRef<HTMLInputElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
+  const sortedPanels = [...panels].sort((a, b) => Number(a.isDefault) - Number(b.isDefault))
   const filtered = query.trim()
-    ? panels.filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
-    : panels
+    ? sortedPanels.filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+    : sortedPanels
 
   useEffect(() => {
     if (!open) return
