@@ -10,6 +10,7 @@ interface SlotProps {
   focusPos: number | null
   dragState: IDragState
   readOnly?: boolean
+  hideRemove?: boolean
   onSelect: (id: string) => void
   onAddHere: (pos: number) => void
   onDragOver: (e: React.DragEvent<HTMLDivElement>, pos: number) => void
@@ -20,7 +21,7 @@ interface SlotProps {
   onDragEnd: () => void
 }
 
-export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readOnly, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
+export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readOnly, hideRemove, onSelect, onAddHere, onDragOver, onDragLeave, onDrop, onRemove, onDragStart, onDragEnd }: SlotProps) {
   const { t } = useTranslation()
   const isTarget = !readOnly && dragState.overPos === pos && dragState.draggingId !== fuse?.id
   const isSwap = isTarget && !!fuse
@@ -48,6 +49,7 @@ export default function Slot({ pos, fuse, selectedId, focusPos, dragState, readO
           selected={selectedId === fuse.id}
           isDragging={dragState.draggingId === fuse.id}
           readOnly={readOnly}
+          hideRemove={hideRemove}
           onSelect={onSelect}
           onRemove={onRemove}
           onDragStart={onDragStart}

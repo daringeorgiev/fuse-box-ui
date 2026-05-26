@@ -66,6 +66,7 @@ export default function PanelGrid({
           focusPos={focusPos}
           dragState={dragState}
           readOnly={readOnly}
+          hideRemove={readOnly}
           onSelect={onSelect}
           onAddHere={onAddHere}
           onDragOver={onDragOver}
