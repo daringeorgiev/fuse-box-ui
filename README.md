@@ -2,7 +2,18 @@
 
 A React 19 + TypeScript SPA for managing electrical fuse panels. Supports multiple panels, drag-and-drop slot management, amp ratings, and Google SSO via Firebase.
 
-**Backend:** requires [fuse-box-api](../fuse-box-api) (.NET) to be running locally.
+🔗 **Live app:** [fuse-box-8ec50.web.app](https://fuse-box-8ec50.web.app)
+
+**Backend:** requires [fuse-box-api](https://github.com/daringeorgiev/fuse-box-api) to be running locally.
+
+## Features
+
+- Create and manage multiple fuse panels
+- Drag-and-drop fuse slots with amp ratings and color coding
+- Main breaker toggle per panel
+- Print-ready panel layout
+- Google SSO via Firebase
+- English / Bulgarian UI
 
 ## Stack
 
