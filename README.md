@@ -4,6 +4,8 @@ A React 19 + TypeScript SPA for managing electrical fuse panels. Supports multip
 
 🔗 **Live app:** [fuse-box-8ec50.web.app](https://fuse-box-8ec50.web.app)
 
+![Fuse Box UI](docs/app-preview.png)
+
 **Backend:** requires [fuse-box-api](https://github.com/daringeorgiev/fuse-box-api) to be running locally.
 
 ## Features
