@@ -27,7 +27,8 @@
   .panel-infostrip,
   .main,
   .sidebar,
-  .snack {
+  .snack,
+  .app-footer {
     display: none !important;
   }
 

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useAuth } from '../context/AuthContext';
 import Topbar from '../components/Topbar';
 import Logo from '../components/Logo';
+import Footer from '../components/Footer';
 
 type IMode = 'signin' | 'signup';
 
@@ -121,6 +122,7 @@ export default function LoginPage() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

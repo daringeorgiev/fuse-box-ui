@@ -4,6 +4,7 @@ import { useCreatePanel } from '../hooks/usePanels'
 import type { IPanelFormValues } from '../interfaces'
 import Topbar from '../components/Topbar'
 import PanelForm from '../components/PanelForm'
+import Footer from '../components/Footer'
 
 export default function PanelCreatePage() {
   const navigate = useNavigate()
@@ -46,6 +47,7 @@ export default function PanelCreatePage() {
           />
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

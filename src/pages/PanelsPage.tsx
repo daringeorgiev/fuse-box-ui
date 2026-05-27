@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { usePanels } from '../hooks/usePanels'
 import { useAuth } from '../context/AuthContext'
 import Topbar from '../components/Topbar'
+import Footer from '../components/Footer'
 
 type SortKey = 'name-asc' | 'name-desc' | 'location' | 'newest' | 'oldest'
 
@@ -143,6 +144,7 @@ export default function PanelsPage() {
           )}
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

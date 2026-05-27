@@ -156,5 +156,8 @@
     "installed": "«{{label}}» инсталиран в слот {{slot}}",
     "updated": "«{{label}}» обновен",
     "removed": "«{{label}}» премахнат от слот {{slot}}"
+  },
+  "footer": {
+    "builtBy": "Създадено от"
   }
 }

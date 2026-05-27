@@ -7,6 +7,7 @@ import Topbar from '../components/Topbar'
 import PanelForm from '../components/PanelForm'
 import Notice from '../components/Notice'
 import { useAuth } from '../context/AuthContext'
+import Footer from '../components/Footer'
 
 export default function PanelEditPage() {
   const { id } = useParams<{ id: string }>()
@@ -63,6 +64,7 @@ export default function PanelEditPage() {
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh', color: 'var(--ink-3)' }}>
           {t('panelEditPage.loading')}
         </div>
+        <Footer />
       </div>
     )
   }
@@ -75,6 +77,7 @@ export default function PanelEditPage() {
           <span>{t('panelEditPage.panelNotFound')}</span>
           <button className="btn" onClick={() => navigate(backTo)}>{t('panelEditPage.goBack')}</button>
         </div>
+        <Footer />
       </div>
     )
   }
@@ -151,6 +154,7 @@ export default function PanelEditPage() {
         )}
       </main>
       {snack && <div className={`snack${snack.isError ? ' snack--error' : ''}`}>{snack.msg}</div>}
+      <Footer />
     </div>
   )
 }

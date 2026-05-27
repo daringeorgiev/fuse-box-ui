@@ -1527,6 +1527,38 @@ body {
   .main { /* still vertical */ }
 }
 
+/* ============ FOOTER ============ */
+.app-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.5rem;
+  background: var(--ink);
+  color: rgba(245,242,236,0.45);
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+}
+.app-footer-sep {
+  opacity: 0.4;
+}
+.app-footer-link {
+  color: rgba(245,242,236,0.55);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.app-footer-link:hover,
+.app-footer-link:focus-visible {
+  color: rgba(245,242,236,0.9);
+  text-decoration: underline;
+  outline-offset: 2px;
+}
+.app-footer-repo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 @media (max-width: 768px) {
   .fuse-row {
     grid-template-columns: 2rem 1fr;

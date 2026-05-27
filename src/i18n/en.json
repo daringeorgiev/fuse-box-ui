@@ -156,5 +156,8 @@
     "installed": "Installed \"{{label}}\" in slot {{slot}}",
     "updated": "Updated \"{{label}}\"",
     "removed": "Removed \"{{label}}\" from slot {{slot}}"
+  },
+  "footer": {
+    "builtBy": "Built by"
   }
 }

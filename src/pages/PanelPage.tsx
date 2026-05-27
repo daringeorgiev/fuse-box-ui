@@ -18,6 +18,7 @@ import Topbar from '../components/Topbar'
 import { Plus, Copy as CopyIcon, Pencil, Printer } from '../components/Icons'
 import PrintView from '../components/PrintView'
 import { useAuth } from '../context/AuthContext'
+import Footer from '../components/Footer'
 
 export default function PanelPage() {
   const navigate = useNavigate()
@@ -347,6 +348,7 @@ export default function PanelPage() {
           perRow={perRow}
         />
       )}
+      <Footer />
     </div>
   )
 }
