@@ -63,7 +63,11 @@
     "editTitle": "Edit panel settings",
     "panel": "Panel",
     "fusesHidden_one": "{{count}} fuse hidden — increase capacity to restore",
-    "fusesHidden_other": "{{count}} fuses hidden — increase capacity to restore"
+    "fusesHidden_other": "{{count}} fuses hidden — increase capacity to restore",
+    "sampleBanner": "This is a sample panel — you can't edit it directly.",
+    "sampleBannerNew": "New Panel",
+    "sampleBannerCopy": "Copy & Edit",
+    "sampleBannerDismiss": "Dismiss"
   },
   "panelCreatePage": {
     "title": "New Panel",

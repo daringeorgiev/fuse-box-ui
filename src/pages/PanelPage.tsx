@@ -15,7 +15,7 @@ import { usePanels, useCreatePanel, useUpdatePanel, useCopyPanel } from '../hook
 import { useFuses, useCreateFuse, useUpdateFuse, useDeleteFuse } from '../hooks/useFuses'
 import { useDragHandlers } from '../hooks/useDragHandlers'
 import Topbar from '../components/Topbar'
-import { Plus, Copy as CopyIcon, Pencil, Printer } from '../components/Icons'
+import { Plus, Copy as CopyIcon, Pencil, Printer, X } from '../components/Icons'
 import PrintView from '../components/PrintView'
 import { useAuth } from '../context/AuthContext'
 import Footer from '../components/Footer'
@@ -93,6 +93,7 @@ export default function PanelPage() {
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [focusPos, setFocusPos] = useState<number | null>(null)
   const [toast, setToast] = useState<{ msg: string; isError: boolean } | null>(null)
+  const [bannerDismissed, setBannerDismissed] = useState(false)
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const fuseByPos = useMemo(() => {
@@ -290,6 +291,23 @@ export default function PanelPage() {
           </>
         )}
       </div>
+
+      {readOnly && !bannerDismissed && (
+        <div className="sample-banner" role="status">
+          <span className="sample-banner-text">{t('panelPage.sampleBanner')}</span>
+          <div className="sample-banner-actions">
+            <button className="btn" onClick={() => navigate('/panels/new')}>
+              {t('panelPage.sampleBannerNew')}
+            </button>
+            <button className="btn btn-primary" onClick={handleCopy} disabled={copyPanelMutation.isPending}>
+              {t('panelPage.sampleBannerCopy')}
+            </button>
+          </div>
+          <button className="sample-banner-close btn-ghost" onClick={() => setBannerDismissed(true)} aria-label={t('panelPage.sampleBannerDismiss')}>
+            <X />
+          </button>
+        </div>
+      )}
 
       <main className="main">
         <section className="panel">
