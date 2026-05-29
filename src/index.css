@@ -2003,3 +2003,42 @@ body {
 @media (max-width: 575px) {
   .panels-th-loc, .panels-td-loc { display: none; }
 }
+
+/* ============ RELOAD PROMPT (PWA) ============ */
+.reload-prompt {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.35);
+  z-index: 9999;
+  white-space: nowrap;
+}
+.reload-prompt-text {
+  font-size: 0.875rem;
+  color: var(--ink-2);
+}
+.reload-prompt-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+.reload-prompt-btn {
+  font-size: 0.8125rem;
+  padding: 0.3rem 0.75rem;
+  height: auto;
+}
+@media (max-width: 480px) {
+  .reload-prompt {
+    flex-direction: column;
+    align-items: flex-start;
+    white-space: normal;
+    width: calc(100vw - 2.5rem);
+  }
+}

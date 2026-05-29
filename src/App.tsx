@@ -5,6 +5,7 @@ import PanelCreatePage from './pages/PanelCreatePage'
 import PanelsPage from './pages/PanelsPage'
 import LoginPage from './pages/LoginPage'
 import ProtectedRoute from './components/ProtectedRoute'
+import ReloadPrompt from './components/ReloadPrompt'
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/panels/new" element={<ProtectedRoute><PanelCreatePage /></ProtectedRoute>} />
         <Route path="/panels/:id/edit" element={<ProtectedRoute><PanelEditPage /></ProtectedRoute>} />
       </Routes>
+      <ReloadPrompt />
     </BrowserRouter>
   )
 }

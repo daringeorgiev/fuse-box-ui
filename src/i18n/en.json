@@ -163,5 +163,10 @@
   },
   "footer": {
     "builtBy": "Built by"
+  },
+  "pwa": {
+    "updateAvailable": "A new version is available.",
+    "reload": "Reload",
+    "dismiss": "Dismiss"
   }
 }
