@@ -1072,14 +1072,15 @@ body {
   left: 50%;
   transform: translateX(-50%);
   opacity: 1;
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--ink-3);
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   letter-spacing: 0.04em;
   padding: 0.625rem 1rem;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
   z-index: 100;
   animation: snack-in 0.2s ease-out;
 }
