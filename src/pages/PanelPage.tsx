@@ -265,6 +265,7 @@ export default function PanelPage() {
           <button
             className="btn btn-ghost panel-action-btn"
             onClick={() => selectedPanelId && navigate(`/panels/${selectedPanelId}/edit`)}
+            disabled={!selectedPanel}
             title={t('panelPage.editTitle')}
           >
             <Pencil /> {t('panelsPage.edit')}

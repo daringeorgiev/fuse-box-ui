@@ -179,6 +179,7 @@ body {
   }
   .configbar-group--actions {
     flex: 1 1 100%;
+    flex-wrap: wrap;
     border-left: none;
     border-top: 1px solid var(--line);
     margin-left: 0;
@@ -309,6 +310,7 @@ body {
 .sample-banner {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
   padding: 0.625rem 1.5rem;
   background: var(--accent-soft);
@@ -316,8 +318,12 @@ body {
   font-size: 0.8125rem;
   color: color-mix(in oklch, var(--accent) 70%, black);
 }
-.sample-banner-text { flex: 1; }
-.sample-banner-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+.sample-banner-text { flex: 1 1 100%; }
+.sample-banner-actions { display: flex; gap: 0.5rem; flex: 1; }
+@media (min-width: 600px) {
+  .sample-banner-text { flex: 1 1 auto; }
+  .sample-banner-actions { flex: 0 0 auto; }
+}
 .sample-banner-close {
   display: flex;
   align-items: center;
