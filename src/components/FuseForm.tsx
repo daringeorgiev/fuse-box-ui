@@ -25,6 +25,12 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
 
   const isEdit = !!editingFuse
 
+  // Touch devices (iOS/Android) scroll to focused inputs asynchronously — skip auto-focus there
+  const focusInput = (el: HTMLInputElement | null) => {
+    if (!el || navigator.maxTouchPoints > 0) return
+    el.focus()
+  }
+
   // slots available to pick in each mode
   const activeSlots = isEdit
     ? [editingFuse!.pos, ...freeSlots].sort((a, b) => a - b)
@@ -37,7 +43,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
       setLabel(editingFuse.label)
       setAmp(editingFuse.amp)
       setLocalPos(editingFuse.pos)
-      inputRef.current?.focus()
+      focusInput(inputRef.current)
       inputRef.current?.select()
     } else {
       setLabel('')
@@ -53,7 +59,7 @@ export default function FuseForm({ editingFuse, focusPos, freeSlots, readOnly, o
   }, [focusPos])
 
   useEffect(() => {
-    if (!isEdit) inputRef.current?.focus()
+    if (!isEdit) focusInput(inputRef.current)
   }, [focusPos])
 
   // keep localPos valid as freeSlots changes (e.g. after an install)
